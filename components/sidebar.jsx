@@ -44,7 +44,7 @@ const navigationItems = [
   },
   {
     id: "vacations",
-    label: "Usage Analytics",
+    label: "Usage Report",
     icon: "bi bi-graph-up-arrow",
     href: "/usages",
     isActive: false,
