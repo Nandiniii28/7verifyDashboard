@@ -24,7 +24,7 @@ const ProductTabs = () => {
       status: "new",
       category: "all",
       content: (
-        <article className="relative rounded-md p-4 bg-gradient-to-br from-yellow-50 to-[#cbdcf6] border border-yellow-300 shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <article className="relative rounded-md p-4 bg-gradient-to-br from-yellow-50 to-[#cbdcf6] border shadow-lg hover:shadow-xl transition-shadow duration-300">
           <div className="flex justify-between items-center mb-3">
             <div className="bg-[#e6eeff] text-[#4b7fff] p-2 rounded-lg shadow-inner rotate-45">
               <i className="fas fa-video fa-sm rotate-90"></i>
@@ -75,7 +75,7 @@ const ProductTabs = () => {
             An extensive collection of 250+ APIs for KYC, KYB, KYV and other
             verification services.
           </p>
-          <div className="flex items-center space-x-3 text-gray-500 text-xs mb-6">
+          <div className="flex items-center space-x-3 text-gray-500 text-xs mb-5">
             <div className="flex items-center space-x-1 font-semibold">
               <i className="fas fa-video"></i>
               <span>Watch Demo</span>
@@ -113,7 +113,7 @@ const ProductTabs = () => {
             AI powered versatile eSignature suite for Aadhaar eSign, SureSign,
             eStamping, etc.
           </p>
-          <div className="flex items-center space-x-3 text-gray-500 text-xs mb-6">
+          <div className="flex items-center space-x-3 text-gray-500 text-xs mb-5">
             <div className="flex items-center space-x-1 font-semibold">
               <i className="fas fa-video"></i>
               <span>Watch Demo</span>
@@ -150,7 +150,7 @@ const ProductTabs = () => {
             A secure SMS delivery service ensuring fast, reliable, and trackable
             sending.
           </p>
-          <div className="flex items-center space-x-3 text-gray-500 text-xs mb-11">
+          <div className="flex items-center space-x-3 text-gray-500 text-xs mb-51">
             <div className="flex items-center space-x-1 font-semibold">
               <i className="fas fa-video"></i>
               <span>Watch Demo</span>
@@ -193,9 +193,9 @@ const ProductTabs = () => {
           {tabList.map((tab) => (
             <li className="me-2" role="presentation" key={tab.id}>
               <button
-                className={`flex items-center space-x-1 text-sm font-semibold px-4 py-2 rounded-t-lg border-b-2 duration-300 ${
+                className={`cursor-pointer flex items-center space-x-1 text-[13px]  px-4 py-2 rounded-t-lg border-b-2 duration-300 ${
                   activeTab === tab.id
-                    ? "text-blue-600 border-b-2 border-blue-600 dark:text-blue-500 dark:border-blue-500"
+                    ? "text-blue-600 border-b-2 bg-white border-blue-600 dark:text-blue-500 dark:border-blue-500"
                     : "text-black border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300"
                 }`}
                 type="button"

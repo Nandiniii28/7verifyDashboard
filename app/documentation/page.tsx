@@ -58,10 +58,10 @@ export default function DocumentationPage() {
 
         {/* Documentation Content */}
         <main className="flex-1 p-6 mt-5">
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <h1 className="text-2xl font-bold text-gray-900">Documentation</h1>
             <p className="text-gray-600">Comprehensive guides and API references</p>
-          </div>
+          </div> */}
 
           <div className="flex md:flex-row gap-6">
             {/* Sidebar Navigation */}

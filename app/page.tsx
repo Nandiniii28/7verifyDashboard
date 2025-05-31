@@ -45,14 +45,14 @@ export default function HomePage() {
         {/* Page Content */}
         <main className="p-6">
           {/* Page Heading */}
-          <div className="mb-6 mx-2">
+          {/* <div className="mb-6 mx-2">
             <h1 className="text-2xl font-bold text-gray-900">
               Products Cataloguesssss
             </h1>
             <p className="text-gray-600 mt-1">
               Manage and explore your product offerings
             </p>
-          </div>
+          </div> */}
 
           {/* Dashboard Card */}
           <DashboardCard />

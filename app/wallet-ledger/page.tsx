@@ -49,14 +49,14 @@ export default function WalletLedger() {
           <Header isOpen={sidebarOpen} onToggle={setSidebarOpen} />
 
           <main className="p-6">
-            <div className="mb-6">
+            {/* <div className="mb-6">
               <h1 className="text-2xl font-bold text-gray-900">
                 Wallet Ledger
               </h1>
               <p className="text-gray-600 mt-1">
                 View and manage your wallet ledger
               </p>
-            </div>
+            </div> */}
             <div className="bg-white rounded-lg shadow">
               <div className="p-6 border-b border-gray-200">
                 <h2 className="text-lg font-medium text-gray-900">

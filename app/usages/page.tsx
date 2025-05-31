@@ -32,10 +32,10 @@ export default function UsagesPage() {
         <Header isOpen={sidebarOpen} onToggle={setSidebarOpen} />
 
         <main className="p-6">
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <h1 className="text-2xl font-bold text-gray-900">Usage Analytics</h1>
             <p className="text-gray-600 mt-1">Monitor your API usage and performance metrics</p>
-          </div>
+          </div> */}
 
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
@@ -62,7 +62,7 @@ export default function UsagesPage() {
           </div>
 
           {/* Charts Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             <div className="bg-white rounded-lg shadow p-6">
               <h3 className="text-lg font-medium text-gray-900 mb-4">Request Volume</h3>
               <div className="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
@@ -75,7 +75,7 @@ export default function UsagesPage() {
                 <p className="text-gray-500">Chart placeholder - Response time distribution</p>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* Recent Activity */}
           <div className="bg-white rounded-lg shadow">
@@ -87,16 +87,16 @@ export default function UsagesPage() {
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Endpoint
+                      Service Name
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
+                      Hit Count
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Response Time
+                      Total Charges
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Timestamp
+                      Date
                     </th>
                   </tr>
                 </thead>

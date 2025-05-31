@@ -107,10 +107,10 @@ export default function APIStatusPage() {
         <Header isOpen={sidebarOpen} onToggle={setSidebarOpen} />
 
         <main className="p-6">
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <h1 className="text-2xl font-bold text-gray-900">API Status</h1>
             <p className="text-gray-600 mt-1">Monitor the health and status of your APIs</p>
-          </div>
+          </div> */}
 
           {/* Overall Status */}
           <div className="bg-white rounded-lg shadow p-6 mb-6">

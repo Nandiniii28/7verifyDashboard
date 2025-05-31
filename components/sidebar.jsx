@@ -22,6 +22,13 @@ const navigationItems = [
     isActive: false,
   },
   {
+    id: "all-user-report",
+    label: "All User Report",
+    icon: "bi bi-code-square",
+    href: "/all-user-report",
+    isActive: false,
+  },
+  {
     id: "projects",
     label: "API Catalogue",
     icon: "bi bi-code-square",
@@ -270,10 +277,10 @@ export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
                   href={item.href}
                   className={cn(
                     "group flex items-center text-sm font-medium rounded-xl transition-all duration-200 relative",
-                    isOpen ? "px-3 py-3" : "p-3 justify-center",
+                    isOpen ? "px-3 py-2" : "p-2 justify-center",
                     item.isActive
-                      ? "bg-blue-50 text-blue-700 shadow-sm"
-                      : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                      ? "bg-blue-50 text-blue-700 shadow-sm text-[12px]"
+                      : "text-gray-700 hover:bg-gray-50 hover:text-gray-900 text-[12px]"
                   )}
                   onClick={() => handleNavClick(item)}
                   title={!isOpen ? item.label : undefined}
@@ -281,7 +288,7 @@ export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
                   <i
                     className={cn(
                       item.icon,
-                      "text-lg transition-colors",
+                      "text-sm transition-colors",
                       isOpen ? "mr-3" : "",
                       item.isActive
                         ? "text-blue-600"

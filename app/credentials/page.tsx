@@ -44,10 +44,10 @@ export default function CredentialsPage() {
         <Header isOpen={sidebarOpen} onToggle={setSidebarOpen} />
 
         <main className="p-6">
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <h1 className="text-2xl font-bold text-gray-900">Credentials</h1>
             <p className="text-gray-600 mt-1">Manage your API keys and authentication tokens</p>
-          </div>
+          </div> */}
 
           <div className="grid gap-6">
             {/* API Keys Section */}

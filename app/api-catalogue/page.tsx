@@ -56,10 +56,10 @@ export default function APICataloguePage() {
         <Header isOpen={sidebarOpen} onToggle={setSidebarOpen} />
 
          <main className="p-6">
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <h1 className="text-2xl font-bold text-gray-900">API Catalogue</h1>
             <p className="text-gray-600 mt-1">Browse and manage your API endpoints</p>
-          </div>
+          </div> */}
 
           <div className="bg-white rounded-lg shadow">
             <div className="p-6 border-b border-gray-200">
