@@ -24,8 +24,15 @@ const navigationItems = [
   {
     id: "all-user-report",
     label: "All User Report",
-    icon: "bi bi-code-square",
+    icon: "bi bi-people",
     href: "/all-user-report",
+    isActive: false,
+  },
+  {
+    id: "all-user-list",
+    label: "All User List",
+    icon: "bi bi-card-list",
+    href: "/all-user-list",
     isActive: false,
   },
   {
