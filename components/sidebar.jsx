@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
+
 const navigationItems = [
   {
     id: "dashboard",
@@ -90,6 +91,7 @@ const bottomItems = [
 ];
 
 export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
+
   const pathname = usePathname();
   const [navItems, setNavItems] = useState(navigationItems);
   const [bottomNavItems, setBottomNavItems] = useState(bottomItems);
@@ -109,6 +111,8 @@ export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
       }))
     );
   }, [pathname]);
+
+
 
   const handleNavClick = (item) => {
     if (onNavigate) {

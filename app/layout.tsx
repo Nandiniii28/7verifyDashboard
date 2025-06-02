@@ -1,6 +1,9 @@
 import type React from "react"
 import type { Metadata } from "next"
 import "../styles/globals.css"
+import { Context } from "./context/context"
+
+
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -24,7 +27,9 @@ export default function RootLayout({
         />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
       </head>
-      <body className="" style={{backgroundColor:"#f9fafb"}}>{children}</body>
+      <body className="" style={{ backgroundColor: "#f9fafb" }}>
+        <Context>{children}</Context>
+        </body>
     </html>
   )
 }
