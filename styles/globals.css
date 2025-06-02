@@ -6,7 +6,9 @@
     text-wrap: balance;
   }
 }
-
+body{
+  background-color: #eff6ff;
+}
 @layer base {
   :root {
     --background: 0 0% 100%;

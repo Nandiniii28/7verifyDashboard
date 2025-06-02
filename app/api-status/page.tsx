@@ -1,12 +1,9 @@
 "use client"
 
-import { useState } from "react"
-import { Sidebar } from "@/components/sidebar"
-import Header from "@/components/header"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { useState } from "react"
 
 export default function APIStatusPage() {
-  const [sidebarOpen, setSidebarOpen] = useState(true)
   const isMobile = useIsMobile()
 
   const services = [
@@ -100,121 +97,104 @@ export default function APIStatusPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Sidebar isOpen={sidebarOpen} onToggle={setSidebarOpen} onNavigate={undefined} />
-
-      <div className={`transition-all duration-300 ${isMobile ? "ml-0" : sidebarOpen ? "ml-60" : "ml-28"}`}>
-        <Header isOpen={sidebarOpen} onToggle={setSidebarOpen} />
-
-        <main className="p-6">
-          {/* <div className="mb-6">
-            <h1 className="text-2xl font-bold text-gray-900">API Status</h1>
-            <p className="text-gray-600 mt-1">Monitor the health and status of your APIs</p>
-          </div> */}
-
-          {/* Overall Status */}
-          <div className="bg-white rounded-lg shadow p-6 mb-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-medium text-gray-900">System Status</h2>
-              <div className="flex items-center">
-                <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
-                <span className="text-sm font-medium text-green-600">All Systems Operational</span>
-              </div>
-            </div>
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-gray-900">99.8%</p>
-                <p className="text-sm text-gray-500">Overall Uptime</p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-gray-900">156ms</p>
-                <p className="text-sm text-gray-500">Avg Response Time</p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-gray-900">5</p>
-                <p className="text-sm text-gray-500">Active Services</p>
-              </div>
-            </div>
+    <div className="min-h-screen bg-gray-50 p-6">
+      {/* System Status */}
+      <div className="bg-white rounded-lg shadow p-6 mb-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-medium text-gray-900">System Status</h2>
+          <div className="flex items-center">
+            <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+            <span className="text-sm font-medium text-green-600">All Systems Operational</span>
           </div>
+        </div>
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="text-center">
+            <p className="text-2xl font-bold text-gray-900">99.8%</p>
+            <p className="text-sm text-gray-500">Overall Uptime</p>
+          </div>
+          <div className="text-center">
+            <p className="text-2xl font-bold text-gray-900">156ms</p>
+            <p className="text-sm text-gray-500">Avg Response Time</p>
+          </div>
+          <div className="text-center">
+            <p className="text-2xl font-bold text-gray-900">5</p>
+            <p className="text-sm text-gray-500">Active Services</p>
+          </div>
+        </div>
+      </div>
 
-          {/* Service Status */}
-          <div className="bg-white rounded-lg shadow mb-6">
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-lg font-medium text-gray-900">Service Status</h2>
+      {/* Service Status */}
+      <div className="bg-white rounded-lg shadow mb-6">
+        <div className="p-6 border-b border-gray-200">
+          <h2 className="text-lg font-medium text-gray-900">Service Status</h2>
+        </div>
+        <div className="p-6 space-y-4">
+          {services.map((service, index) => (
+            <div key={index} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+              <div className="flex items-center space-x-4">
+                <div
+                  className={`w-3 h-3 rounded-full ${
+                    service.status === "operational"
+                      ? "bg-green-500"
+                      : service.status === "degraded"
+                        ? "bg-yellow-500"
+                        : service.status === "maintenance"
+                          ? "bg-blue-500"
+                          : "bg-red-500"
+                  }`}
+                ></div>
+                <div>
+                  <h3 className="font-medium text-gray-900">{service.name}</h3>
+                  <p className="text-sm text-gray-500">{service.description}</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <span
+                  className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(service.status)}`}
+                >
+                  {service.status.charAt(0).toUpperCase() + service.status.slice(1)}
+                </span>
+                <div className="mt-1 text-xs text-gray-500">
+                  <span className="mr-4">{service.uptime} uptime</span>
+                  <span>{service.responseTime} avg</span>
+                </div>
+              </div>
             </div>
-            <div className="p-6">
-              <div className="space-y-4">
-                {services.map((service, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
-                    <div className="flex items-center space-x-4">
-                      <div
-                        className={`w-3 h-3 rounded-full ${
-                          service.status === "operational"
-                            ? "bg-green-500"
-                            : service.status === "degraded"
-                              ? "bg-yellow-500"
-                              : service.status === "maintenance"
-                                ? "bg-blue-500"
-                                : "bg-red-500"
-                        }`}
-                      ></div>
-                      <div>
-                        <h3 className="font-medium text-gray-900">{service.name}</h3>
-                        <p className="text-sm text-gray-500">{service.description}</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <span
-                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(service.status)}`}
-                      >
-                        {service.status.charAt(0).toUpperCase() + service.status.slice(1)}
-                      </span>
-                      <div className="mt-1 text-xs text-gray-500">
-                        <span className="mr-4">{service.uptime} uptime</span>
-                        <span>{service.responseTime} avg</span>
-                      </div>
-                    </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Recent Incidents */}
+      <div className="bg-white rounded-lg shadow">
+        <div className="p-6 border-b border-gray-200">
+          <h2 className="text-lg font-medium text-gray-900">Recent Incidents</h2>
+        </div>
+        <div className="p-6 space-y-4">
+          {incidents.map((incident, index) => (
+            <div key={index} className={`p-4 border-l-4 rounded-lg ${getSeverityColor(incident.severity)}`}>
+              <div className="flex justify-between items-start">
+                <div className="flex-1">
+                  <h3 className="font-medium text-gray-900">{incident.title}</h3>
+                  <p className="text-sm text-gray-600 mt-1">{incident.description}</p>
+                  <div className="mt-2 flex items-center space-x-4">
+                    <span
+                      className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                        incident.status === "resolved"
+                          ? "bg-green-100 text-green-800"
+                          : incident.status === "investigating"
+                            ? "bg-yellow-100 text-yellow-800"
+                            : "bg-blue-100 text-blue-800"
+                      }`}
+                    >
+                      {incident.status.charAt(0).toUpperCase() + incident.status.slice(1)}
+                    </span>
+                    <span className="text-xs text-gray-500">{incident.timestamp}</span>
                   </div>
-                ))}
+                </div>
               </div>
             </div>
-          </div>
-
-          {/* Recent Incidents */}
-          <div className="bg-white rounded-lg shadow">
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-lg font-medium text-gray-900">Recent Incidents</h2>
-            </div>
-            <div className="p-6">
-              <div className="space-y-4">
-                {incidents.map((incident, index) => (
-                  <div key={index} className={`p-4 border-l-4 rounded-lg ${getSeverityColor(incident.severity)}`}>
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <h3 className="font-medium text-gray-900">{incident.title}</h3>
-                        <p className="text-sm text-gray-600 mt-1">{incident.description}</p>
-                        <div className="mt-2 flex items-center space-x-4">
-                          <span
-                            className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                              incident.status === "resolved"
-                                ? "bg-green-100 text-green-800"
-                                : incident.status === "investigating"
-                                  ? "bg-yellow-100 text-yellow-800"
-                                  : "bg-blue-100 text-blue-800"
-                            }`}
-                          >
-                            {incident.status.charAt(0).toUpperCase() + incident.status.slice(1)}
-                          </span>
-                          <span className="text-xs text-gray-500">{incident.timestamp}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </main>
+          ))}
+        </div>
       </div>
     </div>
   )
