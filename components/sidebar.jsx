@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
+
 const navigationItems = [
   {
     id: "dashboard",
@@ -24,8 +25,15 @@ const navigationItems = [
   {
     id: "all-user-report",
     label: "All User Report",
-    icon: "bi bi-code-square",
+    icon: "bi bi-people",
     href: "/all-user-report",
+    isActive: false,
+  },
+  {
+    id: "all-user-list",
+    label: "All User List",
+    icon: "bi bi-card-list",
+    href: "/all-user-list",
     isActive: false,
   },
   {
@@ -90,6 +98,7 @@ const bottomItems = [
 ];
 
 export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
+
   const pathname = usePathname();
   const [navItems, setNavItems] = useState(navigationItems);
   const [bottomNavItems, setBottomNavItems] = useState(bottomItems);
@@ -109,6 +118,8 @@ export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
       }))
     );
   }, [pathname]);
+
+
 
   const handleNavClick = (item) => {
     if (onNavigate) {

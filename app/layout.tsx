@@ -1,15 +1,11 @@
-'use client';
-import "../styles/globals.css";
-import { Sidebar } from "@/components/sidebar";
-import Header from "@/components/header";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { useState } from "react";
-import "bootstrap-icons/font/bootstrap-icons.css";
+import type React from "react"
+import type { Metadata } from "next"
+import "../styles/globals.css"
 
-// export const metadata = {
-//   title: "Dashboard",
-//   description: "Dashboard application",
-// };
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "Dashboard application",
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   // Move state/hooks here
@@ -21,34 +17,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en">
-      <body className="bg-gray-50">
-        <div className="min-h-screen relative">
-          {/* Sidebar */}
-          <div
-            className={`${
-              isMobile ? "hidden" : "block"
-            } fixed top-0 left-0 h-full z-30 transition-all duration-300 ${
-              sidebarOpen ? "w-60" : "w-20"
-            }`}
-          >
-            <Sidebar
-              isOpen={sidebarOpen}
-              onToggle={handleToggleSidebar}
-              onNavigate={handleNavigate}
-            />
-          </div>
-
-          {/* Main Content */}
-          <div
-            className={`transition-all duration-300 min-h-screen ${
-              isMobile ? "ml-0" : sidebarOpen ? "ml-60" : "ml-20"
-            }`}
-          >
-            <Header isOpen={sidebarOpen} onToggle={handleToggleSidebar} />
-            <main className="p-6">{children}</main>
-          </div>
-        </div>
-      </body>
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+          crossOrigin="anonymous"
+          referrerPolicy="no-referrer"
+        />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+      </head>
+      <body className="" style={{backgroundColor:"#f9fafb"}}>{children}</body>
     </html>
   );
 }
