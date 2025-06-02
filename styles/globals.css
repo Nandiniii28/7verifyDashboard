@@ -1,11 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
-body {
-  font-family: "Outfit", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", Helvetica, sans-serif;
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -241,4 +236,10 @@ body {
 .py-4 {
     padding-top: 1rem /* 16px */;
     padding-bottom: 1rem /* 16px */;
+}
+.left-1\/2 {
+    left: 50%;
+}
+.top-1\/2 {
+    top: 50%;
 }
