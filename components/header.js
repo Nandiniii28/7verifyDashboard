@@ -2,36 +2,12 @@
 
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
-function Modal({ show, onClose, children }) {
-  if (!show) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-      <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">UAT Mode</h2>
-          <button onClick={onClose} className="text-2xl text-gray-600 hover:text-black">&times;</button>
-        </div>
-        <div>{children}</div>
-      </div>
-    </div>
-  );
-}
 export default function Header({ isOpen, onToggle }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const isMobile = useIsMobile();
-
-   const [env, setEnv] = useState('Live'); // Default to Live
-  const [showModal, setShowModal] = useState(false);
-
-  const handleSwitch = (type) => {
-    setEnv(type);
-    if (type === 'UAT') {
-      setShowModal(true);
-    }
-  };
   return (
     <header
       className="bg-white/95 backdrop-blur-md shadow-professional border-b border-gray-100 sticky top-4 z-20"
@@ -93,39 +69,11 @@ export default function Header({ isOpen, onToggle }) {
 
           {/* Live or UAT Tabs */}
 
-           <div className="flex overflow-hidden flex-shrink-0">
-        <button
-          onClick={() => handleSwitch('Live')}
-          className={`py-2 px-4 rounded-xl border ${
-            env === 'Live' ? 'bg-gray-100 border-gray-400' : 'border-gray-300'
-          } hover:bg-gray-100 transition-all duration-200 relative`}
-        >
-          <i className="bi bi-globe text-xl text-gray-600" /> <span>Live</span>
-        </button>
-
-        <button
-          onClick={() => handleSwitch('UAT')}
-          className={`flex items-center space-x-2 px-3 py-1 font-semibold text-sm rounded-xl ml-1 focus:outline-none whitespace-nowrap ${
-            env === 'UAT'
-              ? 'border-[#3BC9FF] text-[#3BC9FF]'
-              : 'border border-[#3BC9FF] text-[#3BC9FF]'
-          }`}
-          type="button"
-        >
-          <img
-            alt="Rocket emoji icon"
-            className="w-5 h-5"
-            height="20"
-            src="https://storage.googleapis.com/a1aa/image/0a648a52-f7df-4235-3e9d-abbb335372c8.jpg"
-            width="20"
-          />
-          <span>UAT</span>
-        </button>
-      </div>
-
-      <Modal show={showModal} onClose={() => setShowModal(false)}>
-        <p>You have switched to <strong>UAT</strong> mode.</p>
-      </Modal>
+          <label htmlFor="filter" className="switch" aria-label="Toggle Filter">
+            <input type="checkbox" id="filter" />
+            <span>Live</span>
+            <span>UAT</span>
+          </label>
 
           {/* Notifications */}
           <div className="relative">
