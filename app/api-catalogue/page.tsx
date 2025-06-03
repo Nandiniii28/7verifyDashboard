@@ -41,7 +41,7 @@ export default function APICataloguePage() {
   ];
 
   return (
-    <div className="bg-white rounded-lg shadow">
+    <div className="bg-white rounded-lg shadow mx-4">
       <div className="p-6 border-b border-gray-200">
         <div className="flex flex-col sm:flex-row items-center justify-between">
           <h2 className="text-lg font-medium text-gray-900">Available APIs</h2>

@@ -177,7 +177,7 @@ const ProductTabs = () => {
       : products;
 
   return (
-    <div className="mx-3">
+    <div className="mx-10">
       {/* Tabs */}
       <div className="mb-4 border-b border-gray-200 dark:border-gray-700">
         <ul

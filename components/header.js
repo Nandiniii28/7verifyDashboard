@@ -1,22 +1,9 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
 } from "@/components/ui/dialog";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { LogOut, User, Settings, Menu, AlertTriangle, X } from "lucide-react";
+import {  X } from "lucide-react";
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -48,6 +35,23 @@ export default function Header({ isOpen, onToggle }) {
   const closeUATModal = () => {
     setShowUATModal(false);
     setEnvironment("live"); // Switch back to live when modal is closed
+  };
+
+  // form
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    const text = await res.text();
+    setMessage(text);
   };
 
   return (
@@ -309,8 +313,11 @@ export default function Header({ isOpen, onToggle }) {
       </header>
       {/* Full Screen UAT Modal */}
       <Dialog open={showUATModal} onOpenChange={setShowUATModal}>
-        <DialogContent className="fixed w-100 h-100 translate-x-[-50%] translate-y-[-50%] inset-0 m-0 p-0 rounded-none border-0" style={{left: '50%', top: '50%'}}>
-          <div className="relative bg-gradient-to-br from-orange-50 via-orange-100 to-orange-200 flex flex-col">
+        <DialogContent
+          className="fixed w-100 h-100 translate-x-[-50%] translate-y-[-50%] inset-0 m-0 p-0 rounded-md border-0"
+          style={{ left: "50%", top: "40%" }}
+        >
+          <div className="relative bg-gradient-to-br p-6 rounded-md from-blue-50 via-orange-100 to-blue-200 flex flex-col">
             {/* Close Button */}
             <button
               onClick={closeUATModal}
@@ -320,16 +327,43 @@ export default function Header({ isOpen, onToggle }) {
             </button>
 
             {/* Modal Content */}
-            <div className="flex-1 flex items-center justify-center p-8">
-              <div className="max-w-4xl mx-auto text-center">
-                {/* Warning Icon */}
-                <div className="mb-8">
-                  <div className="inline-flex items-center justify-center w-24 h-24 bg-orange-500 rounded-full mb-6">
-                    <AlertTriangle className="h-12 w-12 text-white" />
-                  </div>
+            <div className="">
+              <h2 className="text-xl font-bold mb-4">Upload Documents</h2>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block mb-1 font-medium">Pancard</label>
+                  <input
+                    type="file"
+                    name="pancard"
+                    required
+                    className="border border-gray-600 rounded p-2 w-full"
+                  />
                 </div>
-
-              </div>
+                <div>
+                  <label className="block mb-1 font-medium">Aadharcard</label>
+                  <input
+                    type="file"
+                    name="aadharcard"
+                    required
+                    className="border border-gray-600 rounded p-2 w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1 font-medium">GST</label>
+                  <input
+                    type="file"
+                    name="gst"
+                    required
+                    className="border border-gray-600 rounded p-2 w-full"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                >
+                  Submit
+                </button>
+              </form>
             </div>
           </div>
         </DialogContent>
