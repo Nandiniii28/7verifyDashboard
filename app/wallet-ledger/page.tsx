@@ -1,84 +1,203 @@
 "use client";
-import { useState } from "react";
 
-export default function WalletLedger() {
-  const walletData = [
-    {
-      walletType: "Main Wallet",
-      amount: "₹1,500.00",
-      description: "Recharge bonus credited",
-      refId: "REF12345678",
-      createdAt: "2025-05-31 10:45 AM",
-    },
-    {
-      walletType: "Bonus Wallet",
-      amount: "₹200.00",
-      description: "Referral reward",
-      refId: "REF98765432",
-      createdAt: "2025-05-30 04:20 PM",
-    },
-    {
-      walletType: "Main Wallet",
-      amount: "₹750.00",
-      description: "Withdrawal to bank",
-      refId: "REF11223344",
-      createdAt: "2025-05-29 11:00 AM",
-    },
-  ];
+import { useEffect, useState } from "react";
+import axiosInstance from "@/components/service/axiosInstance";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { toast } from "react-toastify";
+
+export default function ServiceListPage() {
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingService, setEditingService] = useState(null);
+  const [form, setForm] = useState({ name: "", charge: "" });
+
+  useEffect(() => {
+    fetchServices();
+  }, [search, page]);
+
+  const fetchServices = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const res = await axiosInstance.get("/admin/services", {
+        params: { search, page, limit },
+      });
+      setServices(res.data.services);
+      setTotalPages(res.data.totalPages);
+    } catch (err) {
+      setError("Failed to load services");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const openCreateModal = () => {
+    setForm({ name: "", charge: "" });
+    setEditingService(null);
+    setIsDialogOpen(true);
+  };
+
+  const openEditModal = (service) => {
+    setForm({ name: service.name, charge: service.charge });
+    setEditingService(service);
+    setIsDialogOpen(true);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      if (editingService) {
+        await axiosInstance.put(`/admin/update-charge/${editingService._id}`, form);
+        toast.success("Service updated");
+      } else {
+        await axiosInstance.post("/admin/add-services", form);
+        toast.success("Service created");
+      }
+      fetchServices();
+      setIsDialogOpen(false);
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to submit");
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!confirm("Are you sure you want to delete this service?")) return;
+    try {
+      await axiosInstance.delete(`/admin/services/${id}`);
+      toast.success("Service deleted");
+      fetchServices();
+    } catch {
+      toast.error("Failed to delete service");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      <div className="bg-white rounded-lg shadow-md">
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-lg font-medium text-gray-900">
-            Wallet Ledger Summary
-          </h2>
+      <div className="bg-white rounded-xl shadow-lg p-6">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+          <h2 className="text-xl font-semibold text-blue-700">⚙️ Service Management</h2>
+          <Button onClick={openCreateModal}>Create New</Button>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Wallet Type
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Amount
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Description
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Ref ID
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Created At
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {walletData.map((item, index) => (
-                <tr key={index} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">
-                    {item.walletType}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {item.amount}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {item.description}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {item.refId}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {item.createdAt}
-                  </td>
+
+        <div className="mb-4 max-w-xs">
+          <Input
+            placeholder="Search by name..."
+            value={search}
+            onChange={(e) => {
+              setPage(1);
+              setSearch(e.target.value);
+            }}
+          />
+        </div>
+
+        {/* Error */}
+        {error && (
+          <div className="bg-red-100 text-red-700 px-4 py-2 rounded mb-4">
+            {error}
+          </div>
+        )}
+
+        {/* Table */}
+        {loading ? (
+          <div className="text-center text-gray-500 py-20">Loading services...</div>
+        ) : services.length === 0 ? (
+          <div className="text-center text-gray-500 py-20">No services found.</div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm text-left text-gray-600 border rounded-md">
+              <thead className="bg-blue-50 text-blue-700 uppercase text-xs">
+                <tr>
+                  <th className="px-4 py-3">Name</th>
+                  <th className="px-4 py-3">Charge</th>
+                  <th className="px-4 py-3">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {services.map((service) => (
+                  <tr key={service._id} className="bg-white border-b hover:bg-gray-50 transition-all">
+                    <td className="px-4 py-3">{service.name}</td>
+                    <td className="px-4 py-3">₹{service.charge}</td>
+                    <td className="px-4 py-3 flex gap-2">
+                      <Button size="sm" onClick={() => openEditModal(service)}>Edit</Button>
+                      <Button size="sm" variant="destructive" onClick={() => handleDelete(service._id)}>Delete</Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {/* Pagination */}
+        {!loading && services.length > 0 && (
+          <div className="flex justify-between items-center mt-4">
+            <Button
+              onClick={() => setPage((p) => Math.max(p - 1, 1))}
+              disabled={page === 1}
+              className="text-sm"
+            >
+              Previous
+            </Button>
+            <span className="text-sm text-gray-600">Page {page} of {totalPages}</span>
+            <Button
+              onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+              disabled={page === totalPages}
+              className="text-sm"
+            >
+              Next
+            </Button>
+          </div>
+        )}
       </div>
+
+      {/* Modal */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{editingService ? "Edit Service" : "Create Service"}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            <div>
+              <Label>Name</Label>
+              <Input
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                placeholder="Service name"
+              />
+            </div>
+            <div>
+              <Label>Charge</Label>
+              <Input
+                type="number"
+                value={form.charge}
+                onChange={(e) => setForm({ ...form, charge: e.target.value })}
+                placeholder="Charge amount"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button onClick={handleSubmit}>
+              {editingService ? "Update" : "Create"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
