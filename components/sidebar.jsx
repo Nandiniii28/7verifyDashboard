@@ -25,6 +25,8 @@ const navigationItems = [
   { id: "calendar", label: "Credentials", icon: "bi bi-shield-lock", href: "/credentials" },
   { id: "info-portal", label: "Documentation", icon: "bi bi-book", href: "https://7uniqueverify-njzw.readme.io/reference/post_api-verify-bankverify#/" },
   { id: "AssignServices", label: "Assign Services", icon: "bi bi-book", href: "/assignservices" },
+  { id: "contact", label: "Contact", icon: "bi bi-book", href: "/contact" },
+  { id: "blog", label: "Blogs", icon: "bi bi-book", href: "/blog" },
 ];
 
 // Bottom items
@@ -38,7 +40,7 @@ const roleBasedAccess = {
   user: ["dashboard", "wallet-ledger", "projects", "calendar", "vacations", "info-portal"],
   admin: [
     "dashboard", "projects", "calendar", "vacations", "info-portal",
-    "wallet-topup", "services", "all-user-report", "all-user-list", "KycRequest", "WalletBalance","AssignServices"
+    "wallet-topup", "services", "all-user-report", "all-user-list", "KycRequest", "WalletBalance", "AssignServices", "contact", "blog"
   ]
 };
 
@@ -59,6 +61,7 @@ export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
   useEffect(() => {
     if (!token) router.push("/login");
   }, [token, router]);
+  console.log(admin);
 
   useEffect(() => {
     if (admin?.role) {
@@ -168,8 +171,8 @@ export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
         <div className={cn("h-16 flex items-center border-b border-gray-100", isOpen ? "px-6 justify-start" : "px-4 justify-center")}>
           <div className="flex items-center space-x-3">
             {/* <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center"> */}
-              <Image src={logo} width={100} height={100} alt="logo" />
-              {/* <i className="bi bi-lightning-fill text-white text-sm"></i> */}
+            <Image src={logo} width={100} height={100} alt="logo" />
+            {/* <i className="bi bi-lightning-fill text-white text-sm"></i> */}
             {/* </div> */}
             {isOpen && (
               <div>

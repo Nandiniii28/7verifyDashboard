@@ -50,11 +50,13 @@ export default function AssignServicesPage() {
         }
 
         try {
-            await axiosInstance.post('/admin/assign-services', {
+            const res = await axiosInstance.post('/admin/assign-services', {
                 userId: selectedUserId,
                 services: selectedServices
             });
-            toast.success('Services assigned successfully');
+            console.log(res);
+
+            toast.success(res.data.message);
             setSelectedServices([]);
         } catch (err) {
             toast.error('Failed to assign services');

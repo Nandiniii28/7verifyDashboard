@@ -27,7 +27,7 @@ export default function ServiceListPage() {
     name: "",
     charge: "",
     active_charge: "",
-    description: "",
+    descreption: "",
   });
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function ServiceListPage() {
       name: service.name,
       charge: service.charge,
       active_charge: service.active_charge,
-      description: service.description,
+      descreption: service.description,
     });
     setEditingService(service);
     setIsDialogOpen(true);
@@ -66,7 +66,9 @@ export default function ServiceListPage() {
   const handleSubmit = async () => {
     try {
       if (editingService) {
-        await axiosInstance.put(`/admin/update-charge/${editingService._id}`, form);
+       const res= await axiosInstance.put(`/admin/update-charge/${editingService._id}`, form);
+       console.log(res);
+       
         toast.success("Service updated successfully");
       } else {
         await axiosInstance.post("/admin/add-services", form);
@@ -212,8 +214,8 @@ export default function ServiceListPage() {
             <div>
               <Label>Description</Label>
               <Input
-                value={form.description}
-                onChange={(e) => setForm({ ...form, description: e.target.value })}
+                value={form.descreption}
+                onChange={(e) => setForm({ ...form, descreption: e.target.value })}
                 placeholder="Description"
               />
             </div>
