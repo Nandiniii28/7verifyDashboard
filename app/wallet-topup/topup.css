@@ -50,9 +50,9 @@
 }
 
 .submit-btn {
-  width: auto;               /* auto width to fit content */
-  min-width: 120px;          /* optional: minimum width */
-  padding: 6px 14px;         /* adjust padding to keep it balanced */
+  width: auto;             
+  min-width: 120px;       
+  padding: 6px 14px;        
   background-color: #2f84c9;
   color: white;
   font-weight: 600;
