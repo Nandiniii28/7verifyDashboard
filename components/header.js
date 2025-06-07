@@ -3,17 +3,25 @@ import {
   Dialog,
   DialogContent,
 } from "@/components/ui/dialog";
-import {  X } from "lucide-react";
-import { useState } from "react";
+import { X } from "lucide-react";
+import { useContext, useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import axiosInstance from "./service/axiosInstance";
+import { MainContext } from "@/app/context/context";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/app/redux/reducer/AdminSlice";
+import Link from "next/link";
 
 export default function Header({ isOpen, onToggle }) {
+  const { tostymsg } = useContext(MainContext)
   const [searchQuery, setSearchQuery] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const isMobile = useIsMobile();
+  const dispatch = useDispatch()
+  const { admin } = useSelector(state => state.admin)
 
-  const [environment, setEnvironment] = useState("live");
+  const [environment, setEnvironment] = useState("uat");
   const [showUATModal, setShowUATModal] = useState(false);
 
   const getInitials = (name) => {
@@ -26,7 +34,7 @@ export default function Header({ isOpen, onToggle }) {
   };
 
   const handleEnvironmentSwitch = (env) => {
-    if (env === "uat") {
+    if (env === "live") {
       setShowUATModal(true);
     }
     setEnvironment(env);
@@ -34,7 +42,7 @@ export default function Header({ isOpen, onToggle }) {
 
   const closeUATModal = () => {
     setShowUATModal(false);
-    setEnvironment("live"); // Switch back to live when modal is closed
+    setEnvironment("uat"); // Switch back to live when modal is closed
   };
 
   // form
@@ -45,25 +53,39 @@ export default function Header({ isOpen, onToggle }) {
 
     const formData = new FormData(e.target);
 
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
+    const panCard = formData.get("panCard");
+    const aadhaarCard = formData.get("aadhaarCard");
+    const gstCert = formData.get("gstCert");
 
-    const text = await res.text();
-    setMessage(text);
+
+    try {
+      const response = await axiosInstance.post("/user/upload-kyc", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("Upload Success:", response.data);
+      tostymsg(response.data.message, 1)
+      setShowUATModal(false);
+      setEnvironment("uat");
+      // Optionally show a success message
+    } catch (error) {
+      console.error("Upload Failed:", error);
+      // Optionally show an error message
+    }
   };
+
 
   return (
     <>
       <header
-        className="bg-white/95 backdrop-blur-md shadow-professional border-b border-gray-100 sticky top-4 z-20"
+        className="bg-white/95 backdrop-blur-md shadow-professional border-b border-gray-100 sticky top-0 z-20"
         style={{ borderRadius: "20px", margin: "10px 20px" }}
       >
         <div className="flex items-center justify-between px-6 py-2">
           {/* Left side - Menu toggle and search */}
           <div className="flex items-center space-x-4">
-            {/* Menu toggle button */}
             <button
               onClick={() => onToggle(!isOpen)}
               className="p-2.5 rounded-xl hover:bg-gray-100 transition-all duration-200 hover:scale-105"
@@ -72,7 +94,6 @@ export default function Header({ isOpen, onToggle }) {
               <i className="bi bi-list text-xl text-gray-600" />
             </button>
 
-            {/* Search bar - hidden on mobile */}
             {!isMobile && (
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -94,43 +115,49 @@ export default function Header({ isOpen, onToggle }) {
             )}
           </div>
 
-          {/* Right side - Actions and profile */}
-          <div className="flex items-center space-x-3">
-            {/* Search button for mobile */}
-            {isMobile && (
-              <button className="p-2.5 rounded-xl hover:bg-gray-100 transition-all duration-200">
-                <i className="bi bi-search text-xl text-gray-600" />
-              </button>
-            )}
-            {/* Live or UAT Tabs */}
-
+          {/* Right side - Environment Toggle, Wallet, Notifications, Profile */}
+          <div className="flex items-center space-x-4">
             {/* Environment Toggle */}
-            <div className="flex items-center space-x-2">
+            <div className="hidden sm:flex items-center space-x-2">
               <span className="text-sm text-gray-600">Environment:</span>
               <div className="flex items-center bg-gray-100 rounded-lg p-1">
                 <button
-                  onClick={() => handleEnvironmentSwitch("live")}
-                  className={`px-3 py-1 text-sm font-medium rounded-md transition-all ${
-                    environment === "live"
-                      ? "bg-blue-500 text-white"
-                      : "text-gray-600 hover:text-gray-900"
-                  }`}
-                >
-                  Live
-                </button>
-                <button
                   onClick={() => handleEnvironmentSwitch("uat")}
-                  className={`px-3 py-1 text-sm font-medium rounded-md transition-all ${
-                    environment === "uat"
-                      ? "bg-orange-500 text-white"
-                      : "text-gray-600 hover:text-gray-900"
-                  }`}
+                  className={`px-3 py-1 text-sm font-medium rounded-md transition-all ${environment === "uat"
+                    ? "bg-blue-500 text-white"
+                    : "text-gray-600 hover:text-gray-900"
+                    }`}
                 >
                   UAT
+                </button>
+                <button
+                  onClick={() => handleEnvironmentSwitch("live")}
+                  className={`px-3 py-1 text-sm font-medium rounded-md transition-all ${environment === "live"
+                    ? "bg-orange-500 text-white"
+                    : "text-gray-600 hover:text-gray-900"
+                    }`}
+                >
+                  LIVE
                 </button>
               </div>
             </div>
 
+            {/* Wallet Info */}
+            <div className="hidden md:flex items-center bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 shadow-sm">
+              <i className="bi bi-wallet2 text-blue-600 text-xl mr-3" />
+              <div className="mr-4">
+                <p className="text-xs text-gray-500">Wallet Balance</p>
+                <p className="text-xs font-semibold text-gray-900">₹ {admin?.wallet}</p>
+              </div>
+              {/* <button className="bg-blue-600 hover:bg-blue-700  text-xs font-medium px-3 py-1.5 rounded-lg">
+
+                <Link href={'wallet-topup'}><i className="bi bi-plus-circle mr-1" />
+                  Topup
+                </Link>
+              </button> */}
+            </div>
+
+            {/* Notifications Button */}
             {/* Notifications */}
             <div className="relative">
               <button
@@ -213,6 +240,8 @@ export default function Header({ isOpen, onToggle }) {
               )}
             </div>
 
+
+            {/* Profile Button */}
             {/* Profile */}
             <div className="relative">
               <button
@@ -220,14 +249,14 @@ export default function Header({ isOpen, onToggle }) {
                 className="flex items-center space-x-3 p-2 rounded-xl hover:bg-gray-100 transition-all duration-200"
               >
                 <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                  <span className="text-white text-sm font-semibold">JD</span>
+                  <span className="text-white text-sm font-semibold">{admin?.email.charAt(0).toUpperCase()}</span>
                 </div>
                 {!isMobile && (
                   <div className="text-left">
                     <p className="text-sm font-medium text-gray-900">
-                      John Doe
+                      {admin?.name}
                     </p>
-                    <p className="text-xs text-gray-500">Administrator</p>
+                    <p className="text-xs text-gray-500">{admin?.role}</p>
                   </div>
                 )}
                 <i className="bi bi-chevron-down text-gray-400 text-sm" />
@@ -239,12 +268,12 @@ export default function Header({ isOpen, onToggle }) {
                   <div className="p-6 border-b border-gray-100">
                     <div className="flex items-center space-x-3">
                       <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                        <span className="text-white font-semibold">JD</span>
+                        <span className="text-white font-semibold">{admin?.email.charAt(0).toUpperCase()}</span>
                       </div>
                       <div>
-                        <p className="font-semibold text-gray-900">John Doe</p>
+                        <p className="font-semibold text-gray-900">{admin.name}</p>
                         <p className="text-sm text-gray-500">
-                          john@company.com
+                          {admin.email}
                         </p>
                       </div>
                     </div>
@@ -279,13 +308,13 @@ export default function Header({ isOpen, onToggle }) {
                       Help & Support
                     </a>
                     <hr className="my-2 border-gray-100" />
-                    <a
-                      href="#"
+                    <button
+                      onClick={() => dispatch(logout())}
                       className="flex items-center px-6 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors"
                     >
                       <i className="bi bi-box-arrow-right mr-3" />
                       Sign Out
-                    </a>
+                    </button>
                   </div>
                 </div>
               )}
@@ -293,26 +322,29 @@ export default function Header({ isOpen, onToggle }) {
           </div>
         </div>
 
-        {/* Mobile search bar */}
-        {isMobile && (
-          <div className="px-6 pb-4">
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <i className="bi bi-search text-gray-400" />
+        {/* Mobile Search */}
+        {
+          isMobile && (
+            <div className="px-6 pb-4">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <i className="bi bi-search text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search anything..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50/50 text-sm"
+                />
               </div>
-              <input
-                type="text"
-                placeholder="Search anything..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50/50 text-sm"
-              />
             </div>
-          </div>
-        )}
-      </header>
+          )
+        }
+      </header >
+
       {/* Full Screen UAT Modal */}
-      <Dialog open={showUATModal} onOpenChange={setShowUATModal}>
+      < Dialog open={showUATModal} onOpenChange={setShowUATModal} >
         <DialogContent
           className="fixed w-100 h-100 translate-x-[-50%] translate-y-[-50%] inset-0 m-0 p-0 rounded-md border-0"
           style={{ left: "50%", top: "40%" }}
@@ -334,7 +366,7 @@ export default function Header({ isOpen, onToggle }) {
                   <label className="block mb-1 font-medium">Pancard</label>
                   <input
                     type="file"
-                    name="pancard"
+                    name="panCard"
                     required
                     className="border border-gray-600 rounded p-2 w-full"
                   />
@@ -343,7 +375,7 @@ export default function Header({ isOpen, onToggle }) {
                   <label className="block mb-1 font-medium">Aadharcard</label>
                   <input
                     type="file"
-                    name="aadharcard"
+                    name="aadhaarCard"
                     required
                     className="border border-gray-600 rounded p-2 w-full"
                   />
@@ -352,7 +384,7 @@ export default function Header({ isOpen, onToggle }) {
                   <label className="block mb-1 font-medium">GST</label>
                   <input
                     type="file"
-                    name="gst"
+                    name="gstCert"
                     required
                     className="border border-gray-600 rounded p-2 w-full"
                   />
@@ -367,7 +399,7 @@ export default function Header({ isOpen, onToggle }) {
             </div>
           </div>
         </DialogContent>
-      </Dialog>
+      </Dialog >
     </>
   );
 }

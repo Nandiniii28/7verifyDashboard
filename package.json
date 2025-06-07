@@ -39,13 +39,14 @@
     "@radix-ui/react-tooltip": "latest",
     "@reduxjs/toolkit": "^2.8.2",
     "autoprefixer": "^10.4.20",
-    "bootstrap-icons": "^1.13.1",
     "axios": "^1.9.0",
+    "bootstrap-icons": "^1.13.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "latest",
     "date-fns": "4.1.0",
     "embla-carousel-react": "latest",
+    "file-saver": "^2.0.5",
     "input-otp": "latest",
     "lucide-react": "^0.454.0",
     "next": "15.2.4",
@@ -63,6 +64,7 @@
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "latest",
+    "xlsx": "^0.18.5",
     "zod": "^3.24.1"
   },
   "devDependencies": {

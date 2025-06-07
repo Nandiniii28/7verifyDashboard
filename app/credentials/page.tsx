@@ -1,46 +1,49 @@
-"use client"
+"use client";
 
-import { useState } from "react"
+import { useSelector } from "react-redux";
+import { useState } from "react";
 
 export default function CredentialsPage() {
+  const { admin } = useSelector((state) => state.admin);
+  const [isProd, setIsProd] = useState(false);
+
+  const environment = isProd ? admin?.production : admin?.credentials;
+
   const credentials = [
     {
       id: 1,
-      name: "Production API Key",
+      data: environment,
       type: "API Key",
-      status: "Active",
-      created: "2024-01-15",
-      lastUsed: "2024-01-30",
+      status: environment?.isActive ? "Active" : "Inactive",
+      created: admin?.createdAt?.slice(0, 10),
+      lastUsed: admin?.updatedAt?.slice(0, 10),
     },
-    {
-      id: 2,
-      name: "Development Token",
-      type: "Bearer Token",
-      status: "Active",
-      created: "2024-01-10",
-      lastUsed: "2024-01-29",
-    },
-    {
-      id: 3,
-      name: "Webhook Secret",
-      type: "Secret Key",
-      status: "Inactive",
-      created: "2024-01-05",
-      lastUsed: "2024-01-20",
-    },
-  ]
+  ];
+  console.log("sdfs", credentials);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="grid gap-6">
         {/* API Keys Section */}
         <div className="bg-white rounded-lg shadow">
-          <div className="p-6 border-b border-gray-200">
-            <div className="flex flex-col sm:flex-row items-center justify-between">
-              <h2 className="text-lg font-medium text-gray-900">API Credentials</h2>
-              <button className="mt-3 sm:mt-0 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                Generate New Key
-              </button>
+          <div className="p-6 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <h2 className="text-lg font-medium text-gray-900">API Credentials</h2>
+
+            {/* Toggle Switch */}
+            <div className="flex items-center gap-2">
+              <button className="text-sm text-gray-600" onClick={() => setIsProd(false)}>UAT</button>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={isProd}
+                  onChange={() => setIsProd(!isProd)}
+                  className="sr-only peer"
+                />
+                <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-blue-600 transition-colors duration-300 relative">
+                  <div className="absolute top-0.5 left-0.5 h-5 w-5 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
+                </div>
+              </label>
+              <button className="text-sm text-gray-600" onClick={() => setIsProd(true)}>Production</button>
             </div>
           </div>
 
@@ -50,8 +53,8 @@ export default function CredentialsPage() {
                 <div key={credential.id} className="border border-gray-200 rounded-lg p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
-                      <h3 className="text-sm font-medium text-gray-900">{credential.name}</h3>
-                      <p className="text-sm text-gray-500">{credential.type}</p>
+                      <h3 className="text-sm font-medium text-gray-900"><span>Auth Key :- </span>{credential.data?.jwtSecret}</h3>
+                      <p className="text-sm text-gray-500">{credential.data?.authKey}</p>
                       <div className="mt-2 flex items-center space-x-4 text-xs text-gray-500">
                         <span>Created: {credential.created}</span>
                         <span>Last used: {credential.lastUsed}</span>
@@ -59,9 +62,10 @@ export default function CredentialsPage() {
                     </div>
                     <div className="flex items-center space-x-3">
                       <span
-                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                          credential.status === "Active" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
-                        }`}
+                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${credential.status === "Active"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
+                          }`}
                       >
                         {credential.status}
                       </span>
@@ -104,5 +108,5 @@ export default function CredentialsPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

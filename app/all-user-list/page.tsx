@@ -1,119 +1,175 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { HiOutlineDotsVertical } from "react-icons/hi"
+import { useEffect, useState } from "react";
+import axiosInstance from "@/components/service/axiosInstance";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "react-toastify";
+import { HiOutlineDotsVertical } from "react-icons/hi";
+import Link from "next/link";
+
+const roles = ["user", "admin", "all"];
+const verification = ["all", "true", "false"];
+const services = ["Email API", "SMS Gateway", "User Auth", "Billing"];
 
 export default function AllUserListPage() {
-  const [openMenuIndex, setOpenMenuIndex] = useState<number | null>(null)
-  const [assigningServiceIndex, setAssigningServiceIndex] = useState<number | null>(null)
+  const [users, setUsers] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const services = ["Email API", "SMS Gateway", "User Auth", "Billing"]
+  const [filters, setFilters] = useState({
+    email: "",
+    role: "all",
+    isVerified: "all",
+    fromDate: "",
+    toDate: ""
+  });
 
-  const users = [
-    { name: "Alice Johnson", verified: true, email: "alice@example.com", partnerId: "P-001" },
-    { name: "Bob Smith", verified: false, email: "bob@example.com", partnerId: "P-002" },
-    { name: "Charlie Kim", verified: true, email: "charlie@example.com", partnerId: "P-003" },
-    { name: "Dana White", verified: false, email: "dana@example.com", partnerId: "P-004" },
-    { name: "Evan Thomas", verified: true, email: "evan@example.com", partnerId: "P-005" },
-    { name: "Fiona Clarke", verified: true, email: "fiona@example.com", partnerId: "P-006" },
-    { name: "George Lee", verified: false, email: "george@example.com", partnerId: "P-007" },
-  ]
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const query = {
+        ...filters,
+        role: filters.role === "all" ? "" : filters.role,
+        isVerified: filters.isVerified === "all" ? "" : filters.isVerified,
+        page,
+        limit: 10
+      };
+      const res = await axiosInstance.get("/admin/users", { params: query });
+      setUsers(res.data.users);
+      setTotalPages(Math.ceil(res.data.total / 10));
+    } catch {
+      toast.error("Failed to fetch users");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, [filters, page]);
+
+  const handleAction = (type: string, userId: string) => {
+    if (type === "verifyKYC") {
+      toast.success(`KYC verified for user ${userId}`);
+    } else if (type === "productionKey") {
+      toast.success(`Production key generated`);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="bg-white rounded-lg shadow">
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-lg font-medium text-gray-900">All User List</h2>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full divide-y divide-gray-200 relative">
-            <thead className="bg-gray-50">
+    <div className="p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">User Management</h2>
+        <Button asChild>
+          <Link href="/create-user">+ Create User</Link>
+        </Button>
+      </div>
+
+      {/* Filters */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+        <Input
+          placeholder="Search by email"
+          value={filters.email}
+          onChange={(e) => setFilters({ ...filters, email: e.target.value })}
+        />
+        <Select value={filters.role} onValueChange={(value) => setFilters({ ...filters, role: value })}>
+          <SelectTrigger><SelectValue placeholder="Select Role" /></SelectTrigger>
+          <SelectContent>
+            {roles.map((r) => <SelectItem key={r} value={r}>{r}</SelectItem>)}
+          </SelectContent>
+        </Select>
+        <Select value={filters.isVerified} onValueChange={(value) => setFilters({ ...filters, isVerified: value })}>
+          <SelectTrigger><SelectValue placeholder="Verification" /></SelectTrigger>
+          <SelectContent>
+            {verification.map((v) => <SelectItem key={v} value={v}>{v}</SelectItem>)}
+          </SelectContent>
+        </Select>
+        <Input
+          type="date"
+          value={filters.fromDate}
+          onChange={(e) => setFilters({ ...filters, fromDate: e.target.value })}
+        />
+        <Input
+          type="date"
+          value={filters.toDate}
+          onChange={(e) => setFilters({ ...filters, toDate: e.target.value })}
+        />
+      </div>
+
+      {/* Table */}
+      <div className="bg-white shadow rounded-md overflow-auto">
+        {loading ? (
+          <div className="p-6 text-center text-gray-500">Loading...</div>
+        ) : users.length === 0 ? (
+          <div className="p-6 text-center text-gray-500">No users found</div>
+        ) : (
+          <table className="w-full text-sm text-left">
+            <thead className="bg-gray-100 text-xs text-gray-600 uppercase">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Verified</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Partner ID</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                <th className="px-6 py-3">User Name</th>
+                <th className="px-6 py-3">Verified</th>
+                <th className="px-6 py-3">Email</th>
+                <th className="px-6 py-3">User ID</th>
+                <th className="px-6 py-3">Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {users.map((user, index) => (
-                <tr key={index} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">{user.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    <span className={`px-2 py-1 inline-flex text-xs font-semibold rounded-full ${
-                      user.verified ? "bg-green-200 text-green-800" : "bg-red-500 text-white"
-                    }`}>
-                      {user.verified ? "True" : "False"}
+            <tbody className="divide-y">
+              {users.map((user: any, idx) => (
+                <tr key={user._id}>
+                  <td className="px-6 py-4 font-medium">{user.name}</td>
+                  <td className="px-6 py-4">
+                    <span className={`text-xs px-2 py-1 rounded-full ${user.isVerified ? "bg-green-200 text-green-800" : "bg-red-200 text-red-800"}`}>
+                      {user.isVerified ? "Verified" : "Unverified"}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.email}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">{user.partnerId}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm relative">
-                    <div className="relative inline-block text-left">
-                      <button
-                        onClick={() => {
-                          setOpenMenuIndex(openMenuIndex === index ? null : index)
-                          setAssigningServiceIndex(null)
-                        }}
-                        className="p-2 rounded hover:bg-gray-100"
-                      >
-                        <HiOutlineDotsVertical className="h-5 w-5 text-gray-600" />
-                      </button>
-
-                      {openMenuIndex === index && (
-                        <div className="absolute left-0 top-full mt-1 w-48 z-50 bg-white border border-gray-200 rounded-md shadow-lg">
-                          <button
-                            onClick={() => {
-                              alert(`Update clicked for ${user.name}`)
-                              setOpenMenuIndex(null)
-                            }}
-                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          >
-                            Update
+                  <td className="px-6 py-4">{user.email}</td>
+                  <td className="px-6 py-4 font-mono">{user._id.slice(-6)}</td>
+                  <td className="px-6 py-4 relative">
+                    <button
+                      onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
+                      className="p-2 hover:bg-gray-100 rounded"
+                    >
+                      <HiOutlineDotsVertical />
+                    </button>
+                    {openIndex === idx && (
+                      <div className="absolute right-0 mt-2 bg-white border shadow rounded z-10 w-44">
+                        <button onClick={() => handleAction("verifyKYC", user._id)} className="block w-full px-4 py-2 text-left hover:bg-gray-100">
+                          Verify KYC
+                        </button>
+                        <button onClick={() => handleAction("productionKey", user._id)} className="block w-full px-4 py-2 text-left hover:bg-gray-100">
+                          Generate Key
+                        </button>
+                        <div className="border-t" />
+                        <div className="text-xs px-4 py-2 text-gray-500">Assign Service</div>
+                        {services.map((s) => (
+                          <button key={s} onClick={() => toast.success(`${s} assigned`)} className="block w-full px-4 py-1 text-left hover:bg-gray-50 text-sm">
+                            {s}
                           </button>
-                          <div className="relative group">
-                            <button
-                              onClick={() =>
-                                setAssigningServiceIndex(
-                                  assigningServiceIndex === index ? null : index
-                                )
-                              }
-                              className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                            >
-                              Assign Services
-                            </button>
-
-                            {assigningServiceIndex === index && (
-                              <div className="absolute left-full top-0 ml-1 w-48 z-50 bg-white border border-gray-200 rounded-md shadow-lg">
-                                <ul className="py-2 max-h-60 overflow-y-auto">
-                                  {services.map((service, sIndex) => (
-                                    <li
-                                      key={sIndex}
-                                      onClick={() => {
-                                        alert(`${service} assigned to ${user.name}`)
-                                        setAssigningServiceIndex(null)
-                                        setOpenMenuIndex(null)
-                                      }}
-                                      className="px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
-                                    >
-                                      {service}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                        ))}
+                        <div className="border-t" />
+                        <button onClick={() => toast.info("Update user")} className="block w-full px-4 py-2 text-left hover:bg-gray-100">
+                          Update
+                        </button>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
+        )}
+      </div>
+
+      {/* Pagination */}
+      <div className="flex justify-between items-center mt-6">
+        <Button variant="outline" disabled={page <= 1} onClick={() => setPage(page - 1)}>Previous</Button>
+        <span className="text-sm text-gray-600">Page {page} of {totalPages}</span>
+        <Button variant="outline" disabled={page >= totalPages} onClick={() => setPage(page + 1)}>Next</Button>
       </div>
     </div>
-  )
+  );
 }
