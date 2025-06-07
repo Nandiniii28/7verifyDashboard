@@ -37,6 +37,8 @@ export const fetchAdminDetails = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.get("/user/details");
+            console.log(response);
+            
             return response.data.user;
         } catch (error) {
             return rejectWithValue(error.response?.data || "Error fetching admin details");
