@@ -1,0 +1,74 @@
+/* WalletTopupForm.css */
+
+.container {
+  max-width: 720px;
+  margin: 40px auto;
+  padding: 0 16px;
+  font-family: Arial, sans-serif;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e7eb;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #2f84c9;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #374151;
+  font-size: 14px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.submit-btn {
+  width: auto;             
+  min-width: 120px;       
+  padding: 6px 14px;        
+  background-color: #2f84c9;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;      /* inline-flex so width fits content */
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+
+  /* center horizontally */
+  margin-left: auto;
+  margin-right: auto;
+  transition: background-color 0.2s ease;
+}
+

@@ -6,6 +6,9 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "react-toastify";
+import { FiBarChart2 } from "react-icons/fi";
+
+import "./all-user-report.css"; // import CSS file
 
 export default function AllUserReportPage() {
   const isMobile = useIsMobile();
@@ -75,11 +78,14 @@ export default function AllUserReportPage() {
   }, [search, serviceFilter, page]);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
-      <div className="bg-white rounded-2xl shadow-md p-6">
-        <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 mb-6">
-          <h2 className="text-2xl font-semibold text-blue-700">📊 All User Report</h2>
-          <div className="flex flex-wrap gap-3">
+    <div className="page-container">
+      <div className="card">
+        <div className="header-row">
+          <h2 className="title">
+            <FiBarChart2 className="icon" size={28} />
+            All User Report
+          </h2>
+          <div className="controls">
             <Input
               placeholder="Search name/email"
               value={search}
@@ -87,7 +93,7 @@ export default function AllUserReportPage() {
                 setPage(1);
                 setSearch(e.target.value);
               }}
-              className="w-[200px]"
+              className="input-small"
             />
             <Input
               placeholder="Filter by service"
@@ -96,12 +102,20 @@ export default function AllUserReportPage() {
                 setPage(1);
                 setServiceFilter(e.target.value);
               }}
-              className="w-[200px]"
+              className="input-small"
             />
-            <Button variant="outline" onClick={() => handleExport("csv")}>
+            <Button
+              variant="outline"
+              onClick={() => handleExport("csv")}
+              className="btn-export btn-csv"
+            >
               Export CSV
             </Button>
-            <Button variant="outline" onClick={() => handleExport("excel")}>
+            <Button
+              variant="outline"
+              onClick={() => handleExport("excel")}
+              className="btn-export btn-excel"
+            >
               Export Excel
             </Button>
           </div>
@@ -109,42 +123,37 @@ export default function AllUserReportPage() {
 
         {/* Error message */}
         {error && (
-          <div className="text-red-600 bg-red-100 px-4 py-2 rounded mb-4">
+          <div className="error-message">
             {error}
           </div>
         )}
 
         {/* Table */}
-        <div className="overflow-x-auto rounded-lg border border-gray-200">
+        <div className="table-container">
           {loading ? (
-            <div className="text-center p-8 text-gray-500">Loading...</div>
+            <div className="loading-text">Loading...</div>
           ) : users.length === 0 ? (
-            <div className="text-center p-8 text-gray-500">No users found.</div>
+            <div className="loading-text">No users found.</div>
           ) : (
-            <table className="w-full text-sm text-left">
-              <thead className="bg-blue-50 text-blue-700 text-xs uppercase">
+            <table className="data-table">
+              <thead>
                 <tr>
-                  <th className="px-4 py-3">Name</th>
-                  <th className="px-4 py-3">Email</th>
-                  <th className="px-4 py-3">Service</th>
-                  <th className="px-4 py-3">Hit Count</th>
-                  <th className="px-4 py-3">Total Charges</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Service</th>
+                  <th>Hit Count</th>
+                  <th>Total Charges</th>
                 </tr>
               </thead>
-              <tbody className="bg-white">
+              <tbody>
                 {users.map((user) =>
                   user.serviceUsage.map((service, index) => (
-                    <tr
-                      key={`${user._id}-${index}`}
-                      className="border-t hover:bg-gray-50"
-                    >
-                      <td className="px-4 py-3">{user.name}</td>
-                      <td className="px-4 py-3 text-gray-600">{user.email}</td>
-                      <td className="px-4 py-3">{service.service}</td>
-                      <td className="px-4 py-3 text-green-700 font-medium">{service.hitCount}</td>
-                      <td className="px-4 py-3 text-gray-800">
-                        ₹ {service.totalCharge?.toFixed(2)}
-                      </td>
+                    <tr key={`${user._id}-${index}`}>
+                      <td>{user.name}</td>
+                      <td className="text-muted">{user.email}</td>
+                      <td>{service.service}</td>
+                      <td className="text-green">{service.hitCount}</td>
+                      <td>₹ {service.totalCharge?.toFixed(2)}</td>
                     </tr>
                   ))
                 )}
@@ -155,21 +164,23 @@ export default function AllUserReportPage() {
 
         {/* Pagination */}
         {!loading && totalPages > 1 && (
-          <div className="flex justify-between items-center mt-6">
+          <div className="pagination">
             <Button
               disabled={page === 1}
               onClick={() => setPage((p) => Math.max(p - 1, 1))}
               variant="outline"
+              className="btn-pagination"
             >
               Previous
             </Button>
-            <span className="text-gray-600 text-sm">
+            <span className="page-info">
               Page {page} of {totalPages}
             </span>
             <Button
               disabled={page === totalPages}
               onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
               variant="outline"
+              className="btn-pagination"
             >
               Next
             </Button>

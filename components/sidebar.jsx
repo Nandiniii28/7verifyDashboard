@@ -50,6 +50,7 @@ export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
   const [navItems, setNavItems] = useState([]);
   const [bottomNavItems, setBottomNavItems] = useState([]);
   const isMobile = useIsMobile();
+console.log(admin);
 
   useEffect(() => {
     dispatch(lsTokenData());

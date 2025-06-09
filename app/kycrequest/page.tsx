@@ -12,6 +12,12 @@ import {
     SelectItem,
 } from "@/components/ui/select";
 import { toast } from "react-toastify";
+import { FiUserCheck } from "react-icons/fi";
+// React icons import
+import { FiSearch, FiUser, FiCalendar, FiArrowUp, FiArrowDown } from "react-icons/fi";
+
+// Import external CSS for filters form
+import "./kycrequest.css";
 
 export default function KycRequestPage() {
     const [users, setUsers] = useState([]);
@@ -33,23 +39,21 @@ export default function KycRequestPage() {
     }, [filters, page]);
 
     const handleAction = async (isVerified, userId) => {
-
         try {
             setLoading(true);
             const res = await axiosInstance.post("/admin/verify-kyc", {
-
                 userId,
-                isVerified
-
+                isVerified,
             });
             setUsers(res.data.data);
             setTotalPages(res.data.totalPages);
-        } catch (err: any) {
+        } catch (err) {
             toast.error("Failed to load KYC requests.");
         } finally {
             setLoading(false);
         }
     };
+
     const fetchKycRequests = async () => {
         try {
             setLoading(true);
@@ -63,7 +67,7 @@ export default function KycRequestPage() {
             });
             setUsers(res.data.data);
             setTotalPages(res.data.totalPages);
-        } catch (err: any) {
+        } catch (err) {
             toast.error("Failed to load KYC requests.");
         } finally {
             setLoading(false);
@@ -72,56 +76,98 @@ export default function KycRequestPage() {
 
     return (
         <div className="min-h-screen p-6 bg-gray-50">
-            <div className="mb-6">
-                <h1 className="text-2xl font-bold">KYC Requests</h1>
+            <div className="mb-2 flex items-center gap-2">
+                <FiUserCheck style={{ fontSize: "30px", color: "#2563eb" }} />
+                <h1 style={{ color: "#2563eb" }} className="text-2xl font-bold">
+                    KYC Requests
+                </h1>
             </div>
 
-            {/* Filters */}
-            <div className="bg-white p-4 rounded shadow mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-                <Input
-                    placeholder="Search name or email"
-                    value={filters.search}
-                    onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-                />
-                <Select
-                    value={filters.role}
-                    onValueChange={(value) =>
-                        setFilters({ ...filters, role: value })
-                    }
-                >
-                    <SelectTrigger>
-                        <SelectValue placeholder="Select Role" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="all">All</SelectItem>
-                        <SelectItem value="user">User</SelectItem>
-                        <SelectItem value="admin">Admin</SelectItem>
-                    </SelectContent>
-                </Select>
-                <Input
-                    type="date"
-                    value={filters.startDate}
-                    onChange={(e) => setFilters({ ...filters, startDate: e.target.value })}
-                />
-                <Input
-                    type="date"
-                    value={filters.endDate}
-                    onChange={(e) => setFilters({ ...filters, endDate: e.target.value })}
-                />
-                <Select
-                    value={filters.sortOrder}
-                    onValueChange={(value) =>
-                        setFilters({ ...filters, sortOrder: value })
-                    }
-                >
-                    <SelectTrigger>
-                        <SelectValue placeholder="Sort Order" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="desc">Newest First</SelectItem>
-                        <SelectItem value="asc">Oldest First</SelectItem>
-                    </SelectContent>
-                </Select>
+
+            {/* Filters form with icons and layout */}
+            <div className="filters">
+                {/* Full row - search input */}
+                <div className="filter-item full-row">
+                    <label htmlFor="search">
+                        <FiSearch className="icon" /> Name or Email
+                    </label>
+                    <Input
+                        id="search"
+                        placeholder="Search name or email"
+                        value={filters.search}
+                        onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+                    />
+                </div>
+
+                {/* Half row - Role and Sort Order */}
+                <div className="filter-row">
+                    <div className="filter-item half-row">
+                        <label htmlFor="role">
+                            <FiUser className="icon" /> Role
+                        </label>
+                        <Select
+                            id="role"
+                            value={filters.role}
+                            onValueChange={(value) => setFilters({ ...filters, role: value })}
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select Role" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All</SelectItem>
+                                <SelectItem value="user">User</SelectItem>
+                                <SelectItem value="admin">Admin</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+
+                    <div className="filter-item half-row">
+                        <label htmlFor="sortOrder">
+                            <FiArrowUp className="icon" />
+                            <FiArrowDown className="icon" /> Sort Order
+                        </label>
+                        <Select
+                            id="sortOrder"
+                            value={filters.sortOrder}
+                            onValueChange={(value) => setFilters({ ...filters, sortOrder: value })}
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Sort Order" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="desc">Newest First</SelectItem>
+                                <SelectItem value="asc">Oldest First</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </div>
+
+                {/* Half row - Start Date and End Date */}
+                <div className="filter-row">
+                    <div className="filter-item half-row">
+                        <label htmlFor="startDate">
+                            <FiCalendar className="icon" /> Start Date
+                        </label>
+                        <Input
+                            type="date"
+                            id="startDate"
+                            value={filters.startDate}
+                            onChange={(e) => setFilters({ ...filters, startDate: e.target.value })}
+                        />
+                    </div>
+
+                    <div className="filter-item half-row">
+                        <label htmlFor="endDate">
+                            <FiCalendar className="icon" /> End Date
+                        </label>
+                        <Input
+                            type="date"
+                            id="endDate"
+                            value={filters.endDate}
+                            onChange={(e) => setFilters({ ...filters, endDate: e.target.value })}
+                        />
+                    </div>
+                </div>
             </div>
 
             {/* Table */}
@@ -142,7 +188,7 @@ export default function KycRequestPage() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
-                            {users?.map((user: any) => (
+                            {users?.map((user) => (
                                 <tr key={user._id}>
                                     <td className="px-6 py-4">{user.name}</td>
                                     <td className="px-6 py-4">{user.email}</td>
@@ -152,21 +198,13 @@ export default function KycRequestPage() {
                                     </td>
                                     <td className="px-6 py-4">
                                         <div className="flex gap-2">
-                                            <Button
-                                                variant="default"
-                                                // className="bg-green-600 hover:bg-green-700"
-                                                onClick={() => handleAction(true, user._id)}
-                                            >
+                                            <Button variant="default" onClick={() => handleAction(true, user._id)}>
                                                 Approve
                                             </Button>
-                                            <Button
-                                                variant="destructive"
-                                                onClick={() => handleAction(false, user._id)}
-                                            >
+                                            <Button variant="destructive" onClick={() => handleAction(false, user._id)}>
                                                 Reject
                                             </Button>
                                         </div>
-
                                     </td>
                                 </tr>
                             ))}
