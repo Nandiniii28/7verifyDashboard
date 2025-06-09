@@ -4,51 +4,45 @@ import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MainContext } from "../context/context";
 import axiosInstance from "@/components/service/axiosInstance";
-
+import { FaTrash } from "react-icons/fa";
+import "./style.css";
 
 export default function APICataloguePage() {
-
-  const { tostymsg, allService, services } = useContext(MainContext)
+  const { tostymsg, allService, services } = useContext(MainContext);
   const [showModal, setShowModal] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  // const { admin } = useSelector((state) => state.admin);
-  const dispatch = useDispatch()
-
-  // console.log(services);
+  const dispatch = useDispatch();
 
   const createAPI = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const data = {
       name: e.target.api.value,
       charge: e.target.charge.value,
-      // discription: e.target.discription.value,
-    }
+    };
     try {
-      const res = await axiosInstance.post('/admin/add-services', data);
-      tostymsg(res.data.message, 1)
+      const res = await axiosInstance.post("/admin/add-services", data);
+      tostymsg(res.data.message, 1);
       setShowModal(false);
-      allService()
+      allService();
     } catch (error) {
-
-      tostymsg(error.response.data.message, 0)
+      tostymsg(error.response?.data?.message || "Something went wrong", 0);
       console.log(error);
     }
+  };
 
-
-  }
-
-  useEffect(
-    () => {
-      allService()
-    }, []
-  )
+  useEffect(() => {
+    allService();
+  }, []);
 
   return (
     <div className="bg-white rounded-lg shadow mx-4">
       <div className="p-6 border-b border-gray-200">
         <div className="flex flex-col sm:flex-row items-center justify-between">
           <h2 className="text-lg font-medium text-gray-900">Available APIs</h2>
-          <button onClick={() => setShowModal(true)} className="mt-3 sm:mt-0 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+          <button
+            onClick={() => setShowModal(true)}
+            className="mt-3 sm:mt-0 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
             Add New API
           </button>
         </div>
@@ -56,7 +50,7 @@ export default function APICataloguePage() {
 
       <div className="overflow-x-auto">
         <table className="w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+          <thead className="bg-blue-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 API Name
@@ -94,12 +88,13 @@ export default function APICataloguePage() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
-                      className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${api.method === "GET"
-                        ? "bg-green-100 text-green-800"
-                        : api.method === "POST"
+                      className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                        api.method === "GET"
+                          ? "bg-green-100 text-green-800"
+                          : api.method === "POST"
                           ? "bg-blue-100 text-blue-800"
                           : "bg-gray-100 text-gray-800"
-                        }`}
+                      }`}
                     >
                       {api.method || "GET"}
                     </span>
@@ -109,12 +104,13 @@ export default function APICataloguePage() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
-                      className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${api.status === "Active"
-                        ? "bg-green-100 text-green-800"
-                        : api.status === "Beta"
+                      className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                        api.status === "Active"
+                          ? "bg-green-100 text-green-800"
+                          : api.status === "Beta"
                           ? "bg-yellow-100 text-yellow-800"
                           : "bg-red-100 text-red-800"
-                        }`}
+                      }`}
                     >
                       {api.status || "Active"}
                     </span>
@@ -123,14 +119,18 @@ export default function APICataloguePage() {
                     {api.version || "v1.0"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    {/* <button className="text-blue-600 hover:text-blue-900 mr-3" onClick={() => (setShowModal(true), setShowEdit(true))}>Edit</button> */}
-                    <button className="text-red-600 hover:text-red-900">Delete</button>
+                    <button className="text-red-600 hover:text-red-900 no-outline">
+                      <FaTrash className="w-4 h-4" />
+                    </button>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="px-6 py-4 text-center text-sm text-gray-500">
+                <td
+                  colSpan="6"
+                  className="px-6 py-4 text-center text-sm text-gray-500"
+                >
                   No API services found.
                 </td>
               </tr>
@@ -138,15 +138,15 @@ export default function APICataloguePage() {
           </tbody>
         </table>
       </div>
+
+      {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          {/* Overlay click to close */}
           <div
             className="absolute inset-0"
             onClick={() => setShowModal(false)}
           ></div>
 
-          {/* Modal content */}
           <div className="relative z-10 bg-white max-w-md p-6 rounded-lg shadow-xl">
             <div className="flex items-center justify-between mb-4">
               <div className="text-xl font-semibold text-gray-800 ">
@@ -159,7 +159,6 @@ export default function APICataloguePage() {
               <input
                 type="text"
                 name="api"
-                // defaultValue={showEdit ? "" : ""}
                 placeholder="API Name"
                 className="w-full p-2 border rounded focus:outline-none focus:ring focus:border-blue-500"
                 required

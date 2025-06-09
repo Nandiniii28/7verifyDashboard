@@ -17,8 +17,8 @@ import Link from "next/link";
 import { FiUsers, FiMail, FiUserCheck, FiShield } from "react-icons/fi";
 import { FaCalendarAlt } from "react-icons/fa";
 
-const roles = ["all", "user", "admin"];
-const verification = ["all", "true", "false"];
+const roles = ["All", "User", "Admin"];
+const verification = ["All", "Verified", "Unverified"]; // Added "All" option
 const services = ["Email API", "SMS Gateway", "User Auth", "Billing"];
 
 export default function AllUserListPage() {
@@ -30,8 +30,8 @@ export default function AllUserListPage() {
 
   const [filters, setFilters] = useState({
     email: "",
-    role: "all",
-    isVerified: "all",
+    role: "All",
+    isVerified: "All", // Set default to "All"
     fromDate: "",
     toDate: "",
   });
@@ -41,8 +41,9 @@ export default function AllUserListPage() {
     try {
       const query = {
         ...filters,
-        role: filters.role === "all" ? "" : filters.role,
-        isVerified: filters.isVerified === "all" ? "" : filters.isVerified,
+        role: filters.role === "All" ? "" : filters.role.toLowerCase(),
+        isVerified: filters.isVerified === "All" ? "" : 
+                   filters.isVerified === "Verified" ? "true" : "false",
         page,
         limit: 10,
       };
@@ -84,7 +85,6 @@ export default function AllUserListPage() {
 
       {/* Filters Section */}
       <div className="space-y-6 mb-6">
-
         {/* Top Row: Email, Role, Verification */}
         <div className="flex gap-4 mb-4">
           <div className="flex-1 min-w-0 space-y-1">
@@ -126,7 +126,7 @@ export default function AllUserListPage() {
               onValueChange={(value) => setFilters({ ...filters, isVerified: value })}
             >
               <SelectTrigger id="verification">
-                <SelectValue placeholder="Verification" />
+                <SelectValue placeholder="Select Verification" />
               </SelectTrigger>
               <SelectContent>
                 {verification.map((v) => (

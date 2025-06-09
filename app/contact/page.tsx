@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import axiosInstance from "@/components/service/axiosInstance";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
+import { FiMail, FiFilter, FiLoader, FiTrash2, FiEye, FiEyeOff } from "react-icons/fi";
+import "./contant.css";
 
 export default function ContactAdminPage() {
     const [contacts, setContacts] = useState([]);
@@ -24,13 +26,10 @@ export default function ContactAdminPage() {
             setLoading(false);
         }
     };
-    console.log(setContacts);
 
     const toggleSeenStatus = async (id) => {
-
         try {
             const res = await axiosInstance.patch(`/contact/status-change?id=${id}`);
-            
             toast.success("Status updated");
             fetchContacts();
         } catch {
@@ -54,65 +53,77 @@ export default function ContactAdminPage() {
     }, [filter]);
 
     return (
-        <div className="min-h-screen p-4 md:p-8 bg-gray-50">
-            <div className="bg-white shadow-md rounded-2xl p-6">
-                <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
-                    <h2 className="text-xl font-semibold text-blue-700">📬 Contact Requests</h2>
-                    <select
-                        className="border p-2 rounded-md"
-                        value={filter}
-                        onChange={(e) => setFilter(e.target.value)}
-                    >
-                        <option value="">All</option>
-                        <option value="true">Seen</option>
-                        <option value="false">Unseen</option>
-                    </select>
+        <div className="contact-admin-container">
+            <div className="contact-admin-card">
+                <div className="contact-admin-header">
+                    <div className="header-title">
+                        <FiMail className="header-icon" />
+                        <h2>Contact Requests</h2>
+                    </div>
+                    <div className="filter-control">
+                        <FiFilter className="filter-icon" />
+                        <select
+                            className="filter-select"
+                            value={filter}
+                            onChange={(e) => setFilter(e.target.value)}
+                        >
+                            <option value="">All Messages</option>
+                            <option value="true">Seen</option>
+                            <option value="false">Unseen</option>
+                        </select>
+                    </div>
                 </div>
 
                 {loading ? (
-                    <div className="text-center py-10 text-gray-500">Loading...</div>
+                    <div className="loading-state">
+                        <FiLoader className="spinner-icon" />
+                        <span>Loading contact requests...</span>
+                    </div>
                 ) : contacts.length === 0 ? (
-                    <div className="text-center py-10 text-gray-500">No contact requests found.</div>
+                    <div className="empty-state">
+                        <FiMail className="empty-icon" />
+                        <span>No contact requests found</span>
+                    </div>
                 ) : (
-                    <div className="overflow-x-auto border rounded-lg">
-                        <table className="w-full text-sm text-left">
-                            <thead className="bg-blue-50 text-blue-700 text-xs uppercase">
+                    <div className="contacts-table-container">
+                        <table className="contacts-table">
+                            <thead>
                                 <tr>
-                                    <th className="px-4 py-3">Name</th>
-                                    <th className="px-4 py-3">Email</th>
-                                    <th className="px-4 py-3">Contact</th>
-                                    <th className="px-4 py-3">Message</th>
-                                    <th className="px-4 py-3">Seen</th>
-                                    <th className="px-4 py-3">Actions</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Contact</th>
+                                    <th>Message</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody className="bg-white">
+                            <tbody>
                                 {contacts.map((c) => (
-                                    <tr key={c._id} className="border-t hover:bg-gray-50">
-                                        <td className="px-4 py-3">{c.name}</td>
-                                        <td className="px-4 py-3 text-gray-600">{c.email}</td>
-                                        <td className="px-4 py-3">{c.contact}</td>
-                                        <td className="px-4 py-3 max-w-xs whitespace-pre-wrap">{c.message}</td>
-                                        <td className="px-4 py-3">
-                                            <span className={`text-sm font-medium ${c.seen ? "text-green-600" : "text-red-500"}`}>
+                                    <tr key={c._id} className={c.seen ? "seen-row" : "unseen-row"}>
+                                        <td>{c.name}</td>
+                                        <td>{c.email}</td>
+                                        <td>{c.contact}</td>
+                                        <td className="message-cell">{c.message}</td>
+                                        <td>
+                                            <span className={`status-badge ${c.seen ? "seen" : "unseen"}`}>
+                                                {c.seen ? <FiEye /> : <FiEyeOff />}
                                                 {c.seen ? "Seen" : "Unseen"}
                                             </span>
                                         </td>
-                                        <td className="px-4 py-3 space-x-2">
-                                            <Button
-                                                variant="outline"
-                                                size="sm"
+                                        <td className="actions-cell">
+                                            <button
+                                                className="action-btn toggle-btn"
                                                 onClick={() => toggleSeenStatus(c._id)}
                                             >
-                                                Toggle Seen
-                                            </Button>
-                                            <Button
-                                                variant="destructive"
-                                                size="sm"
+                                                Toggle Status
+                                            </button>
+                                            <button
+                                                className="action-btn delete-btn"
                                                 onClick={() => deleteContact(c._id)}
                                             >
+                                                <FiTrash2 />
                                                 Delete
-                                            </Button>
+                                            </button>
                                         </td>
                                     </tr>
                                 ))}

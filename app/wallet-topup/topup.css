@@ -15,6 +15,7 @@
   border: 1px solid #e5e7eb;
 }
 
+
 .card-title {
   display: flex;
   align-items: center;
@@ -53,7 +54,7 @@
   width: auto;             
   min-width: 120px;       
   padding: 6px 14px;        
-  background-color: #2f84c9;
+  background-color: #2f84c9;      
   color: white;
   font-weight: 600;
   font-size: 14px;
