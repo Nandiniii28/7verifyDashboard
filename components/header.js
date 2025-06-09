@@ -131,6 +131,7 @@ export default function Header({ isOpen, onToggle }) {
                   UAT
                 </button>
                 <button
+                  disabled={admin?.documents.isVerify}
                   onClick={() => handleEnvironmentSwitch("live")}
                   className={`px-3 py-1 text-sm font-medium rounded-md transition-all ${environment === "live"
                     ? "bg-orange-500 text-white"
