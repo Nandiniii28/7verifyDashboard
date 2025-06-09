@@ -26,7 +26,7 @@ export const Context = ({ children }) => {
     const [services, setServices] = useState([]);
 
     const handleToggleSidebar = () => setSidebarOpen((prev) => !prev);
-    const handleNavigate = (route: any) => console.log("Navigating to:", route);
+    const handleNavigate = (route: any) => console.log("Navigating to:");
     const tostymsg = (msg, status) => {
         toast(msg, { type: status ? "success" : "error" });
     };

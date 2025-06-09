@@ -1,230 +1,135 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { SignJWT } from "jose";
+import { useSearchParams } from "next/navigation";
 import axiosInstance from "@/components/service/axiosInstance";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { toast } from "react-toastify";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
+import { useSelector } from "react-redux";
 
-export default function ServiceListPage() {
-  const [services, setServices] = useState([]);
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
-  const [limit] = useState(10);
-  const [totalPages, setTotalPages] = useState(1);
+// Function to sign JWT with jose
+const generateToken = async (payload, secret) => {
+    const secretKey = new TextEncoder().encode(secret);
+    const jwt = await new SignJWT(payload)
+        .setProtectedHeader({ alg: "HS256" })
+        .setExpirationTime("1h")
+        .sign(secretKey);
+    return jwt;
+};
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingService, setEditingService] = useState(null);
-  const [form, setForm] = useState({
-    name: "",
-    charge: "",
-    active_charge: "",
-    descreption: "",
-  });
+export default function ServiceDynamicPage() {
+    const searchParams = useSearchParams();
+    const id = searchParams.get("id");
+    const { admin } = useSelector((state) => state.admin);
+    const [service, setService] = useState(null);
+    const [formData, setFormData] = useState({});
+    const [response, setResponse] = useState(null);
+    const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    fetchServices();
-  }, [search, page]);
+    useEffect(() => {
+        if (id) {
+            axiosInstance
+                .get(`/user/service/${id}`)
+                .then((res) => setService(res.data.data))
+                .catch((err) => console.error("Service fetch error:", err));
+        }
+    }, [id]);
 
-  const fetchServices = async () => {
-    try {
-      const res = await axiosInstance.get("/admin/services", {
-        params: { search, page, limit },
-      });
-      setServices(res.data.services);
-      setTotalPages(res.data.totalPages);
-    } catch (err) {
-      console.error("Error fetching services:", err);
-    }
-  };
+    const handleChange = (e) => {
+        const { name, type, value, files } = e.target;
+        setFormData({
+            ...formData,
+            [name]: type === "file" ? files[0] : value,
+        });
+    };
 
-  const openCreateModal = () => {
-    setForm({ name: "", charge: "", active_charge: "", description: "" });
-    setEditingService(null);
-    setIsDialogOpen(true);
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        console.log("🔄 Form submission started");
 
-  const openEditModal = (service) => {
-    setForm({
-      name: service.name,
-      charge: service.charge,
-      active_charge: service.active_charge,
-      descreption: service.description,
-    });
-    setEditingService(service);
-    setIsDialogOpen(true);
-  };
+        try {
+            const formPayload = new FormData();
+            service.fields.forEach((field) => {
+                formPayload.append(field.name, formData[field.name]);
+            });
 
-  const handleSubmit = async () => {
-    try {
-      if (editingService) {
-       const res= await axiosInstance.put(`/admin/update-charge/${editingService._id}`, form);
-       console.log(res);
-       
-        toast.success("Service updated successfully");
-      } else {
-        await axiosInstance.post("/admin/add-services", form);
-        toast.success("Service created successfully");
-      }
-      fetchServices();
-      setIsDialogOpen(false);
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to submit");
-    }
-  };
+            const isKycVerified = admin?.documents?.isVerified;
+            const environment = isKycVerified ? "production" : "credentials";
+            const envConfig = admin?.[environment];
 
-  const handleDelete = async (id) => {
-    if (!confirm("Are you sure you want to delete this service?")) return;
-    try {
-      await axiosInstance.delete(`/admin/services/${id}`);
-      toast.success("Service deleted");
-      fetchServices();
-    } catch (error) {
-      toast.error("Failed to delete service");
-    }
-  };
+            if (!envConfig?.jwtSecret || !envConfig?.authKey) {
+                throw new Error("Missing JWT secret or auth key in environment config");
+            }
 
-  return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="bg-white rounded-xl shadow-lg p-6">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-blue-700">📦 Service Management</h2>
-          <Button onClick={openCreateModal}>+ Create Service</Button>
+            const payload = {
+                userId: admin._id,
+                email: admin.email,
+                role: admin.role,
+            };
+
+            const token = await generateToken(payload, envConfig.jwtSecret);
+
+            const res = await fetch(`http://localhost:5050/api/verify/${service.endpoint}`, {
+                method: "POST",
+                headers: {
+                    "client-id": envConfig.authKey,
+                    "authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.eEPP3eBPR7vZLoW4pzf4__GobwWiTPHuVCeQoWIAWeQ`,
+                    "x-env": environment,
+                },
+                body: formPayload,
+            });
+
+            const result = await res.json();
+            console.log("✅ API response received:", result);
+            setResponse(result);
+        } catch (err) {
+            console.error("❌ Submission error:", err);
+            setResponse({ error: "Something went wrong", details: err.message });
+        } finally {
+            setLoading(false);
+            console.log("⏹️ Form submission completed");
+        }
+    };
+
+    if (!service) return <p className="text-center mt-10">Loading service details...</p>;
+
+    return (
+        <div className="max-w-2xl mx-auto p-8 bg-white shadow-lg rounded-xl mt-10">
+            <h1 className="text-3xl font-bold text-center text-blue-700 mb-6">
+                {service.name} Verification
+            </h1>
+            <form onSubmit={handleSubmit} className="space-y-6">
+                {service.fields.map((field) => (
+                    <div key={field.name}>
+                        <label className="block text-gray-700 font-medium mb-2">
+                            {field.label}
+                            {field.required && <span className="text-red-500 ml-1">*</span>}
+                        </label>
+                        <input
+                            type={field.type || "text"}
+                            name={field.name}
+                            required={field.required}
+                            onChange={handleChange}
+                            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                    </div>
+                ))}
+                <button
+                    type="submit"
+                    className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+                >
+                    {loading ? "Processing..." : "Submit"}
+                </button>
+            </form>
+
+            {response && (
+                <div className="mt-8 p-6 bg-gray-50 border border-gray-200 rounded-lg">
+                    <h2 className="text-lg font-semibold text-gray-800 mb-2">Response</h2>
+                    <pre className="whitespace-pre-wrap text-gray-700 text-sm">
+                        {JSON.stringify(response, null, 2)}
+                    </pre>
+                </div>
+            )}
         </div>
-
-        {/* Search */}
-        <div className="mb-4 max-w-xs">
-          <Input
-            placeholder="🔍 Search service..."
-            value={search}
-            onChange={(e) => {
-              setPage(1);
-              setSearch(e.target.value);
-            }}
-          />
-        </div>
-
-        {/* Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700 border rounded-md">
-            <thead className="bg-blue-50 text-blue-700 uppercase text-xs">
-              <tr>
-                <th className="px-4 py-3">Name</th>
-                <th className="px-4 py-3">Charge (₹)</th>
-                <th className="px-4 py-3">Active Charge (₹)</th>
-                <th className="px-4 py-3">Description</th>
-                <th className="px-4 py-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {services.length === 0 ? (
-                <tr>
-                  <td colSpan={5} className="px-4 py-6 text-center text-gray-400">
-                    No services found.
-                  </td>
-                </tr>
-              ) : (
-                services.map((service) => (
-                  <tr
-                    key={service._id}
-                    className="bg-white border-b hover:bg-gray-50 transition-all"
-                  >
-                    <td className="px-4 py-3">{service.name}</td>
-                    <td className="px-4 py-3">₹{service.charge}</td>
-                    <td className="px-4 py-3">₹{service?.active_charge}</td>
-                    <td className="px-4 py-3 text-sm text-gray-600">
-                      {service?.descreption}
-                    </td>
-                    <td className="px-4 py-3 flex gap-2">
-                      <Button size="sm" onClick={() => openEditModal(service)}>
-                        Edit
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        onClick={() => handleDelete(service._id)}
-                      >
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Pagination */}
-        <div className="flex justify-between items-center mt-6">
-          <Button disabled={page === 1} onClick={() => setPage(page - 1)}>
-            Previous
-          </Button>
-          <span className="text-sm text-gray-600">
-            Page {page} of {totalPages}
-          </span>
-          <Button disabled={page === totalPages} onClick={() => setPage(page + 1)}>
-            Next
-          </Button>
-        </div>
-      </div>
-
-      {/* Modal */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{editingService ? "Edit Service" : "Create Service"}</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 py-2">
-            <div>
-              <Label>Name</Label>
-              <Input
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                placeholder="Service name"
-              />
-            </div>
-            <div>
-              <Label>Charge</Label>
-              <Input
-                type="number"
-                value={form.charge}
-                onChange={(e) => setForm({ ...form, charge: e.target.value })}
-                placeholder="Total charge"
-              />
-            </div>
-            <div>
-              <Label>Active Charge</Label>
-              <Input
-                type="number"
-                value={form.active_charge}
-                onChange={(e) =>
-                  setForm({ ...form, active_charge: e.target.value })
-                }
-                placeholder="Active charge"
-              />
-            </div>
-            <div>
-              <Label>Description</Label>
-              <Input
-                value={form.descreption}
-                onChange={(e) => setForm({ ...form, descreption: e.target.value })}
-                placeholder="Description"
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button onClick={handleSubmit}>{editingService ? "Update" : "Create"}</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </div>
-  );
+    );
 }
