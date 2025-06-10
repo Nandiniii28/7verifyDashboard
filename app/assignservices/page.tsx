@@ -9,6 +9,8 @@ import {
     Select, SelectContent, SelectItem, SelectTrigger, SelectValue
 } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { FiTool, FiCheck, FiPackage } from 'react-icons/fi';
+import './assignservices.css'; // External CSS file
 
 export default function AssignServicesPage() {
     const [users, setUsers] = useState([]);
@@ -75,17 +77,20 @@ export default function AssignServicesPage() {
     };
 
     return (
-        <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
-            <Card>
+        <div className="assign-services-container">
+            <Card className="services-card">
                 <CardHeader>
-                    <CardTitle className="text-xl">🛠 Assign Services</CardTitle>
+                    <CardTitle className="card-title">
+                        <FiTool className="icon-spacing" />
+                        Assign Services
+                    </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="card-content">
                     {/* Select User */}
-                    <div>
-                        <label className="block mb-1 font-medium">Select User</label>
+                    <div className="form-group">
+                        <label className="form-label">Select User</label>
                         <Select onValueChange={(val) => setSelectedUserId(val)}>
-                            <SelectTrigger className="w-full">
+                            <SelectTrigger className="select-input">
                                 <SelectValue placeholder="Choose a user" />
                             </SelectTrigger>
                             <SelectContent>
@@ -99,28 +104,38 @@ export default function AssignServicesPage() {
                     </div>
 
                     {/* Services */}
-                    <div>
-                        <label className="block mb-1 font-medium">Select Services</label>
-                        <div className="grid grid-cols-2 gap-2 max-h-64 overflow-y-auto border p-2 rounded-md">
+                    <div className="form-group">
+                        <label className="form-label">Select Services</label>
+                        <div className="services-grid">
                             {services.map((service) => (
-                                <label key={service._id} className="flex items-center space-x-2">
+                                <label key={service._id} className="service-item">
                                     <Checkbox
                                         checked={selectedServices.includes(service._id)}
                                         onCheckedChange={() => toggleService(service._id)}
                                     />
-                                    <span className="text-sm">{service.name}</span>
+                                    <span className="service-name">{service.name}</span>
                                 </label>
                             ))}
                         </div>
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex justify-end gap-4">
-                        <Button variant="outline" onClick={handleAssignAllServices}>
-                            📦 Assign All Services
+                    <div className="action-buttons">
+                        <Button 
+                            variant="outline" 
+                            onClick={handleAssignAllServices}
+                            className="assign-all-btn"
+                        >
+                            <FiPackage className="icon-spacing" />
+                            Assign All Services
                         </Button>
-                        <Button onClick={handleAssignSelectedServices} disabled={!selectedUserId || selectedServices.length === 0}>
-                            ✅ Assign Selected Services
+                        <Button 
+                            onClick={handleAssignSelectedServices} 
+                            disabled={!selectedUserId || selectedServices.length === 0}
+                            className="assign-selected-btn"
+                        >
+                            <FiCheck className="icon-spacing" />
+                            Assign Selected Services
                         </Button>
                     </div>
                 </CardContent>

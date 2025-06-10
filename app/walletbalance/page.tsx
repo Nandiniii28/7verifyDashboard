@@ -26,6 +26,112 @@ export default function WalletBalanceReportPage() {
     const [minWallet, setMinWallet] = useState("");
     const [maxWallet, setMaxWallet] = useState("");
 
+    // CSS styles as JavaScript objects
+    const styles = {
+        container: {
+            padding: "24px",
+            fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+            backgroundColor: "#f8fafc",
+            minHeight: "100vh"
+        },
+        header: {
+            fontSize: "24px",
+            fontWeight: 600,
+            color: "#1e293b",
+            marginBottom: "24px"
+        },
+        filterContainer: {
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+            gap: "16px",
+            marginBottom: "24px"
+        },
+        inputContainer: {
+            display: "flex",
+            gap: "12px"
+        },
+        buttonContainer: {
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "12px",
+            marginBottom: "24px"
+        },
+        tableContainer: {
+            border: "1px solid #e2e8f0",
+            borderRadius: "8px",
+            overflow: "hidden",
+            boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+            backgroundColor: "#fff",
+            marginBottom: "24px"
+        },
+        table: {
+            width: "100%",
+            borderCollapse: "collapse"
+        },
+        tableHeader: {
+            backgroundColor:"#eff6ff",
+            color: "#1d4ed8",
+            fontSize: "14px",
+            fontWeight: 600,
+            textAlign: "left"
+        },
+        tableHeaderCell: {
+            padding: "12px 16px",
+            borderBottom: "1px solid #e2e8f0"
+        },
+        tableRow: {
+            borderBottom: "1px solid #e2e8f0",
+            transition: "background-color 0.2s ease"
+        },
+        tableRowHover: {
+            backgroundColor: "#f3f4f6"
+        },
+        tableCell: {
+            padding: "12px 16px",
+            fontSize: "14px",
+            color: "#334155"
+        },
+        emptyState: {
+            padding: "24px",
+            textAlign: "center",
+            color: "#64748b"
+        },
+        pagination: {
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "16px 0"
+        },
+        paginationInfo: {
+            fontSize: "14px",
+            color: "#64748b"
+        },
+        viewLedgerButton: {
+            backgroundColor: "#10b981",
+            color: "#fff",
+            padding: "8px 12px",
+            borderRadius: "4px",
+            fontSize: "13px",
+            fontWeight: 500,
+            textDecoration: "none",
+            display: "inline-block"
+        },
+        walletAmount: {
+            fontWeight: 600,
+            color: "#16a34a"
+        },
+        secondaryButton: {
+            backgroundColor: "#e2e8f0",
+            color: "#334155",
+            cursor: "default",
+            padding: "10px 16px",
+            borderRadius: "6px",
+            fontSize: "14px",
+            fontWeight: 500,
+            border: "none"
+        }
+    };
+
     const fetchData = async (exportType = "") => {
         const params = new URLSearchParams();
         if (search) params.append("search", search);
@@ -36,37 +142,37 @@ export default function WalletBalanceReportPage() {
         params.append("limit", "10");
         if (exportType) params.append("export", exportType);
 
-        const url = `/admin/wallet-balance?${params.toString()}`;
-        const res = await axiosInstance.get(url);
-        console.log(res);
-
-        // if (!res.ok) return alert("Error fetching data");
-
-        if (exportType === "csv") {
-            const blob = await res.blob();
-            saveAs(blob, "wallet-report.csv");
-        } else if (exportType === "excel") {
-            const blob = await res.blob();
-            saveAs(blob, "wallet-report.xlsx");
-        } else {
-            setUsers(res.data.users);
-            setTotal(res.data.totalWalletBalance);
-            setTotalUsers(res.data.totalUsers);
-            setTotalPages(res.data.totalPages);
+        try {
+            const url = `/admin/wallet-balance?${params.toString()}`;
+            const res = await axiosInstance.get(url);
+            
+            if (exportType === "csv") {
+                const blob = new Blob([res.data], { type: "text/csv" });
+                saveAs(blob, "wallet-report.csv");
+            } else if (exportType === "excel") {
+                const blob = new Blob([res.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+                saveAs(blob, "wallet-report.xlsx");
+            } else {
+                setUsers(res.data.users);
+                setTotal(res.data.totalWalletBalance);
+                setTotalUsers(res.data.totalUsers);
+                setTotalPages(res.data.totalPages);
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
         }
     };
-
 
     useEffect(() => {
         fetchData();
     }, [page]);
 
     return (
-        <div className="p-6 space-y-6">
-            <h2 className="text-2xl font-semibold">Wallet Balance Report</h2>
+        <div style={styles.container}>
+            <h2 style={styles.header}>Wallet Balance Report</h2>
 
             {/* Filters */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div style={styles.filterContainer}>
                 <Input
                     placeholder="Search by name or email"
                     value={search}
@@ -82,7 +188,7 @@ export default function WalletBalanceReportPage() {
                         <SelectItem value="user">User</SelectItem>
                     </SelectContent>
                 </Select>
-                <div className="flex gap-2">
+                <div style={styles.inputContainer}>
                     <Input
                         placeholder="Min wallet"
                         type="number"
@@ -98,8 +204,8 @@ export default function WalletBalanceReportPage() {
                 </div>
             </div>
 
-            <div className="flex flex-wrap gap-4 mt-4">
-                <Button onClick={() => fetchData()} variant="default">
+            <div style={styles.buttonContainer}>
+                <Button onClick={() => fetchData()}>
                     Apply Filter
                 </Button>
 
@@ -111,52 +217,60 @@ export default function WalletBalanceReportPage() {
                     Export Excel
                 </Button>
 
-                <Button variant="secondary" disabled className="cursor-default bg-gray-400">
+                <button style={styles.secondaryButton}>
                     Total Users: {totalUsers}
-                </Button>
+                </button>
 
-                <Button variant="secondary" disabled className="cursor-default bg-gray-400">
-                    Total Wallet Balance:- ₹{total}
-                </Button>
+                <button style={styles.secondaryButton}>
+                    Total Wallet Balance: ₹{total}
+                </button>
             </div>
 
-
-
             {/* Table */}
-            <div className="border rounded-md mt-4">
-                <table className="min-w-full text-sm text-left">
-                    <thead className="bg-gray-100">
-                        <tr>
-                            <th className="p-2 border">S.NO.</th>
-                            <th className="p-2 border">Name</th>
-                            <th className="p-2 border">Email</th>
-                            <th className="p-2 border">Role</th>
-                            <th className="p-2 border">Wallet</th>
-                            <th className="p-2 border">Action</th>
+            <div style={styles.tableContainer}>
+                <table style={styles.table}>
+                    <thead>
+                        <tr style={styles.tableHeader}>
+                            <th style={styles.tableHeaderCell}>S.NO.</th>
+                            <th style={styles.tableHeaderCell}>Name</th>
+                            <th style={styles.tableHeaderCell}>Email</th>
+                            <th style={styles.tableHeaderCell}>Role</th>
+                            <th style={styles.tableHeaderCell}>Wallet</th>
+                            <th style={styles.tableHeaderCell}>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {users.length === 0 ? (
                             <tr>
-                                <td colSpan={4} className="p-4 text-center">
+                                <td colSpan={6} style={styles.emptyState}>
                                     No users found.
                                 </td>
                             </tr>
                         ) : (
                             users.map((user, index) => (
-                                <tr key={user._id}>
-                                    <td className="p-2 border">{index + 1}</td>
-                                    <td className="p-2 border">{user.name}</td>
-                                    <td className="p-2 border">{user.email}</td>
-                                    <td className="p-2 border capitalize">{user.role}</td>
-                                    <td className="p-2 border">₹{user.wallet}</td>
-                                    <td className="p-2 border">
-                                        <Button
+                                <tr 
+                                    key={user._id}
+                                    style={styles.tableRow}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.backgroundColor = styles.tableRowHover.backgroundColor;
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.backgroundColor = "";
+                                    }}
+                                >
+                                    <td style={styles.tableCell}>{index + 1}</td>
+                                    <td style={styles.tableCell}>{user.name}</td>
+                                    <td style={styles.tableCell}>{user.email}</td>
+                                    <td style={{...styles.tableCell, textTransform: "capitalize"}}>{user.role}</td>
+                                    <td style={{...styles.tableCell, ...styles.walletAmount}}>₹{user.wallet}</td>
+                                    <td style={styles.tableCell}>
+                                        <Link 
+                                            href={`userwalletreport/${user._id}`}
+                                            style={styles.viewLedgerButton}
                                         >
-                                            <Link href={`userwalletreport/${user._id}`}>
-                                                view ladger
-                                            </Link>
-                                        </Button></td>
+                                            View Ledger
+                                        </Link>
+                                    </td>
                                 </tr>
                             ))
                         )}
@@ -165,14 +279,14 @@ export default function WalletBalanceReportPage() {
             </div>
 
             {/* Pagination */}
-            <div className="flex justify-between items-center mt-4">
+            <div style={styles.pagination}>
                 <Button
                     disabled={page <= 1}
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
                 >
                     Previous
                 </Button>
-                <span>
+                <span style={styles.paginationInfo}>
                     Page {page} of {totalPages}
                 </span>
                 <Button

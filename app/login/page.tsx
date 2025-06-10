@@ -81,7 +81,7 @@ const LoginPage = () => {
   return (
     <div className="login-container">
       <div className="login-left">
-        <img src="/20824344_6343825.jpg" alt="Login Visual" />
+        <img src="/4957136_4957136.jpg" alt="Login Visual" />
       </div>
 
       <div className="login-right">
@@ -166,15 +166,7 @@ const LoginPage = () => {
 
           {!showLogin && (
             <form onSubmit={RegisterHandle} className="login-form">
-              <select
-                name="role"
-                value={form.role}
-                onChange={handleChange}
-                className="input-group select-role"
-              >
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-              </select>
+            
               <div className="input-group">
                 <FaUser />
                 <input

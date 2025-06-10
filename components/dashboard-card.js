@@ -178,7 +178,7 @@ const ProductTabs = () => {
                 ₹ {product.charge}
               </p>
               <button
-                className="w-full text-sm font-semibold py-2 rounded-md bg-blue-100 text-blue-600 hover:bg-blue-200"
+                className="w-32 text-sm  font-semibold py-2 rounded-md bg-blue-100 text-blue-600 hover:bg-blue-200"
                 onClick={() => handlePurchase(product._id)}
               >
                 Subscribe Now
