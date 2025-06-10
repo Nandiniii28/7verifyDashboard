@@ -9,50 +9,71 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAdminDetails, lsTokenData } from "@/app/redux/reducer/AdminSlice";
 import Image from "next/image";
 import logo from "@/public/verifyIcon.jpeg"
+import ServiceDynamicForm from "@/app/services/page";
 
-// Full navigation list
-const navigationItems = [
-  { id: "dashboard", label: "Products Catalogue", icon: "bi bi-grid-1x2-fill", href: "/" },
-  { id: "all-user-list", label: "All User List", icon: "bi bi-card-list", href: "/all-user-list" },
-  { id: "all-user-report", label: "All User Report", icon: "bi bi-people", href: "/all-user-report" },
-  { id: "KycRequest", label: "Kyc Request", icon: "bi bi-clipboard-check", href: "/kycrequest" },
-  { id: "vacations", label: "API Usage Report", icon: "bi bi-graph-up-arrow", href: "/usages" },
-  { id: "wallet-ledger", label: "Wallet Ledger", icon: "bi bi-code-square", href: "/wallet-ledger" },
-  { id: "WalletBalance", label: "Wallet Balance", icon: "bi bi-book", href: "/walletbalance" },
-  { id: "wallet-topup", label: "Wallet Topup", icon: "bi bi-wallet2", href: "/wallet-topup" },
-  { id: "services", label: "Service", icon: "bi bi-bag-check", href: "/services" },
-  { id: "projects", label: "My API", icon: "bi bi-code-square", href: "/api-catalogue" },
-  { id: "calendar", label: "Credentials", icon: "bi bi-shield-lock", href: "/credentials" },
-  { id: "info-portal", label: "Documentation", icon: "bi bi-book", href: "https://7uniqueverify-njzw.readme.io/reference/post_api-verify-bankverify#/" },
-  { id: "AssignServices", label: "Assign Services", icon: "bi bi-book", href: "/assignservices" },
-  { id: "contact", label: "Contact", icon: "bi bi-book", href: "/contact" },
-  { id: "blog", label: "Blogs", icon: "bi bi-book", href: "/blog" },
-];
 
-// Bottom items
-const bottomItems = [
-  { id: "settings", label: "Settings", icon: "bi bi-gear", href: "/settings" },
-  { id: "support", label: "Support", icon: "bi bi-question-circle", href: "/support" },
-];
-
-// Role-based nav access config
-const roleBasedAccess = {
-  user: ["dashboard", "wallet-ledger", "projects", "calendar", "vacations", "info-portal"],
-  admin: [
-    "dashboard", "projects", "calendar", "vacations", "info-portal",
-    "wallet-topup", "services", "all-user-report", "all-user-list", "KycRequest", "WalletBalance", "AssignServices", "contact", "blog"
-  ]
-};
 
 export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
   const { admin, token } = useSelector((state) => state.admin);
+
+  // Full navigation list
+  const navigationItems = [
+    { id: "dashboard", label: "Products Catalogue", icon: "bi bi-grid-1x2-fill", href: "/" },
+    { id: "all-user-list", label: "All User List", icon: "bi bi-card-list", href: "/all-user-list" },
+    { id: "all-user-report", label: "All User Report", icon: "bi bi-people", href: "/all-user-report" },
+    { id: "KycRequest", label: "Kyc Request", icon: "bi bi-clipboard-check", href: "/kycrequest" },
+    { id: "vacations", label: "API Usage Report", icon: "bi bi-graph-up-arrow", href: "/usages" },
+    { id: "wallet-ledger", label: "Wallet Ledger", icon: "bi bi-code-square", href: "/wallet-ledger" },
+    { id: "WalletBalance", label: "Wallet Balance", icon: "bi bi-book", href: "/walletbalance" },
+    { id: "wallet-topup", label: "Wallet Topup", icon: "bi bi-wallet2", href: "/wallet-topup" },
+    // { id: "services", label: "Service", icon: "bi bi-bag-check", href: "/services" },
+    {
+      id: "services",
+      label: "Services",
+      icon: "bi bi-bag-check",
+      children: admin?.services.map(data => (
+        { "id": data._id, "label": data.name, "data": data }
+      ))
+    },
+    { id: "projects", label: "My API", icon: "bi bi-code-square", href: "/api-catalogue" },
+    { id: "calendar", label: "Credentials", icon: "bi bi-shield-lock", href: "/credentials" },
+    { id: "info-portal", label: "Documentation", icon: "bi bi-book", href: "https://7uniqueverify-njzw.readme.io/reference/post_api-verify-bankverify#/" },
+    { id: "AssignServices", label: "Assign Services", icon: "bi bi-book", href: "/assignservices" },
+    { id: "contact", label: "Contact", icon: "bi bi-book", href: "/contact" },
+    { id: "blog", label: "Blogs", icon: "bi bi-book", href: "/blog" },
+  ];
+  // console.log(admin);
+const verifyData =()=>{
+  
+}
+  // Bottom items
+  const bottomItems = [
+    { id: "settings", label: "Settings", icon: "bi bi-gear", href: "/settings" },
+    { id: "support", label: "Support", icon: "bi bi-question-circle", href: "/support" },
+  ];
+
+  // Role-based nav access config
+  const roleBasedAccess = {
+    user: ["dashboard", "wallet-ledger", "projects", "calendar", "vacations", "info-portal", "services"],
+    admin: [
+      "dashboard", "projects", "calendar", "vacations", "info-portal",
+      "wallet-topup", "services", "all-user-report", "all-user-list", "KycRequest", "WalletBalance", "AssignServices", "contact", "blog"
+    ]
+  };
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
   const [navItems, setNavItems] = useState([]);
   const [bottomNavItems, setBottomNavItems] = useState([]);
   const isMobile = useIsMobile();
-console.log(admin);
+  const [openDropdownId, setOpenDropdownId] = useState(null);
+  const toggleDropdown = (id) => {
+    setOpenDropdownId((prev) => (prev === id ? null : id));
+  };
+  useEffect(() => {
+    if (!isOpen) setOpenDropdownId(null);
+  }, [isOpen]);
+
 
   useEffect(() => {
     dispatch(lsTokenData());
@@ -90,6 +111,7 @@ console.log(admin);
     if (onNavigate) onNavigate(item);
     if (isMobile && onToggle) onToggle(false);
   };
+
 
   const renderUserProfile = () => (
     <div className="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer">
@@ -186,21 +208,70 @@ console.log(admin);
         <div className="flex-1 overflow-y-auto">
           <div className={cn("py-6", isOpen ? "px-4" : "px-3")} style={{ height: "calc(100vh - 200px)" }}>
             <nav className="space-y-1">
-              {navItems.map((item) => (
-                <Link key={item.id} href={item.href} onClick={() => handleNavClick(item)}
-                  title={!isOpen ? item.label : undefined}
-                  className={cn("group flex items-center text-sm font-medium rounded-xl transition-all relative", isOpen ? "px-3 py-2" : "p-2 justify-center", item.isActive ? "bg-blue-50 text-blue-700 shadow-sm text-[12px]" : "text-gray-700 hover:bg-gray-50 hover:text-gray-900 text-[12px]")}
-                >
-                  <i className={cn(item.icon, "text-sm", isOpen ? "mr-3" : "", item.isActive ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600")} />
-                  {isOpen && (
-                    <>
-                      <span className="truncate">{item.label}</span>
-                      {item.isActive && <div className="ml-auto w-2 h-2 bg-blue-600 rounded-full" />}
-                    </>
-                  )}
-                  {item.isActive && !isOpen && <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-1 h-6 bg-blue-600 rounded-l-full" />}
-                </Link>
-              ))}
+              {navItems.map((item) =>
+                !item.children ? (
+                  <Link
+                    key={item.id}
+                    href={item.href}
+                    onClick={() => handleNavClick(item)}
+                    title={!isOpen ? item.label : undefined}
+                    className={cn(
+                      "group flex items-center text-sm font-medium rounded-xl transition-all relative",
+                      isOpen ? "px-3 py-2" : "p-2 justify-center",
+                      item.isActive ? "bg-blue-50 text-blue-700 shadow-sm text-[12px]" : "text-gray-700 hover:bg-gray-50 hover:text-gray-900 text-[12px]"
+                    )}
+                  >
+                    <i
+                      className={cn(
+                        item.icon,
+                        "text-sm",
+                        isOpen ? "mr-3" : "",
+                        item.isActive ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600"
+                      )}
+                    />
+                    {isOpen && (
+                      <>
+                        <span className="truncate">{item.label}</span>
+                        {item.isActive && <div className="ml-auto w-2 h-2 bg-blue-600 rounded-full" />}
+                      </>
+                    )}
+                    {item.isActive && !isOpen && (
+                      <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-1 h-6 bg-blue-600 rounded-l-full" />
+                    )}
+                  </Link>
+                ) : (
+                  <div key={item.id} className="relative">
+                    <div
+                      onClick={() => toggleDropdown(item.id)}
+                      className={cn(
+                        "flex items-center gap-2 cursor-pointer rounded-xl text-sm font-medium transition-all",
+                        isOpen ? "px-3 py-2" : "p-2 justify-center",
+                        item.id === openDropdownId ? "bg-blue-50 text-blue-700 shadow-sm" : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                      )}
+                    >
+                      <i className={cn(item.icon, isOpen ? "mr-3" : "", item.id === openDropdownId ? "text-blue-600" : "text-gray-400")} />
+                      {isOpen && <span className="flex-1 truncate">{item.label}</span>}
+                      {isOpen && <i className={cn("bi", openDropdownId === item.id ? "bi-chevron-up" : "bi-chevron-down", "text-xs ml-auto")} />}
+                    </div>
+
+                    {openDropdownId === item.id && isOpen && (
+                      <div className="ml-6 mt-1 space-y-1 transition-all">
+                        {item.children.map((child) => (
+                          <Link
+                            key={child.id}
+                            href={`/services?id=${child.id}`}
+                           
+                            className="block text-sm text-gray-700 hover:text-blue-600 hover:underline"
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )
+              )}
+
             </nav>
           </div>
         </div>
