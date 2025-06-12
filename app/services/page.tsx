@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import { SignJWT } from "jose";
 import { useSearchParams } from "next/navigation";
 import axiosInstance from "@/components/service/axiosInstance";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAdminDetails } from "../redux/reducer/AdminSlice";
+
 
 // Function to sign JWT with jose
 const generateToken = async (payload, secret) => {
@@ -20,6 +22,7 @@ export default function ServiceDynamicPage() {
     const searchParams = useSearchParams();
     const id = searchParams.get("id");
     const { admin } = useSelector((state) => state.admin);
+    const dispatch = useDispatch()
     const [service, setService] = useState(null);
     const [formData, setFormData] = useState({});
     const [response, setResponse] = useState(null);
@@ -48,11 +51,29 @@ export default function ServiceDynamicPage() {
         console.log("🔄 Form submission started");
 
         try {
-            const formPayload = new FormData();
-            service.fields.forEach((field) => {
-                formPayload.append(field.name, formData[field.name]);
-            });
+            const hasFile = service.fields.some((field) => field.type === "file");
 
+            let requestData;
+            let headers = {};
+
+            // Step 1: Prepare request payload
+            if (hasFile) {
+                const formPayload = new FormData();
+                service.fields.forEach((field) => {
+                    formPayload.append(field.name, formData[field.name]);
+                });
+                requestData = formPayload;
+                // ✅ DO NOT set Content-Type manually for FormData
+            } else {
+                const jsonPayload = {};
+                service.fields.forEach((field) => {
+                    jsonPayload[field.name] = formData[field.name];
+                });
+                requestData = JSON.stringify(jsonPayload);
+                headers["Content-Type"] = "application/json"; // ✅ Only for JSON
+            }
+
+            // Step 2: Determine environment
             const isKycVerified = admin?.documents?.isVerified;
             const environment = isKycVerified ? "production" : "credentials";
             const envConfig = admin?.[environment];
@@ -61,27 +82,34 @@ export default function ServiceDynamicPage() {
                 throw new Error("Missing JWT secret or auth key in environment config");
             }
 
-            const payload = {
+            // Step 3: Generate JWT token
+            const token = await generateToken({
                 userId: admin._id,
                 email: admin.email,
                 role: admin.role,
-            };
+            }, envConfig.jwtSecret);
 
-            const token = await generateToken(payload, envConfig.jwtSecret);
-
+            // Step 4: API call
             const res = await fetch(`http://localhost:5050/api/verify/${service.endpoint}`, {
                 method: "POST",
                 headers: {
+                    ...headers,
                     "client-id": envConfig.authKey,
-                    "authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.eEPP3eBPR7vZLoW4pzf4__GobwWiTPHuVCeQoWIAWeQ`,
+                    "authorization": `Bearer ${token}`,
                     "x-env": environment,
+                    // ❌ DO NOT manually set Content-Type for FormData
                 },
-                body: formPayload,
+                body: requestData,
             });
 
             const result = await res.json();
+            if (result.success) {
+                dispatch(fetchAdminDetails());
+            }
+
             console.log("✅ API response received:", result);
             setResponse(result);
+
         } catch (err) {
             console.error("❌ Submission error:", err);
             setResponse({ error: "Something went wrong", details: err.message });
@@ -90,6 +118,10 @@ export default function ServiceDynamicPage() {
             console.log("⏹️ Form submission completed");
         }
     };
+
+
+
+
 
     if (!service) return <p className="text-center mt-10">Loading service details...</p>;
 
