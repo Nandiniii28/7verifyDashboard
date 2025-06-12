@@ -70,98 +70,98 @@ export default function WalletBalanceReportPage() {
                     <FaWallet className="mr-2 text-lg text-blue-600" />
                     <h2 className="text-2xl font-semibold">Wallet Balance Report</h2>
                 </div>
-  <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
-  <button
-    onClick={() => fetchData()}
-    style={{
-      display: 'inline-flex',
-      alignItems: 'center',
-      borderRadius: '6px',
-      backgroundColor: '#2563eb',
-      padding: '8px 12px',
-      fontSize: '14px',
-      fontWeight: 500,
-      color: 'white',
-      boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-      cursor: 'pointer',
-      border: 'none',
-      outline: 'none',
-      transition: 'background-color 0.2s'
-    }}
-    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#1d4ed8'}
-    onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#2563eb'}
-    onFocus={(e) => {
-      e.currentTarget.style.backgroundColor = '#1d4ed8';
-      e.currentTarget.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.5)';
-    }}
-    onBlur={(e) => {
-      e.currentTarget.style.backgroundColor = '#2563eb';
-      e.currentTarget.style.boxShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.05)';
-    }}
-  >
-    Apply Filter
-  </button>
-  
-  <button
-    onClick={() => fetchData("csv")}
-    style={{
-      display: 'inline-flex',
-      alignItems: 'center',
-      borderRadius: '6px',
-      backgroundColor: '#eff6ff',
-      padding: '8px 12px',
-      fontSize: '14px',
-      fontWeight: 500,
-      color: '#1d4ed8',
-      border: '1px solid rgba(29, 78, 216, 0.1)',
-      outline: 'none',
-      cursor: 'pointer',
-      transition: 'background-color 0.2s'
-    }}
-    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#dbeafe'}
-    onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#eff6ff'}
-    onFocus={(e) => {
-      e.currentTarget.style.backgroundColor = '#dbeafe';
-      e.currentTarget.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.5)';
-    }}
-    onBlur={(e) => {
-      e.currentTarget.style.backgroundColor = '#eff6ff';
-      e.currentTarget.style.boxShadow = 'none';
-    }}
-  >
-    Expert CSV
-  </button>
-  
-  <button
-    onClick={() => fetchData("excel")}
-    style={{
-      display: 'inline-flex',
-      alignItems: 'center',
-      borderRadius: '6px',
-      backgroundColor: '#eff6ff',
-      padding: '8px 12px',
-      fontSize: '14px',
-      fontWeight: 500,
-      color: '#1d4ed8',
-      border: '1px solid rgba(29, 78, 216, 0.1)',
-      outline: 'none',
-      cursor: 'pointer',
-      transition: 'background-color 0.2s'
-    }}
-    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#dbeafe'}
-    onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#eff6ff'}
-    onFocus={(e) => {
-      e.currentTarget.style.backgroundColor = '#dbeafe';
-      e.currentTarget.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.5)';
-    }}
-    onBlur={(e) => {
-      e.currentTarget.style.backgroundColor = '#eff6ff';
-      e.currentTarget.style.boxShadow = 'none';
-    }}
-  >
-    Expert Excel
-  </button>
-</div>
+                <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
+                    <button
+                        onClick={() => fetchData()}
+                        style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            borderRadius: '6px',
+                            backgroundColor: '#2563eb',
+                            padding: '8px 12px',
+                            fontSize: '14px',
+                            fontWeight: 500,
+                            color: 'white',
+                            boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                            cursor: 'pointer',
+                            border: 'none',
+                            outline: 'none',
+                            transition: 'background-color 0.2s'
+                        }}
+                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#1d4ed8'}
+                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#2563eb'}
+                        onFocus={(e) => {
+                            e.currentTarget.style.backgroundColor = '#1d4ed8';
+                            e.currentTarget.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.5)';
+                        }}
+                        onBlur={(e) => {
+                            e.currentTarget.style.backgroundColor = '#2563eb';
+                            e.currentTarget.style.boxShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.05)';
+                        }}
+                    >
+                        Apply Filter
+                    </button>
+
+                    <button
+                        onClick={() => fetchData("csv")}
+                        style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            borderRadius: '6px',
+                            backgroundColor: '#eff6ff',
+                            padding: '8px 12px',
+                            fontSize: '14px',
+                            fontWeight: 500,
+                            color: '#1d4ed8',
+                            border: '1px solid rgba(29, 78, 216, 0.1)',
+                            outline: 'none',
+                            cursor: 'pointer',
+                            transition: 'background-color 0.2s'
+                        }}
+                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#dbeafe'}
+                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#eff6ff'}
+                        onFocus={(e) => {
+                            e.currentTarget.style.backgroundColor = '#dbeafe';
+                            e.currentTarget.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.5)';
+                        }}
+                        onBlur={(e) => {
+                            e.currentTarget.style.backgroundColor = '#eff6ff';
+                            e.currentTarget.style.boxShadow = 'none';
+                        }}
+                    >
+                        Expert CSV
+                    </button>
+
+                    <button
+                        onClick={() => fetchData("excel")}
+                        style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            borderRadius: '6px',
+                            backgroundColor: '#eff6ff',
+                            padding: '8px 12px',
+                            fontSize: '14px',
+                            fontWeight: 500,
+                            color: '#1d4ed8',
+                            border: '1px solid rgba(29, 78, 216, 0.1)',
+                            outline: 'none',
+                            cursor: 'pointer',
+                            transition: 'background-color 0.2s'
+                        }}
+                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#dbeafe'}
+                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#eff6ff'}
+                        onFocus={(e) => {
+                            e.currentTarget.style.backgroundColor = '#dbeafe';
+                            e.currentTarget.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.5)';
+                        }}
+                        onBlur={(e) => {
+                            e.currentTarget.style.backgroundColor = '#eff6ff';
+                            e.currentTarget.style.boxShadow = 'none';
+                        }}
+                    >
+                        Expert Excel
+                    </button>
+                </div>
             </div>
 
             {/* Filters */}
@@ -263,7 +263,7 @@ export default function WalletBalanceReportPage() {
                                     <td className="p-3 text-sm text-gray-700">{user.name}</td>
                                     <td className="p-3 text-sm text-gray-700">{user.email}</td>
                                     <td className="p-3 text-sm text-gray-700 capitalize">{user.role}</td>
-                                    <td className="p-3 text-sm font-semibold text-gray-700">₹{user.wallet}</td>
+                                    <td className="p-3 text-sm font-semibold text-gray-700">₹ {!user?.documents?.isVerify ? user?.wallet?.mode?.credentials : user?.wallet?.mode?.production || 0}</td>
                                     <td className="p-3">
                                         <Link
                                             href={`userwalletreport/${user._id}`}
