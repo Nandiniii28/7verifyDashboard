@@ -148,7 +148,7 @@ export default function Header({ isOpen, onToggle }) {
               <i className="bi bi-wallet2 text-blue-600 text-xl mr-3" />
               <div className="mr-4">
                 <p className="text-xs text-gray-500">Wallet Balance</p>
-                <p className="text-xs font-semibold text-gray-900">₹ {admin?.wallet}</p>
+                <p className="text-xs font-semibold text-gray-900">₹ {!admin?.documents.isVerify ? admin?.wallet?.mode?.credentials : admin?.wallet?.mode?.production || 0}</p>
               </div>
               {/* <button className="bg-blue-600 hover:bg-blue-700  text-xs font-medium px-3 py-1.5 rounded-lg">
 

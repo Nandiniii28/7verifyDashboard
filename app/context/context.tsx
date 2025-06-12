@@ -24,6 +24,7 @@ export const Context = ({ children }) => {
     const dispatch = useDispatch()
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [services, setServices] = useState([]);
+    const [totalPages, setTotalPages] = useState(1);
 
     const handleToggleSidebar = () => setSidebarOpen((prev) => !prev);
     const handleNavigate = (route: any) => console.log("Navigating to:");
@@ -33,10 +34,11 @@ export const Context = ({ children }) => {
 
 
     // get all Services
-    const allService = async () => {
+    const allService = async (page, limit, search, methodFilter, minCharge, maxCharge, activeOnly) => {
         try {
-            const res = await axiosInstance.get('/admin/services');
+            const res = await axiosInstance.get(`/admin/services?page=${page}&limit=${limit}&search=${search}&methodFilter=${methodFilter}&minCharge=${minCharge}&maxCharge=${maxCharge}&activeOnly=${activeOnly}`);
             setServices(res.data.services);
+            setTotalPages(res.data.totalPages);
         } catch (error) {
             console.log(error);
         }
@@ -59,7 +61,7 @@ export const Context = ({ children }) => {
 
     return (
 
-        <MainContext.Provider value={{ tostymsg, allService, services }}>
+        <MainContext.Provider value={{ tostymsg, allService, services, totalPages }}>
             <>
                 {
                     admin && pathname != "/login" ?
