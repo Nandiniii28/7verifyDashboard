@@ -8,17 +8,25 @@ import { FaTrash, FaEdit, FaPlus, FaMinus } from "react-icons/fa";
 import "./style.css";
 
 export default function APICataloguePage() {
-  const { tostymsg, allService, services } = useContext(MainContext);
+  const { tostymsg, allService, services, totalPages } = useContext(MainContext);
   const { admin } = useSelector((state) => state.admin);
   const [showModal, setShowModal] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [search, setSearch] = useState("");
+  const [methodFilter, setMethodFilter] = useState("");
+  const [minCharge, setMinCharge] = useState("");
+  const [maxCharge, setMaxCharge] = useState("");
+  const [activeOnly, setActiveOnly] = useState(false);
+
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
   const [formFields, setFormFields] = useState([
     {
       name: "",
       charge: "",
       active_charge: "",
-      description: "",
+      descreption: "",
       endpoint: "",
       method: "POST",
       fields: [{ label: "", name: "", type: "text", required: true }],
@@ -26,8 +34,9 @@ export default function APICataloguePage() {
   ]);
 
   useEffect(() => {
-    allService();
-  }, []);
+    allService(page, limit, search, methodFilter, minCharge, maxCharge, activeOnly);
+  }, [page, page, limit, search, methodFilter, minCharge, maxCharge, activeOnly]);
+
 
   const handleChange = (index, e) => {
     const updated = [...formFields];
@@ -50,7 +59,7 @@ export default function APICataloguePage() {
         name: "",
         charge: "",
         active_charge: "",
-        description: "",
+        descreption: "",
         endpoint: "",
         method: "POST",
         fields: [{ label: "", name: "", type: "text", required: true }],
@@ -90,7 +99,7 @@ export default function APICataloguePage() {
         name: api.name,
         charge: api.charge,
         active_charge: api.active_charge,
-        description: api.description,
+        descreption: api.descreption,
         endpoint: api.endpoint,
         method: api.method,
         fields: api.fields || [],
@@ -106,15 +115,17 @@ export default function APICataloguePage() {
         const res = await axiosInstance.put(`/admin/update-service/${editId}`, data);
         tostymsg(res.data.message, 1);
       } else {
-        const res = await axiosInstance.post("/admin/add-multiple-services", {
-          services: formFields,
+        const res = await axiosInstance.post("/admin/add-services", {
+          services: formFields[0],
         });
+
         tostymsg(res.data.message, 1);
+
       }
       setShowModal(false);
       setShowEdit(false);
       resetForm();
-      allService();
+      allService(page, limit, search, methodFilter, minCharge, maxCharge, activeOnly);
     } catch (error) {
       tostymsg(error.response?.data?.message || "Something went wrong", 0);
     }
@@ -126,7 +137,7 @@ export default function APICataloguePage() {
         name: "",
         charge: "",
         active_charge: "",
-        description: "",
+        descreption: "",
         endpoint: "",
         method: "POST",
         fields: [{ label: "", name: "", type: "text", required: true }],
@@ -165,11 +176,49 @@ export default function APICataloguePage() {
         )}
       </div>
 
+      {/* Filter Section */}
+      <div className="px-6 pt-4 pb-2 grid grid-cols-1 md:grid-cols-3 gap-4 bg-gray-50">
+        <input
+          type="text"
+          placeholder="Search by API name"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="p-2 border rounded w-full"
+        />
+        <select
+          value={methodFilter}
+          onChange={(e) => setMethodFilter(e.target.value)}
+          className="p-2 border rounded w-full"
+        >
+          <option value="">All Methods</option>
+          <option value="GET">GET</option>
+          <option value="POST">POST</option>
+          <option value="PUT">PUT</option>
+          <option value="DELETE">DELETE</option>
+        </select>
+
+        <input
+          type="number"
+          placeholder="Min Charge"
+          value={minCharge}
+          onChange={(e) => setMinCharge(e.target.value)}
+          className="p-2 border rounded w-full"
+        />
+        <input
+          type="number"
+          placeholder="Max Charge"
+          value={maxCharge}
+          onChange={(e) => setMaxCharge(e.target.value)}
+          className="p-2 border rounded w-full"
+        />
+      </div>
+
+
       <div className="overflow-x-auto">
         <table className="w-full divide-y divide-gray-200">
           <thead className="bg-blue-50">
             <tr>
-              {["API Name", "Method", "Endpoint", "Status", "Version", "Actions"].map((title) => (
+              {["API Name", "Method", "Charge", "Active Charge", "Endpoint", "Actions"].map((title) => (
                 <th key={title} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                   {title}
                 </th>
@@ -182,26 +231,19 @@ export default function APICataloguePage() {
                 <tr key={index} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">{api.name}</div>
-                    <div className="text-sm text-gray-500">{api.description}</div>
+                    <div className="text-sm text-gray-500">{api.descreption}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getMethodClass(api.method)}`}>
                       {api.method}
                     </span>
                   </td>
+                  <td className="px-6 py-4 font-mono text-sm text-gray-900">{api.charge}</td>
+                  <td className="px-6 py-4 font-mono text-sm text-gray-900">{api.active_charge}</td>
                   <td className="px-6 py-4 font-mono text-sm text-gray-900">{api.endpoint}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusClass(api.status)}`}>
-                      {api.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">{api.version}</td>
                   <td className="px-6 py-4 whitespace-nowrap flex gap-3 text-sm font-medium">
                     <button onClick={() => openEditModal(api)} className="text-blue-600 hover:text-blue-900">
                       <FaEdit className="w-4 h-4" />
-                    </button>
-                    <button className="text-red-600 hover:text-red-900">
-                      <FaTrash className="w-4 h-4" />
                     </button>
                   </td>
                 </tr>
@@ -217,84 +259,118 @@ export default function APICataloguePage() {
         </table>
       </div>
 
+      {/* Pagination */}
+      <div className="mt-4 flex justify-center items-center space-x-2">
+        <button
+          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+          disabled={page === 1}
+          className={`px-3 py-1 rounded-md text-sm font-medium ${page === 1 ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"
+            }`}
+        >
+          Previous
+        </button>
+
+
+        <button
+
+          onClick={() => setPage(page + 1)}
+          className={`px-3 py-1 rounded-md text-sm font-medium ${page === page + 1 ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
+        >
+          {page}
+        </button>
+
+        <button
+          onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={page === totalPages}
+          className={`px-3 py-1 rounded-md text-sm font-medium ${page === totalPages ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"
+            }`}
+        >
+          Next
+        </button>
+      </div>
+
+
       {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="absolute inset-0" onClick={() => setShowModal(false)}></div>
-          <div className="relative z-10 bg-white max-w-2xl p-6 rounded-lg shadow-xl w-full overflow-y-auto max-h-[90vh]">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-semibold">{showEdit ? "Edit API" : "Create API(s)"}</h3>
-              <button onClick={() => setShowModal(false)}>❌</button>
-            </div>
-
-            <form className="space-y-4" onSubmit={handleSubmit}>
-              {formFields.map((field, index) => (
-                <div key={index} className="space-y-2 border-b pb-4">
-                  <input type="text" name="name" placeholder="API Name" value={field.name} onChange={(e) => handleChange(index, e)} required className="w-full p-2 border rounded" />
-                  <input type="number" name="charge" placeholder="Charge" value={field.charge} onChange={(e) => handleChange(index, e)} required className="w-full p-2 border rounded" />
-                  <input type="number" name="active_charge" placeholder="Active Charge" value={field.active_charge} onChange={(e) => handleChange(index, e)} required className="w-full p-2 border rounded" />
-                  <textarea name="description" placeholder="Description" value={field.description} onChange={(e) => handleChange(index, e)} rows={2} className="w-full p-2 border rounded" />
-                  <input type="text" name="endpoint" placeholder="/api/endpoint" value={field.endpoint} onChange={(e) => handleChange(index, e)} required className="w-full p-2 border rounded" />
-                  <select name="method" value={field.method} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded">
-                    <option value="GET">GET</option>
-                    <option value="POST">POST</option>
-                    <option value="PUT">PUT</option>
-                    <option value="DELETE">DELETE</option>
-                  </select>
-
-                  <div className="mt-4">
-                    <h4 className="font-medium">Fields:</h4>
-                    {field.fields.map((f, i) => (
-                      <div key={i} className="grid grid-cols-2 gap-2 mb-2">
-                        <input type="text" name="label" placeholder="Label" value={f.label} onChange={(e) => handleFieldChange(index, i, e)} className="p-2 border rounded" />
-                        <input type="text" name="name" placeholder="Field Name" value={f.name} onChange={(e) => handleFieldChange(index, i, e)} className="p-2 border rounded" />
-                        <select name="type" value={f.type} onChange={(e) => handleFieldChange(index, i, e)} className="col-span-1 p-2 border rounded">
-                          <option value="text">Text</option>
-                          <option value="number">Number</option>
-                          <option value="file">File</option>
-                        </select>
-                        <label className="flex items-center gap-2">
-                          <input type="checkbox" name="required" checked={f.required} onChange={(e) => handleFieldChange(index, i, e)} />
-                          Required
-                        </label>
-                        {field.fields.length > 1 && (
-                          <button type="button" onClick={() => removeInputField(index, i)} className="col-span-2 text-red-600 text-sm flex items-center gap-1">
-                            <FaMinus /> Remove Field
-                          </button>
-                        )}
-                      </div>
-                    ))}
-                    <button type="button" onClick={() => addInputField(index)} className="text-blue-600 text-sm flex items-center gap-1 mt-2">
-                      <FaPlus /> Add Input Field
-                    </button>
-                  </div>
-
-                  {!showEdit && formFields.length > 1 && (
-                    <button type="button" onClick={() => removeField(index)} className="text-sm text-red-600 hover:underline mt-2 flex items-center gap-1">
-                      <FaMinus /> Remove API
-                    </button>
-                  )}
-                </div>
-              ))}
-
-              {!showEdit && (
-                <button type="button" onClick={addField} className="flex items-center gap-1 text-sm text-blue-600 hover:underline">
-                  <FaPlus /> Add Another API
-                </button>
-              )}
-
-              <div className="flex justify-end mt-4 gap-2">
-                <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 text-gray-700 border border-gray-300 rounded">
-                  Cancel
-                </button>
-                <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                  {showEdit ? "Update" : "Create"}
-                </button>
+      {
+        showModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+            <div className="absolute inset-0" onClick={() => setShowModal(false)}></div>
+            <div className="relative z-10 bg-white max-w-2xl p-6 rounded-lg shadow-xl w-full overflow-y-auto max-h-[90vh]">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-semibold">{showEdit ? "Edit API" : "Create API(s)"}</h3>
+                <button onClick={() => setShowModal(false)}>❌</button>
               </div>
-            </form>
+
+              <form className="space-y-4" onSubmit={handleSubmit}>
+                {formFields.map((field, index) => (
+                  <div key={index} className="space-y-2 border-b pb-4">
+                    <input type="text" name="name" placeholder="API Name" value={field.name} onChange={(e) => handleChange(index, e)} required className="w-full p-2 border rounded" />
+                    <input type="number" name="charge" placeholder="Charge" value={field.charge} onChange={(e) => handleChange(index, e)} required className="w-full p-2 border rounded" />
+                    <input type="number" name="active_charge" placeholder="Active Charge" value={field.active_charge} onChange={(e) => handleChange(index, e)} required className="w-full p-2 border rounded" />
+                    <textarea name="descreption" placeholder="descreption" value={field.descreption} onChange={(e) => handleChange(index, e)} rows={2} className="w-full p-2 border rounded" />
+                    <input type="text" name="endpoint" placeholder="/api/endpoint" value={field.endpoint} onChange={(e) => handleChange(index, e)} required className="w-full p-2 border rounded" />
+                    <select name="method" value={field.method} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded">
+                      <option value="GET">GET</option>
+                      <option value="POST">POST</option>
+                      <option value="PUT">PUT</option>
+                      <option value="DELETE">DELETE</option>
+                    </select>
+
+                    <div className="mt-4">
+                      <h4 className="font-medium">Fields:</h4>
+                      {field.fields.map((f, i) => (
+                        <div key={i} className="grid grid-cols-2 gap-2 mb-2">
+                          <input type="text" name="label" placeholder="Label" value={f.label} onChange={(e) => handleFieldChange(index, i, e)} className="p-2 border rounded" />
+                          <input type="text" name="name" placeholder="Field Name" value={f.name} onChange={(e) => handleFieldChange(index, i, e)} className="p-2 border rounded" />
+                          <select name="type" value={f.type} onChange={(e) => handleFieldChange(index, i, e)} className="col-span-1 p-2 border rounded">
+                            <option value="text">Text</option>
+                            <option value="number">Number</option>
+                            <option value="file">File</option>
+                          </select>
+                          <label className="flex items-center gap-2">
+                            <input type="checkbox" name="required" checked={f.required} onChange={(e) => handleFieldChange(index, i, e)} />
+                            Required
+                          </label>
+                          {field.fields.length > 1 && (
+                            <button type="button" onClick={() => removeInputField(index, i)} className="col-span-2 text-red-600 text-sm flex items-center gap-1">
+                              <FaMinus /> Remove Field
+                            </button>
+                          )}
+                        </div>
+                      ))}
+                      <button type="button" onClick={() => addInputField(index)} className="text-blue-600 text-sm flex items-center gap-1 mt-2">
+                        <FaPlus /> Add Input Field
+                      </button>
+                    </div>
+
+                    {!showEdit && formFields.length > 1 && (
+                      <button type="button" onClick={() => removeField(index)} className="text-sm text-red-600 hover:underline mt-2 flex items-center gap-1">
+                        <FaMinus /> Remove API
+                      </button>
+                    )}
+                  </div>
+                ))}
+
+                {!showEdit && (
+                  <button type="button" onClick={addField} className="flex items-center gap-1 text-sm text-blue-600 hover:underline">
+                    <FaPlus /> Add Another API
+                  </button>
+                )}
+
+                <div className="flex justify-end mt-4 gap-2">
+                  <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 text-gray-700 border border-gray-300 rounded">
+                    Cancel
+                  </button>
+                  <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    {showEdit ? "Update" : "Create"}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )
+      }
+    </div >
   );
 }
