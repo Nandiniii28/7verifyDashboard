@@ -6,7 +6,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "react-toastify";
-import { FiBarChart2 } from "react-icons/fi";
+import { FaUserGroup } from "react-icons/fa6";
 
 import "./all-user-report.css"; // import CSS file
 
@@ -78,115 +78,118 @@ export default function AllUserReportPage() {
   }, [search, serviceFilter, page]);
 
   return (
-    <div className="page-container">
-      <div className="card">
-        <div className="header-row">
-          <h2 className="title">
-            <FiBarChart2 className="icon" size={28} />
-            All User Report
-          </h2>
-          <div className="controls">
-            <Input
-              placeholder="Search name/email"
-              value={search}
-              onChange={(e) => {
-                setPage(1);
-                setSearch(e.target.value);
-              }}
-              className="input-small"
-            />
-            <Input
-              placeholder="Filter by service"
-              value={serviceFilter}
-              onChange={(e) => {
-                setPage(1);
-                setServiceFilter(e.target.value);
-              }}
-              className="input-small"
-            />
-            <Button
-              variant="outline"
-              onClick={() => handleExport("csv")}
-              className="btn-export btn-csv"
-            >
-              Export CSV
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => handleExport("excel")}
-              className="btn-export btn-excel"
-            >
-              Export Excel
-            </Button>
-          </div>
-        </div>
+    <>
+      <h4 className="title padding: 16px 32px; ">
+        <FaUserGroup  className="icon" size={28} />
+        All User Report
+      </h4>
+      <div className="page-container">
+        <div className="card">
+          <div className="header-row flex justify-between items-center">
+            <div className="controls flex gap-4">
+              <Input
+                placeholder="Search name/email"
+                value={search}
+                onChange={(e) => {
+                  setPage(1);
+                  setSearch(e.target.value);
+                }}
+                className="input-small"
+              />
+              <Input
+                placeholder="Filter by service"
+                value={serviceFilter}
+                onChange={(e) => {
+                  setPage(1);
+                  setServiceFilter(e.target.value);
+                }}
+                className="input-small"
+              />
+            </div>
 
-        {/* Error message */}
-        {error && (
-          <div className="error-message">
-            {error}
+            <div className="export-buttons flex gap-2">
+              <button
+                onClick={() => handleExport("csv")}
+                className="inline-flex items-center bg-blue-100 px-3 py-2 text-xs font-medium text-blue-800 hover:bg-blue-200 cursor-pointer rounded"
+              >
+                Export CSV
+              </button>
+              <button
+                onClick={() => handleExport("csv")}
+                className="inline-flex items-center bg-green-100 px-3 py-2 text-xs font-medium text-green-800 hover:bg-green-200 cursor-pointer rounded"
+              >
+                Export Excel
+              </button>
+            </div>
           </div>
-        )}
 
-        {/* Table */}
-        <div className="table-container">
-          {loading ? (
-            <div className="loading-text">Loading...</div>
-          ) : users.length === 0 ? (
-            <div className="loading-text">No users found.</div>
-          ) : (
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Service</th>
-                  <th>Hit Count</th>
-                  <th>Total Charges</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user) =>
-                  user.serviceUsage.map((service, index) => (
-                    <tr key={`${user._id}-${index}`}>
-                      <td>{user.name}</td>
-                      <td className="text-muted">{user.email}</td>
-                      <td>{service.service}</td>
-                      <td className="text-green">{service.hitCount}</td>
-                      <td>₹ {service.totalCharge?.toFixed(2)}</td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+          {/* Error message */}
+          {error && (
+            <div className="error-message">
+              {error}
+            </div>
+          )}
+
+          {/* Table */}
+          <div className="table-container">
+            {loading ? (
+              <div className="loading-text">Loading...</div>
+            ) : users.length === 0 ? (
+              <div className="loading-text">No users found.</div>
+            ) : (
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Service</th>
+                    <th>Hit Count</th>
+                    <th>Total Charges</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map((user) =>
+                    user.serviceUsage.map((service, index) => (
+                      <tr key={`${user._id}-${index}`}>
+                        <td>{user.name}</td>
+                        <td className="text-muted">{user.email}</td>
+                        <td>{service.service}</td>
+                        <td className="text-green">{service.hitCount}</td>
+                        <td>₹ {service.totalCharge?.toFixed(2)}</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            )}
+          </div>
+
+          {/* Pagination */}
+          {!loading && totalPages > 1 && (
+            <div className="pagination">
+              <Button
+                disabled={page === 1}
+                onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                variant="outline"
+                className="btn-pagination"
+              >
+                Previous
+              </Button>
+              <span className="page-info">
+                Page {page} of {totalPages}
+              </span>
+              <Button
+                disabled={page === totalPages}
+                onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+                variant="outline"
+                className="btn-pagination"
+              >
+                Next
+              </Button>
+            </div>
           )}
         </div>
-
-        {/* Pagination */}
-        {!loading && totalPages > 1 && (
-          <div className="pagination">
-            <Button
-              disabled={page === 1}
-              onClick={() => setPage((p) => Math.max(p - 1, 1))}
-              variant="outline"
-              className="btn-pagination"
-            >
-              Previous
-            </Button>
-            <span className="page-info">
-              Page {page} of {totalPages}
-            </span>
-            <Button
-              disabled={page === totalPages}
-              onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
-              variant="outline"
-              className="btn-pagination"
-            >
-              Next
-            </Button>
-          </div>
-        )}
       </div>
-    </div>
+    </>
   );
 }
