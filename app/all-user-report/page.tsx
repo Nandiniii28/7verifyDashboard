@@ -138,6 +138,7 @@ export default function AllUserReportPage() {
               <div className="loading-text">No users found.</div>
             ) : (
               <table className="data-table">
+                
                 <thead>
                   <tr>
                     <th>Name</th>
