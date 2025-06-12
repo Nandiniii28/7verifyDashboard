@@ -80,7 +80,7 @@ export default function AllUserReportPage() {
   return (
     <>
       <h4 className="title padding: 16px 32px; ">
-        <FaUserGroup  className="icon" size={28} />
+        <FaUserGroup className="icon" size={28} />
         All User Report
       </h4>
       <div className="page-container">
@@ -138,7 +138,7 @@ export default function AllUserReportPage() {
               <div className="loading-text">No users found.</div>
             ) : (
               <table className="data-table">
-                
+
                 <thead>
                   <tr>
                     <th>Name</th>

@@ -335,7 +335,7 @@ export default function KycRequestPage() {
                     {/* Search */}
                     <div className="space-y-2">
                         <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                            <FiSearch /> Search
+                         Search
                         </label>
                         <Input
                             placeholder="Name or email"
@@ -350,7 +350,7 @@ export default function KycRequestPage() {
                     {/* Role */}
                     <div className="space-y-2">
                         <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                            <FiUser /> Role
+                             Role
                         </label>
                         <Select
                             value={filters.role}
@@ -373,7 +373,7 @@ export default function KycRequestPage() {
                     {/* Date Range */}
                     <div className="space-y-2">
                         <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                            <FiCalendar /> Start Date
+                           Start Date
                         </label>
                         <Input
                             type="date"
@@ -387,7 +387,7 @@ export default function KycRequestPage() {
 
                     <div className="space-y-2">
                         <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                            <FiCalendar /> End Date
+                            End Date
                         </label>
                         <Input
                             type="date"
