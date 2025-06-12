@@ -19,8 +19,8 @@ export default function Header({ isOpen, onToggle }) {
   const [showProfile, setShowProfile] = useState(false);
   const isMobile = useIsMobile();
   const dispatch = useDispatch()
-  const { admin } = useSelector(state => state.admin)
-
+  const { adminData } = useSelector(state => state.admin)
+  const admin = JSON.stringify(adminData)
   const [environment, setEnvironment] = useState("uat");
   const [showUATModal, setShowUATModal] = useState(false);
 
@@ -272,9 +272,9 @@ export default function Header({ isOpen, onToggle }) {
                         <span className="text-white font-semibold">{admin?.email.charAt(0).toUpperCase()}</span>
                       </div>
                       <div>
-                        <p className="font-semibold text-gray-900">{admin.name}</p>
+                        <p className="font-semibold text-gray-900">{admin?.name}</p>
                         <p className="text-sm text-gray-500">
-                          {admin.email}
+                          {admin?.email}
                         </p>
                       </div>
                     </div>

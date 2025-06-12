@@ -1,16 +1,21 @@
 /* WalletTopupForm.css */
 
 .container {
-  max-width: 720px;
-  margin: 40px auto;
+  max-width: 650px;
   padding: 0 16px;
   font-family: Arial, sans-serif;
+  align-items: center;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .card {
   background-color: #ffffff;
   border-radius: 16px;
   padding: 40px;
+  margin-top: 8rem;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
   border: 1px solid #e5e7eb;
 }
@@ -24,12 +29,14 @@
   font-weight: 600;
   margin-bottom: 20px;
   color: #2f84c9;
+  justify-content: left;
+
 }
 
 .form-label {
   display: block;
   margin-bottom: 6px;
-  font-weight: 600;
+  text-align: left;
   color: #374151;
   font-size: 14px;
 }
@@ -44,32 +51,44 @@
   transition: border 0.2s ease, box-shadow 0.2s ease;
   box-sizing: border-box;
 }
-
-.form-input:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
-}
-
 .submit-btn {
-  width: auto;             
-  min-width: 120px;       
-  padding: 6px 14px;        
-  background-color: #2f84c9;      
+  width: auto;
+  min-width: 120px;
+  background-color: #2f84c9;
   color: white;
   font-weight: 600;
   font-size: 14px;
   border: none;
-  border-radius: 8px;
+  border-radius: 20px;
   cursor: pointer;
-  display: inline-flex;      /* inline-flex so width fits content */
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  margin-top: 10px;
-
-  /* center horizontally */
+  margin-top: 28px;
   margin-left: auto;
   margin-right: auto;
   transition: background-color 0.2s ease;
 }
 
+/* try */
+.topup-form {
+  display: flex;
+  flex-direction: column;
+ 
+}
+
+.grid-row {
+  display: flex;
+  gap: 20px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+
+}
+
+.amount-1 {
+  min-width: 250px;
+}

@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { saveAs } from "file-saver";
 import axiosInstance from "@/components/service/axiosInstance";
 import Link from "next/link";
+import { FaWallet } from "react-icons/fa";
 
 export default function WalletBalanceReportPage() {
     const [users, setUsers] = useState([]);
@@ -25,112 +26,6 @@ export default function WalletBalanceReportPage() {
     const [role, setRole] = useState("all");
     const [minWallet, setMinWallet] = useState("");
     const [maxWallet, setMaxWallet] = useState("");
-
-    // CSS styles as JavaScript objects
-    const styles = {
-        container: {
-            padding: "24px",
-            fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-            backgroundColor: "#f8fafc",
-            minHeight: "100vh"
-        },
-        header: {
-            fontSize: "24px",
-            fontWeight: 600,
-            color: "#1e293b",
-            marginBottom: "24px"
-        },
-        filterContainer: {
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-            gap: "16px",
-            marginBottom: "24px"
-        },
-        inputContainer: {
-            display: "flex",
-            gap: "12px"
-        },
-        buttonContainer: {
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "12px",
-            marginBottom: "24px"
-        },
-        tableContainer: {
-            border: "1px solid #e2e8f0",
-            borderRadius: "8px",
-            overflow: "hidden",
-            boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-            backgroundColor: "#fff",
-            marginBottom: "24px"
-        },
-        table: {
-            width: "100%",
-            borderCollapse: "collapse"
-        },
-        tableHeader: {
-            backgroundColor:"#eff6ff",
-            color: "#1d4ed8",
-            fontSize: "14px",
-            fontWeight: 600,
-            textAlign: "left"
-        },
-        tableHeaderCell: {
-            padding: "12px 16px",
-            borderBottom: "1px solid #e2e8f0"
-        },
-        tableRow: {
-            borderBottom: "1px solid #e2e8f0",
-            transition: "background-color 0.2s ease"
-        },
-        tableRowHover: {
-            backgroundColor: "#f3f4f6"
-        },
-        tableCell: {
-            padding: "12px 16px",
-            fontSize: "14px",
-            color: "#334155"
-        },
-        emptyState: {
-            padding: "24px",
-            textAlign: "center",
-            color: "#64748b"
-        },
-        pagination: {
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "16px 0"
-        },
-        paginationInfo: {
-            fontSize: "14px",
-            color: "#64748b"
-        },
-        viewLedgerButton: {
-            backgroundColor: "#10b981",
-            color: "#fff",
-            padding: "8px 12px",
-            borderRadius: "4px",
-            fontSize: "13px",
-            fontWeight: 500,
-            textDecoration: "none",
-            display: "inline-block"
-        },
-        walletAmount: {
-            fontWeight: 600,
-            color: "#16a34a"
-        },
-        secondaryButton: {
-            backgroundColor: "#e2e8f0",
-            color: "#334155",
-            cursor: "default",
-            padding: "10px 16px",
-            borderRadius: "6px",
-            fontSize: "14px",
-            fontWeight: 500,
-            border: "none"
-        }
-    };
 
     const fetchData = async (exportType = "") => {
         const params = new URLSearchParams();
@@ -145,7 +40,7 @@ export default function WalletBalanceReportPage() {
         try {
             const url = `/admin/wallet-balance?${params.toString()}`;
             const res = await axiosInstance.get(url);
-            
+
             if (exportType === "csv") {
                 const blob = new Blob([res.data], { type: "text/csv" });
                 saveAs(blob, "wallet-report.csv");
@@ -168,105 +63,211 @@ export default function WalletBalanceReportPage() {
     }, [page]);
 
     return (
-        <div style={styles.container}>
-            <h2 style={styles.header}>Wallet Balance Report</h2>
+        <div className="p-6 font-sans bg-gray-50 min-h-screen">
+            {/* Header */}
+            <div className="flex items-center text-blue-600 mb-6">
+                <div className="flex items-center">
+                    <FaWallet className="mr-2 text-lg text-blue-600" />
+                    <h2 className="text-2xl font-semibold">Wallet Balance Report</h2>
+                </div>
+  <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
+  <button
+    onClick={() => fetchData()}
+    style={{
+      display: 'inline-flex',
+      alignItems: 'center',
+      borderRadius: '6px',
+      backgroundColor: '#2563eb',
+      padding: '8px 12px',
+      fontSize: '14px',
+      fontWeight: 500,
+      color: 'white',
+      boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+      cursor: 'pointer',
+      border: 'none',
+      outline: 'none',
+      transition: 'background-color 0.2s'
+    }}
+    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#1d4ed8'}
+    onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#2563eb'}
+    onFocus={(e) => {
+      e.currentTarget.style.backgroundColor = '#1d4ed8';
+      e.currentTarget.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.5)';
+    }}
+    onBlur={(e) => {
+      e.currentTarget.style.backgroundColor = '#2563eb';
+      e.currentTarget.style.boxShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.05)';
+    }}
+  >
+    Apply Filter
+  </button>
+  
+  <button
+    onClick={() => fetchData("csv")}
+    style={{
+      display: 'inline-flex',
+      alignItems: 'center',
+      borderRadius: '6px',
+      backgroundColor: '#eff6ff',
+      padding: '8px 12px',
+      fontSize: '14px',
+      fontWeight: 500,
+      color: '#1d4ed8',
+      border: '1px solid rgba(29, 78, 216, 0.1)',
+      outline: 'none',
+      cursor: 'pointer',
+      transition: 'background-color 0.2s'
+    }}
+    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#dbeafe'}
+    onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#eff6ff'}
+    onFocus={(e) => {
+      e.currentTarget.style.backgroundColor = '#dbeafe';
+      e.currentTarget.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.5)';
+    }}
+    onBlur={(e) => {
+      e.currentTarget.style.backgroundColor = '#eff6ff';
+      e.currentTarget.style.boxShadow = 'none';
+    }}
+  >
+    Expert CSV
+  </button>
+  
+  <button
+    onClick={() => fetchData("excel")}
+    style={{
+      display: 'inline-flex',
+      alignItems: 'center',
+      borderRadius: '6px',
+      backgroundColor: '#eff6ff',
+      padding: '8px 12px',
+      fontSize: '14px',
+      fontWeight: 500,
+      color: '#1d4ed8',
+      border: '1px solid rgba(29, 78, 216, 0.1)',
+      outline: 'none',
+      cursor: 'pointer',
+      transition: 'background-color 0.2s'
+    }}
+    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#dbeafe'}
+    onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#eff6ff'}
+    onFocus={(e) => {
+      e.currentTarget.style.backgroundColor = '#dbeafe';
+      e.currentTarget.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.5)';
+    }}
+    onBlur={(e) => {
+      e.currentTarget.style.backgroundColor = '#eff6ff';
+      e.currentTarget.style.boxShadow = 'none';
+    }}
+  >
+    Expert Excel
+  </button>
+</div>
+            </div>
 
             {/* Filters */}
-            <div style={styles.filterContainer}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px', width: '100%' }}>
                 <Input
                     placeholder="Search by name or email"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
+                    style={{ flex: 1, width: '100%' }}
                 />
-                <Select value={role} onValueChange={setRole}>
-                    <SelectTrigger>
-                        <SelectValue placeholder="Select role" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="all">All</SelectItem>
-                        <SelectItem value="admin">Admin</SelectItem>
-                        <SelectItem value="user">User</SelectItem>
-                    </SelectContent>
-                </Select>
-                <div style={styles.inputContainer}>
-                    <Input
-                        placeholder="Min wallet"
-                        type="number"
-                        value={minWallet}
-                        onChange={(e) => setMinWallet(e.target.value)}
-                    />
-                    <Input
-                        placeholder="Max wallet"
-                        type="number"
-                        value={maxWallet}
-                        onChange={(e) => setMaxWallet(e.target.value)}
-                    />
+
+                <div style={{ flex: 1, width: '100%' }}>
+                    <Select value={role} onValueChange={setRole}>
+                        <SelectTrigger style={{ width: '100%' }}>
+                            <SelectValue placeholder="Select role" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">All</SelectItem>
+                            <SelectItem value="admin">Admin</SelectItem>
+                            <SelectItem value="user">User</SelectItem>
+                        </SelectContent>
+                    </Select>
                 </div>
             </div>
 
-            <div style={styles.buttonContainer}>
-                <Button onClick={() => fetchData()}>
-                    Apply Filter
-                </Button>
+            {/* Stats */}
+            <div className="flex gap-2 justify-end mb-6">
+                <div className="flex gap-2">
+                    <Input
+                        placeholder="Min ₹"
+                        type="number"
+                        value={minWallet}
+                        onChange={(e) => setMinWallet(e.target.value)}
+                        className="w-24"
+                    />
+                    <Input
+                        placeholder="Max ₹"
+                        type="number"
+                        value={maxWallet}
+                        onChange={(e) => setMaxWallet(e.target.value)}
+                        className="w-24"
+                    />
+                </div>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    width: '100%',
+                    gap: '16px',
 
-                <Button variant="outline" onClick={() => fetchData("csv")}>
-                    Export CSV
-                </Button>
-
-                <Button variant="outline" onClick={() => fetchData("excel")}>
-                    Export Excel
-                </Button>
-
-                <button style={styles.secondaryButton}>
-                    Total Users: {totalUsers}
-                </button>
-
-                <button style={styles.secondaryButton}>
-                    Total Wallet Balance: ₹{total}
-                </button>
+                }}>
+                    <span style={{
+                        padding: '8px 12px',
+                        fontSize: '14px',
+                        borderRadius: '6px',
+                        border: '1px solid #d1d5db',
+                        backgroundColor: 'white'
+                    }}>
+                        Total Users: {totalUsers}
+                    </span>
+                    <span style={{
+                        padding: '8px 12px',
+                        fontSize: '14px',
+                        borderRadius: '6px',
+                        border: '1px solid #d1d5db',
+                        backgroundColor: 'white'
+                    }}>
+                        Total: ₹{total}
+                    </span>
+                </div>
             </div>
 
             {/* Table */}
-            <div style={styles.tableContainer}>
-                <table style={styles.table}>
+            <div className="border border-gray-200 rounded-lg overflow-hidden shadow-sm bg-white mb-6">
+                <table className="w-full border-collapse">
                     <thead>
-                        <tr style={styles.tableHeader}>
-                            <th style={styles.tableHeaderCell}>S.NO.</th>
-                            <th style={styles.tableHeaderCell}>Name</th>
-                            <th style={styles.tableHeaderCell}>Email</th>
-                            <th style={styles.tableHeaderCell}>Role</th>
-                            <th style={styles.tableHeaderCell}>Wallet</th>
-                            <th style={styles.tableHeaderCell}>Action</th>
+                        <tr className="bg-blue-50 text-blue-800 text-sm font-semibold text-left">
+                            <th className="p-3 border-b border-gray-200">S.NO.</th>
+                            <th className="p-3 border-b border-gray-200">Name</th>
+                            <th className="p-3 border-b border-gray-200">Email</th>
+                            <th className="p-3 border-b border-gray-200">Role</th>
+                            <th className="p-3 border-b border-gray-200">Wallet</th>
+                            <th className="p-3 border-b border-gray-200">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {users.length === 0 ? (
                             <tr>
-                                <td colSpan={6} style={styles.emptyState}>
+                                <td colSpan={6} className="p-6 text-center text-gray-500">
                                     No users found.
                                 </td>
                             </tr>
                         ) : (
                             users.map((user, index) => (
-                                <tr 
+                                <tr
                                     key={user._id}
-                                    style={styles.tableRow}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.backgroundColor = styles.tableRowHover.backgroundColor;
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.backgroundColor = "";
-                                    }}
+                                    className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
                                 >
-                                    <td style={styles.tableCell}>{index + 1}</td>
-                                    <td style={styles.tableCell}>{user.name}</td>
-                                    <td style={styles.tableCell}>{user.email}</td>
-                                    <td style={{...styles.tableCell, textTransform: "capitalize"}}>{user.role}</td>
-                                    <td style={{...styles.tableCell, ...styles.walletAmount}}>₹{user.wallet}</td>
-                                    <td style={styles.tableCell}>
-                                        <Link 
+                                    <td className="p-3 text-sm text-gray-700">{index + 1}</td>
+                                    <td className="p-3 text-sm text-gray-700">{user.name}</td>
+                                    <td className="p-3 text-sm text-gray-700">{user.email}</td>
+                                    <td className="p-3 text-sm text-gray-700 capitalize">{user.role}</td>
+                                    <td className="p-3 text-sm font-semibold text-gray-700">₹{user.wallet}</td>
+                                    <td className="p-3">
+                                        <Link
                                             href={`userwalletreport/${user._id}`}
-                                            style={styles.viewLedgerButton}
+                                            className="bg-blue-500 text-black px-3 py-2 rounded text-xs font-medium inline-block hover:bg-green-600 transition-colors"
                                         >
                                             View Ledger
                                         </Link>
@@ -279,14 +280,14 @@ export default function WalletBalanceReportPage() {
             </div>
 
             {/* Pagination */}
-            <div style={styles.pagination}>
+            <div className="flex justify-between items-center py-4">
                 <Button
                     disabled={page <= 1}
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
                 >
                     Previous
                 </Button>
-                <span style={styles.paginationInfo}>
+                <span className="text-sm text-gray-500">
                     Page {page} of {totalPages}
                 </span>
                 <Button

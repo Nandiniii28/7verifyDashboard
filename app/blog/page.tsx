@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "@/components/service/axiosInstance";
 import { Button } from "@/components/ui/button";
+import { GrBlog } from "react-icons/gr";
+
 import {
     Dialog,
     DialogContent,
@@ -101,7 +103,9 @@ export default function AdminBlogManagementPage() {
                     <h2 className="admin-title">
                         <FaBlog className="icon" /> Blog Management
                     </h2>
-                    <Button onClick={() => setDialogOpen(true)}>+ Create Blog</Button>
+                    <Button onClick={() => setDialogOpen(true)}>
+                        {/* <GrBlog /> */}
+                        + Create Blog</Button> 
                 </div>
 
                 {loading ? (
@@ -154,38 +158,42 @@ export default function AdminBlogManagementPage() {
             {/* Create Blog Dialog */}
             <Dialog open={dialogOpen} onOpenChange={handleDialogClose}>
                 <DialogContent className="dialog-normal">
-                    <DialogHeader>
-                        <DialogTitle>Create New Blog</DialogTitle>
+                    <DialogHeader className="new">
+                        <DialogTitle className="flex items-center space-x-2">
+                            <GrBlog color="blue" />
+                            <span className="text-name">Create New Blog</span>
+                        </DialogTitle>
                     </DialogHeader>
-
                     <div className="dialog-form">
+                        <>
                         <label>Title</label>
-                        <Input
-                            type="text"
-                            placeholder="Enter blog title"
-                            value={formData.title}
-                            onChange={(e) =>
-                                setFormData({ ...formData, title: e.target.value })
-                            }
-                        />
+                            <Input
+                                type="text"
+                                placeholder="Enter blog title"
+                                value={formData.title}
+                                onChange={(e) =>
+                                    setFormData({ ...formData, title: e.target.value })
+                                }
+                            />
 
-                        <label>Content</label>
-                        <Textarea
-                            rows={5}
-                            placeholder="Enter blog content"
-                            value={formData.content}
-                            onChange={(e) =>
-                                setFormData({ ...formData, content: e.target.value })
-                            }
-                        />
+                            <label> Content</label>
+                            <Textarea
+                                rows={5}
+                                placeholder="Enter blog content"
+                                value={formData.content}
+                                onChange={(e) =>
+                                    setFormData({ ...formData, content: e.target.value })
+                                }
+                            />
 
-                        <label>Main Image</label>
-                        <Input
-                            type="file"
-                            onChange={(e) =>
-                                setImageFile(e.target.files?.[0] || null)
-                            }
-                        />
+                            <label>Main Image</label>
+                            <Input
+                                type="file"
+                                onChange={(e) =>
+                                    setImageFile(e.target.files?.[0] || null)
+                                }
+                            />
+                        </>
                     </div>
 
                     <DialogFooter className="dialog-footer">
