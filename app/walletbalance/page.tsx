@@ -14,6 +14,7 @@ import { saveAs } from "file-saver";
 import axiosInstance from "@/components/service/axiosInstance";
 import Link from "next/link";
 import { FaWallet } from "react-icons/fa";
+import { FiDownload, FiChevronDown } from 'react-icons/fi';
 
 export default function WalletBalanceReportPage() {
     const [users, setUsers] = useState([]);
@@ -62,174 +63,226 @@ export default function WalletBalanceReportPage() {
         fetchData();
     }, [page]);
 
+    const [isOpen, setIsOpen] = useState(false);
+
     return (
         <div className="p-6 font-sans bg-gray-50 min-h-screen">
-            {/* Header */}
-            <div className="flex items-center text-blue-600 mb-6">
-                <div className="flex items-center">
-                    <FaWallet className="mr-2 text-lg text-blue-600" />
-                    <h2 className="text-2xl font-semibold">Wallet Balance Report</h2>
+            <div className="p-6 mb-6 bg-white shadow rounded-md overflow-auto">  
+                {/* Header */}
+                <div className="flex items-center text-black-600 mb-6">
+                    <div className="flex items-center">
+                        <FaWallet className="mr-2 text-lg text-black-600" />
+                        <h2 className="text-2xl ">Wallet Balance Report</h2>
+                    </div>
+                    <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            width: '100%',
+                            gap: '16px',
+                        }}>
+                            <span style={{
+                                padding: '8px 12px',
+                                fontSize: '14px',
+                                borderRadius: '6px',
+                                border: '1px solid #d1d5db',
+                                backgroundColor: 'white'
+                            }}>
+                                Total Users: {totalUsers}
+                            </span>
+                            <span style={{
+                                padding: '8px 12px',
+                                fontSize: '14px',
+                                borderRadius: '6px',
+                                border: '1px solid #d1d5db',
+                                backgroundColor: 'white'
+                            }}>
+                                Total: ₹{total}
+                            </span>
+                        </div>
+                        
+
+                        <div style={{ position: 'relative', display: 'inline-block' }}>
+                            <button
+                                onClick={() => setIsOpen(!isOpen)}
+                                style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '8px',
+                                    borderRadius: '6px',
+                                    backgroundColor: '#eff6ff',
+                                    padding: '8px 12px',
+                                    fontSize: '14px',
+                                    fontWeight: 500,
+                                    color: '#1d4ed8',
+                                    border: '1px solid rgba(29, 78, 216, 0.1)',
+                                    outline: 'none',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s'
+                                }}
+                                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#dbeafe'}
+                                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#eff6ff'}
+                                onFocus={(e) => {
+                                    e.currentTarget.style.backgroundColor = '#dbeafe';
+                                    e.currentTarget.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.5)';
+                                }}
+                                onBlur={(e) => {
+                                    e.currentTarget.style.backgroundColor = '#eff6ff';
+                                    e.currentTarget.style.boxShadow = 'none';
+                                }}
+                            >
+                                <FiDownload />
+                                Export
+                                <FiChevronDown />
+                            </button>
+                            
+                            {isOpen && (
+                                <div 
+                                    style={{
+                                        position: 'absolute',
+                                        top: '100%',
+                                        left: 0,
+                                        marginTop: '4px',
+                                        borderRadius: '6px',
+                                        backgroundColor: 'white',
+                                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                                        border: '1px solid #e5e7eb',
+                                        zIndex: 10,
+                                        minWidth: '150px'
+                                    }}
+                                    onMouseLeave={() => setIsOpen(false)}
+                                >
+                                    <button
+                                        onClick={() => {
+                                            fetchData("csv");
+                                            setIsOpen(false);
+                                        }}
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '8px',
+                                            width: '100%',
+                                            padding: '8px 12px',
+                                            fontSize: '14px',
+                                            fontWeight: 500,
+                                            color: '#1d4ed8',
+                                            backgroundColor: 'transparent',
+                                            border: 'none',
+                                            outline: 'none',
+                                            cursor: 'pointer',
+                                            transition: 'background-color 0.2s',
+                                            borderBottom: '1px solid #e5e7eb',
+                                            borderRadius: '6px 6px 0 0'
+                                        }}
+                                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#eff6ff'}
+                                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                                    >
+                                        <FiDownload />
+                                        CSV
+                                    </button>
+                                    
+                                    <button
+                                        onClick={() => {
+                                            fetchData("excel");
+                                            setIsOpen(false);
+                                        }}
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '8px',
+                                            width: '100%',
+                                            padding: '8px 12px',
+                                            fontSize: '14px',
+                                            fontWeight: 500,
+                                            color: '#1d4ed8',
+                                            backgroundColor: 'transparent',
+                                            border: 'none',
+                                            outline: 'none',
+                                            cursor: 'pointer',
+                                            transition: 'background-color 0.2s',
+                                            borderRadius: '0 0 6px 6px'
+                                        }}
+                                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#eff6ff'}
+                                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                                    >
+                                        <FiDownload />
+                                        Excel
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
-                <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
-                    <button
-                        onClick={() => fetchData()}
-                        style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            borderRadius: '6px',
-                            backgroundColor: '#2563eb',
-                            padding: '8px 12px',
-                            fontSize: '14px',
-                            fontWeight: 500,
-                            color: 'white',
-                            boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-                            cursor: 'pointer',
-                            border: 'none',
-                            outline: 'none',
-                            transition: 'background-color 0.2s'
-                        }}
-                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#1d4ed8'}
-                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#2563eb'}
-                        onFocus={(e) => {
-                            e.currentTarget.style.backgroundColor = '#1d4ed8';
-                            e.currentTarget.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.5)';
-                        }}
-                        onBlur={(e) => {
-                            e.currentTarget.style.backgroundColor = '#2563eb';
-                            e.currentTarget.style.boxShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.05)';
-                        }}
-                    >
-                        Apply Filter
-                    </button>
 
-                    <button
-                        onClick={() => fetchData("csv")}
-                        style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            borderRadius: '6px',
-                            backgroundColor: '#eff6ff',
-                            padding: '8px 12px',
-                            fontSize: '14px',
-                            fontWeight: 500,
-                            color: '#1d4ed8',
-                            border: '1px solid rgba(29, 78, 216, 0.1)',
-                            outline: 'none',
-                            cursor: 'pointer',
-                            transition: 'background-color 0.2s'
-                        }}
-                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#dbeafe'}
-                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#eff6ff'}
-                        onFocus={(e) => {
-                            e.currentTarget.style.backgroundColor = '#dbeafe';
-                            e.currentTarget.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.5)';
-                        }}
-                        onBlur={(e) => {
-                            e.currentTarget.style.backgroundColor = '#eff6ff';
-                            e.currentTarget.style.boxShadow = 'none';
-                        }}
-                    >
-                        Expert CSV
-                    </button>
-
-                    <button
-                        onClick={() => fetchData("excel")}
-                        style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            borderRadius: '6px',
-                            backgroundColor: '#eff6ff',
-                            padding: '8px 12px',
-                            fontSize: '14px',
-                            fontWeight: 500,
-                            color: '#1d4ed8',
-                            border: '1px solid rgba(29, 78, 216, 0.1)',
-                            outline: 'none',
-                            cursor: 'pointer',
-                            transition: 'background-color 0.2s'
-                        }}
-                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#dbeafe'}
-                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#eff6ff'}
-                        onFocus={(e) => {
-                            e.currentTarget.style.backgroundColor = '#dbeafe';
-                            e.currentTarget.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.5)';
-                        }}
-                        onBlur={(e) => {
-                            e.currentTarget.style.backgroundColor = '#eff6ff';
-                            e.currentTarget.style.boxShadow = 'none';
-                        }}
-                    >
-                        Expert Excel
-                    </button>
-                </div>
-            </div>
-
-            {/* Filters */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px', width: '100%' }}>
-                <Input
-                    placeholder="Search by name or email"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    style={{ flex: 1, width: '100%' }}
-                />
-
-                <div style={{ flex: 1, width: '100%' }}>
-                    <Select value={role} onValueChange={setRole}>
-                        <SelectTrigger style={{ width: '100%' }}>
-                            <SelectValue placeholder="Select role" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">All</SelectItem>
-                            <SelectItem value="admin">Admin</SelectItem>
-                            <SelectItem value="user">User</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-            </div>
-
-            {/* Stats */}
-            <div className="flex gap-2 justify-end mb-6">
-                <div className="flex gap-2">
+                {/* Filters */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', width: '100%' }}>
                     <Input
-                        placeholder="Min ₹"
-                        type="number"
-                        value={minWallet}
-                        onChange={(e) => setMinWallet(e.target.value)}
-                        className="w-24"
+                        placeholder="Search by name or email"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        style={{ flex: 1, width: '100%' }}
                     />
-                    <Input
-                        placeholder="Max ₹"
-                        type="number"
-                        value={maxWallet}
-                        onChange={(e) => setMaxWallet(e.target.value)}
-                        className="w-24"
-                    />
-                </div>
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    width: '100%',
-                    gap: '16px',
 
-                }}>
-                    <span style={{
-                        padding: '8px 12px',
-                        fontSize: '14px',
-                        borderRadius: '6px',
-                        border: '1px solid #d1d5db',
-                        backgroundColor: 'white'
-                    }}>
-                        Total Users: {totalUsers}
-                    </span>
-                    <span style={{
-                        padding: '8px 12px',
-                        fontSize: '14px',
-                        borderRadius: '6px',
-                        border: '1px solid #d1d5db',
-                        backgroundColor: 'white'
-                    }}>
-                        Total: ₹{total}
-                    </span>
+                    <div style={{ flex: 1, width: '100%' }}>
+                        <Select value={role} onValueChange={setRole}>
+                            <SelectTrigger style={{ width: '100%' }}>
+                                <SelectValue placeholder="Select role" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All</SelectItem>
+                                <SelectItem value="admin">Admin</SelectItem>
+                                <SelectItem value="user">User</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="flex gap-2 justify-end">
+                        <div className="flex gap-2">
+                            <Input
+                                placeholder="Min ₹"
+                                type="number"
+                                value={minWallet}
+                                onChange={(e) => setMinWallet(e.target.value)}
+                                className="w-24"
+                            />
+                            <Input
+                                placeholder="Max ₹"
+                                type="number"
+                                value={maxWallet}
+                                onChange={(e) => setMaxWallet(e.target.value)}
+                                className="w-24"
+                            />
+                        </div>
+                        <button
+                            onClick={() => fetchData()}
+                            style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                borderRadius: '6px',
+                                backgroundColor: 'rgba(105, 108, 255, 0.16)',
+                                padding: '8px 12px',
+                                fontSize: '14px',
+                                fontWeight: 500,
+                                color: 'black',
+                                boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                                cursor: 'pointer',
+                                border: 'none',
+                                outline: 'none',
+                                transition: 'background-color 0.2s'
+                            }}
+                            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#1d4ed8'}
+                            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#2563eb'}
+                            onFocus={(e) => {
+                                e.currentTarget.style.backgroundColor = '#1d4ed8';
+                                e.currentTarget.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.5)';
+                            }}
+                            onBlur={(e) => {
+                                e.currentTarget.style.backgroundColor = '#2563eb';
+                                e.currentTarget.style.boxShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.05)';
+                            }}
+                        >
+                            Apply Filter
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -267,7 +320,17 @@ export default function WalletBalanceReportPage() {
                                     <td className="p-3">
                                         <Link
                                             href={`userwalletreport/${user._id}`}
-                                            className="bg-blue-500 text-black px-3 py-2 rounded text-xs font-medium inline-block hover:bg-green-600 transition-colors"
+                                           style={{
+  backgroundColor:   'rgba(105, 108, 255, 0.16)',
+  color: 'black',
+  padding: '0.5rem 0.75rem',
+  borderRadius: '0.25rem',
+  fontSize: '0.75rem',
+  fontWeight: '500',
+  display: 'inline-block',
+  cursor: 'pointer',
+  transition: 'background-color 0.2s'
+}}
                                         >
                                             View Ledger
                                         </Link>
