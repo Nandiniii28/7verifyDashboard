@@ -49,14 +49,25 @@ export default function UsagesPage() {
   return (
     <div className="usage-page">
       <div className="header">
-        <FiBarChart2 size={24} color="#2563eb" />
-        <h2>Service Usage Report</h2>
+
+        <h2 className="flex gap-1">
+          <FiBarChart2 size={24} color="#2563eb d" /> Service Usage Report
+        </h2>
+
+        <button onClick={exportToExcel} className="export-btn">
+          <FiDownload size={16} /> Export
+        </button>
+
+  
+
       </div>
 
+
       <div className="filter-grid">
-        <div className="filter-full">
+        {/* Row 1: Four items */}
+        <div className="filter-item">
           <label>
-            <FiSearch className="icon" /> Service Name
+            Service Name
           </label>
           <input
             type="text"
@@ -66,9 +77,9 @@ export default function UsagesPage() {
           />
         </div>
 
-        <div className="filter-half">
+        <div className="filter-item">
           <label>
-            <FiCalendar className="icon" /> Start Date
+            Start Date
           </label>
           <input
             type="date"
@@ -77,9 +88,9 @@ export default function UsagesPage() {
           />
         </div>
 
-        <div className="filter-half">
+        <div className="filter-item">
           <label>
-            <FiCalendar className="icon" /> End Date
+            End Date
           </label>
           <input
             type="date"
@@ -88,10 +99,12 @@ export default function UsagesPage() {
           />
         </div>
 
-        <button onClick={exportToExcel} className="export-btn">
-          <FiDownload size={16} /> Export
-        </button>
+        {/* Optional filler for 4th column if needed */}
+
+
+
       </div>
+
 
       <div className="table-container">
         {loading ? (
@@ -100,7 +113,7 @@ export default function UsagesPage() {
           <table className="usage-table">
             <thead>
               <tr>
-                  <th colSpan={4} className="data">Service Usage Report</th>
+                <th colSpan={4} className="data">Service Usage Report</th>
               </tr>
               <tr>
                 <td>Service</td>
@@ -110,7 +123,7 @@ export default function UsagesPage() {
               </tr>
             </thead>
             <tbody>
-              
+
               {usageData.length ? (
                 usageData.map((entry, idx) => (
                   <tr key={idx}>
@@ -130,11 +143,13 @@ export default function UsagesPage() {
         )}
       </div>
 
-      {!loading && totalPages > 1 && (
-        <div className="pagination-container">
-          <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
-        </div>
-      )}
-    </div>
+      {
+        !loading && totalPages > 1 && (
+          <div className="pagination-container">
+            <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+          </div>
+        )
+      }
+    </div >
   );
 }
