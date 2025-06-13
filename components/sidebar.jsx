@@ -246,7 +246,7 @@ const verifyData =()=>{
                       className={cn(
                         "flex items-center gap-2 cursor-pointer rounded-xl text-sm font-medium transition-all",
                         isOpen ? "px-3 py-2" : "p-2 justify-center",
-                        item.id === openDropdownId ? "bg-blue-50 text-blue-700 shadow-sm" : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                        item.id === openDropdownId ? "bg-blue-50 text-sm font-bold text-blue-700 shadow-sm" : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
                       )}
                     >
                       <i className={cn(item.icon, isOpen ? "mr-3" : "", item.id === openDropdownId ? "text-blue-600" : "text-gray-400")} />
@@ -261,7 +261,15 @@ const verifyData =()=>{
                             key={child.id}
                             href={`/services?id=${child.id}`}
                            
-                            className="block text-sm text-gray-700 hover:text-blue-600 hover:underline"
+                            style={{
+  display: 'block',
+  fontSize: '0.875rem',  
+  fontWeight: '500',     
+  color: 'gray',     
+hover: {
+    color: 'blue'    
+  }
+}}
                           >
                             {child.label}
                           </Link>
