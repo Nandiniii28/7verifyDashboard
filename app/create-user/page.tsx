@@ -4,8 +4,11 @@ import { useState } from "react";
 import axiosInstance from "@/components/service/axiosInstance";
 import { FaUser, FaEnvelope, FaLock, FaUserShield } from "react-icons/fa";
 import "./createuser.css";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function CreateUserForm() {
+  const router = useRouter()
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -23,8 +26,10 @@ export default function CreateUserForm() {
     e.preventDefault();
     setLoading(true);
     try {
-      await axiosInstance.post("/admin/create-user", form);
+      const res = await axiosInstance.post("/admin/create-user", form);
       setForm({ name: "", email: "", password: "", role: "user" });
+      toast.success(res.data.message);
+      router.push('/all-user-list')
     } catch (err: any) {
       console.error(err);
     } finally {
