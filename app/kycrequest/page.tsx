@@ -239,11 +239,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { GoPasskeyFill } from "react-icons/go";
 import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
+    Select,
+    SelectTrigger,
+    SelectValue,
+    SelectContent,
+    SelectItem,
 } from "@/components/ui/select";
 import { toast } from "react-toastify";
 import { FiUserCheck, FiSearch, FiUser, FiCalendar, FiArrowUp, FiArrowDown, FiRefreshCw } from "react-icons/fi";
@@ -326,7 +326,7 @@ export default function KycRequestPage() {
                     <GoPasskeyFill className="text-blue-600 text-3xl mr-1" />
                     <h1 className="text-2xl font-bold text-blue-600">KYC Requests</h1>
                 </div>
-                
+
             </div>
 
             {/* Filters card */}
@@ -335,7 +335,7 @@ export default function KycRequestPage() {
                     {/* Search */}
                     <div className="space-y-2">
                         <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                         Search
+                            Search
                         </label>
                         <Input
                             placeholder="Name or email"
@@ -350,7 +350,7 @@ export default function KycRequestPage() {
                     {/* Role */}
                     <div className="space-y-2">
                         <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                             Role
+                            Role
                         </label>
                         <Select
                             value={filters.role}
@@ -373,7 +373,7 @@ export default function KycRequestPage() {
                     {/* Date Range */}
                     <div className="space-y-2">
                         <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                           Start Date
+                            Start Date
                         </label>
                         <Input
                             type="date"
@@ -399,32 +399,53 @@ export default function KycRequestPage() {
                             min={filters.startDate}
                         />
                     </div>
+
+                     <div className="filter-item half-row">
+                        <label htmlFor="sortOrder">
+
+                            Sort Order   </label>
+                        <Select
+                            id="sortOrder"
+                            value={filters.sortOrder}
+                            onValueChange={(value) => setFilters({ ...filters, sortOrder: value })}
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Sort Order" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="desc">Newest First</SelectItem>
+                                <SelectItem value="asc">Oldest First</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+
+
+
                 </div>
 
-                <div className="flex justify-end mt-4 gap-2">
-                   <div className="filter-item half-row">
-                    <label htmlFor="sortOrder">
-                                           
-                        Sort Order                        </label>
-                    <Select
-                        id="sortOrder"
-                        value={filters.sortOrder}
-                        onValueChange={(value) => setFilters({ ...filters, sortOrder: value })}
-                    >
-                        <SelectTrigger>
-                            <SelectValue placeholder="Sort Order" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="desc">Newest First</SelectItem>
-                            <SelectItem value="asc">Oldest First</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-                </div>
+                {/* <div className="flex justify-end mt-4 gap-2">
+                    <div className="filter-item half-row">
+                        <label htmlFor="sortOrder">
+
+                            Sort Order   </label>
+                        <Select
+                            id="sortOrder"
+                            value={filters.sortOrder}
+                            onValueChange={(value) => setFilters({ ...filters, sortOrder: value })}
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Sort Order" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="desc">Newest First</SelectItem>
+                                <SelectItem value="asc">Oldest First</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </div> */}
             </div>
 
-         
-          
+
 
             {/* Table */}
             <div className="bg-white shadow rounded-lg overflow-hidden">
@@ -485,15 +506,15 @@ export default function KycRequestPage() {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <div className="flex gap-2">
-                                                <Button 
-                                                    size="sm" 
+                                                <Button
+                                                    size="sm"
                                                     onClick={() => handleAction(true, user._id)}
                                                     disabled={actionLoading === user._id}
                                                 >
                                                     {actionLoading === user._id ? 'Processing...' : 'Approve'}
                                                 </Button>
-                                                <Button 
-                                                    size="sm" 
+                                                <Button
+                                                    size="sm"
                                                     variant="destructive"
                                                     onClick={() => handleAction(false, user._id)}
                                                     disabled={actionLoading === user._id}
@@ -516,15 +537,15 @@ export default function KycRequestPage() {
                     Showing page {page} of {totalPages} • {users?.length} results
                 </div>
                 <div className="flex gap-2">
-                    <Button 
-                        variant="outline" 
+                    <Button
+                        variant="outline"
                         onClick={() => setPage(p => Math.max(p - 1, 1))}
                         disabled={page === 1 || loading}
                     >
                         Previous
                     </Button>
-                    <Button 
-                        variant="outline" 
+                    <Button
+                        variant="outline"
                         onClick={() => setPage(p => Math.min(p + 1, totalPages))}
                         disabled={page === totalPages || loading}
                     >

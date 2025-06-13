@@ -174,6 +174,7 @@ export default function APICataloguePage() {
             Add New API
           </button>
         )}
+        
       </div>
 
       {/* Filter Section */}
