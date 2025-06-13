@@ -4,12 +4,12 @@ import {
   DialogContent,
 } from "@/components/ui/dialog";
 import { X } from "lucide-react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import axiosInstance from "./service/axiosInstance";
 import { MainContext } from "@/app/context/context";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "@/app/redux/reducer/AdminSlice";
+import { fetchAdminDetails, logout } from "@/app/redux/reducer/AdminSlice";
 import Link from "next/link";
 
 export default function Header({ isOpen, onToggle }) {
@@ -32,12 +32,29 @@ export default function Header({ isOpen, onToggle }) {
       .slice(0, 2);
   };
 
-  const handleEnvironmentSwitch = (env) => {
-    if (env === "live") {
+
+  const handleEnvironmentSwitch = async (env) => {
+    const userId = admin._id;
+
+    let environment_mode = env === "live" ? true : false;
+
+    if (admin?.documents?.isVerified) {
+      try {
+        const res = await axiosInstance.put(`/admin/status-change/${userId}`, { environment_mode });
+        console.log("Environment change response:", res.data);
+
+        setEnvironment(env); // Update local state
+        dispatch(fetchAdminDetails()); // Refresh admin data
+        // tostymsg("Environment updated", "success");
+      } catch (error) {
+        console.error("Failed to update environment mode:", error);
+        // tostymsg("Failed to change environment", "error");
+      }
+    } else {
       setShowUATModal(true);
     }
-    setEnvironment(env);
   };
+
 
   const closeUATModal = () => {
     setShowUATModal(false);
@@ -65,7 +82,7 @@ export default function Header({ isOpen, onToggle }) {
       });
 
       console.log("Upload Success:", response.data);
-      tostymsg(response.data.message, 1)
+      tostymsg(response.data.message, response.data.status)
       setShowUATModal(false);
       setEnvironment("uat");
       // Optionally show a success message
@@ -75,7 +92,21 @@ export default function Header({ isOpen, onToggle }) {
     }
   };
 
+  // useEffect(
+  //   () => {
+  //     dispatch(fetchAdminDetails())
+  //   }, [environment, admin?.environment_mode]
+  // )
 
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     if (admin?.documents?.isVerified) {
+  //       setEnvironment("live");
+  //     }
+  //   }, 200);
+
+  //   return () => clearTimeout(timeout);
+  // }, [environment, admin]);
   return (
     <>
       <header
@@ -130,7 +161,7 @@ export default function Header({ isOpen, onToggle }) {
                   UAT
                 </button>
                 <button
-                  disabled={admin?.documents.isVerify}
+                  // disabled={admin?.documents?.isVerified}
                   onClick={() => handleEnvironmentSwitch("live")}
                   className={`px-3 py-1 text-sm font-medium rounded-md transition-all ${environment === "live"
                     ? "bg-orange-500 text-white"
@@ -147,8 +178,7 @@ export default function Header({ isOpen, onToggle }) {
               <i className="bi bi-wallet2 text-blue-600 text-xl mr-3" />
               <div className="mr-4">
                 <p className="text-xs text-gray-500">Wallet Balance</p>
-                <p className="text-xs font-semibold text-gray-900">₹ {!admin?.documents?.isVerified ? admin?.wallet?.mode?.credentials : admin?.wallet?.mode?.
-                  production
+                <p className="text-xs font-semibold text-gray-900">₹ {!admin?.environment_mode ? admin?.wallet?.mode?.credentials : admin?.wallet?.mode?.production
                   || 0}</p>
               </div>
               {/* <button className="bg-blue-600 hover:bg-blue-700  text-xs font-medium px-3 py-1.5 rounded-lg">
