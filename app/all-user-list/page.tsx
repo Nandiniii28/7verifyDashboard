@@ -15,6 +15,7 @@ import {
 import { toast } from "react-toastify";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import Link from "next/link";
+
 import {
   FaSms,
   FaUserLock,
@@ -24,11 +25,14 @@ import {
 import { FiUsers, FiCheckCircle, FiKey, FiEdit2 } from "react-icons/fi";
 
 const roles = ["All", "User", "Admin"];
-// const verification = ["All", "Verified", "Unverified"];
-// const services = ["Email API", "SMS Gateway", "User Auth", "Billing"];
+
 const verification = ["All", "Verified", "Unverified"];
-// const services = {
-const services = {
+
+
+const verification = ["All", "Verified", "Unverified"];
+const services = ["Email API", "SMS Gateway", "User Auth", "Billing"];
+const serviceIcons = {
+
   "Email API": <FaEnvelope className="mr-2 text-blue-500" />,
   "SMS Gateway": <FaSms className="mr-2 text-green-500" />,
   "User Auth": <FaUserLock className="mr-2 text-purple-500" />,
@@ -56,8 +60,6 @@ export default function AllUserListPage() {
       const query = {
         ...filters,
         role: filters.role === "All" ? "" : filters.role.toLowerCase(),
-        isVerified: filters.isVerified === "All" ? "" :
-          filters.isVerified === "Verified" ? 'true' : 'false',
         isVerified: filters.isVerified === "All" ? "" :
           filters.isVerified === "Verified" ? "true" : "false",
         page,
@@ -87,6 +89,7 @@ export default function AllUserListPage() {
       toast.success(`Production key generated`);
     }
   };
+
   const router = useRouter();
 
   return (
@@ -94,8 +97,12 @@ export default function AllUserListPage() {
       <div className="p-6 mb-6 bg-white shadow rounded-md overflow-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-[20px] text-black flex items-center gap-2">
-            <FiUsers />
+
+  
+
+          <h1 style={{ fontSize: '20px', color: '#000000', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <FiUsers style={{ color: '#000000' }} />
+
             User Management
           </h1>
           <Link
@@ -108,6 +115,7 @@ export default function AllUserListPage() {
               padding: '8px 16px',
               backgroundColor: 'rgba(105, 108, 255, 0.16)',
               color: '#696cff',
+
 
               border: 'none',
               cursor: 'pointer',
@@ -278,6 +286,7 @@ export default function AllUserListPage() {
             Next
           </button>
         </div>
+
       </div>
     </div>
   );

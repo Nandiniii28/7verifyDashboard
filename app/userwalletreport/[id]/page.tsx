@@ -2,7 +2,9 @@
 
 import axiosInstance from "@/components/service/axiosInstance";
 import { use, useEffect, useState } from "react";
+
 import { useSelector } from "react-redux";
+
 import { FaWallet } from "react-icons/fa";
 
 export default function WalletLedger({ params }) {
@@ -55,6 +57,7 @@ export default function WalletLedger({ params }) {
       </div>
     </div>
 
+
     {/* Filters */}
     <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', width: '100%' }}>
       <select
@@ -74,12 +77,14 @@ export default function WalletLedger({ params }) {
         <option value="debit">Debit</option>
       </select>
 
+
       <input
         type="number"
         name="minAmount"
         value={filters.minAmount}
         onChange={handleFilterChange}
         placeholder="Min Amount"
+
         style={{
           padding: '8px 12px',
           borderRadius: '6px',
