@@ -2,26 +2,28 @@
 
 import axiosInstance from "@/components/service/axiosInstance";
 import { use, useEffect, useState } from "react";
+
+import { useSelector } from "react-redux";
+
 import { FaWallet } from "react-icons/fa";
 
 export default function WalletLedger({ params }) {
     const { id } = use(params)
-
+    const { admin } = useSelector((state) => state.admin);
     const [walletData, setWalletData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({ type: "", minAmount: "", maxAmount: "" });
-
+    const mode = admin?.environment_mode
     const fetchWalletLedger = async () => {
         setLoading(true);
         try {
             // const params = {
             //     userId: id
             // };
-            const res = await axiosInstance.get(`/admin/ledger/${id}`,);
-            console.log(res);
+            const res = await axiosInstance.get(`/admin/ledger/${id}`, { params: { mode } });
 
             setWalletData(res.data.ledger);
             setTotalPages(res.data.totalPages);
@@ -36,7 +38,7 @@ export default function WalletLedger({ params }) {
 
     useEffect(() => {
         fetchWalletLedger();
-    }, [page, limit, filters]);
+    }, [page, limit, filters, mode]);
 
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
@@ -54,6 +56,7 @@ export default function WalletLedger({ params }) {
         <h2 className="text-2xl">Wallet Ledger Summary</h2>
       </div>
     </div>
+
 
     {/* Filters */}
     <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', width: '100%' }}>
@@ -74,12 +77,14 @@ export default function WalletLedger({ params }) {
         <option value="debit">Debit</option>
       </select>
 
+
       <input
         type="number"
         name="minAmount"
         value={filters.minAmount}
         onChange={handleFilterChange}
         placeholder="Min Amount"
+
         style={{
           padding: '8px 12px',
           borderRadius: '6px',
