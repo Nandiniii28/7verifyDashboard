@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axiosInstance from "@/components/service/axiosInstance";
 import { Button } from "@/components/ui/button";
 import { GrBlog } from "react-icons/gr";
+import { RiBloggerLine } from "react-icons/ri";
 
 import {
     Dialog,
@@ -99,13 +100,22 @@ export default function AdminBlogManagementPage() {
     return (
         <div className="admin-page-container">
             <div className="admin-box">
-                <div className="admin-header">
-                    <h2 className="admin-title">
-                        <FaBlog className="icon" /> Blog Management
-                    </h2>
-                    <Button onClick={() => setDialogOpen(true)}>
-                        {/* <GrBlog /> */}
-                        + Create Blog</Button> 
+                <div className="bg-white p-6 rounded-lg shadow-md mb-8 border border-gray-200">
+                    <div className="admin-header ">
+                        <h5 className="admin-title">
+                            <RiBloggerLine />
+                            Blog Management
+                        </h5>
+
+                        <button
+                            onClick={() => setDialogOpen(true)}
+                            className="inline-flex items-center bg-blue-100 px-3 py-2 text-xs font-medium text-blue-800 hover:bg-blue-100 cursor-pointer rounded"
+                        >
+                            + Create Blog
+                        </button>
+
+
+                    </div>
                 </div>
 
                 {loading ? (
@@ -160,40 +170,49 @@ export default function AdminBlogManagementPage() {
                 <DialogContent className="dialog-normal">
                     <DialogHeader className="new">
                         <DialogTitle className="flex items-center space-x-2">
-                            <GrBlog color="blue" />
-                            <span className="text-name">Create New Blog</span>
+                            <h5 className="admin-title">
+                                <RiBloggerLine />
+                                Blog Management
+                            </h5>
                         </DialogTitle>
                     </DialogHeader>
-                    <div className="dialog-form">
-                        <>
-                        <label>Title</label>
-                            <Input
-                                type="text"
-                                placeholder="Enter blog title"
-                                value={formData.title}
-                                onChange={(e) =>
-                                    setFormData({ ...formData, title: e.target.value })
-                                }
-                            />
+                    <div className="dialog-form grid gap-4">
 
-                            <label> Content</label>
+                        <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+
+                            <div className="grid gap-2">
+                                <label htmlFor="title">Title</label>
+                                <Input
+                                    id="title"
+                                    type="text"
+                                    placeholder="Enter blog title"
+                                    value={formData.title}
+                                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                                />
+                            </div>
+
+
+                            <div className="grid gap-2">
+                                <label htmlFor="image">Main Image</label>
+                                <Input
+                                    id="image"
+                                    type="file"
+                                    onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+                                />
+                            </div>
+                        </div>
+
+
+                        <div className="grid gap-2">
+                            <label htmlFor="content">Content</label>
                             <Textarea
-                                rows={5}
+                                id="content"
+                                rows={1}
                                 placeholder="Enter blog content"
                                 value={formData.content}
-                                onChange={(e) =>
-                                    setFormData({ ...formData, content: e.target.value })
-                                }
+                                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                             />
-
-                            <label>Main Image</label>
-                            <Input
-                                type="file"
-                                onChange={(e) =>
-                                    setImageFile(e.target.files?.[0] || null)
-                                }
-                            />
-                        </>
+                        </div>
                     </div>
 
                     <DialogFooter className="dialog-footer">
@@ -202,6 +221,6 @@ export default function AdminBlogManagementPage() {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-        </div>
+        </div >
     );
 }

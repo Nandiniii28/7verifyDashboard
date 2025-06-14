@@ -7,10 +7,10 @@
 }
 
 .admin-box {
-    background: white;
+
     padding: 24px;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+
     box-sizing: border-box;
 }
 
@@ -23,9 +23,12 @@
 
 .admin-title {
     font-size: 20px;
-    color: #1d4ed8;
     display: flex;
     align-items: center;
+
+    font-size: 1.5rem;
+
+
 }
 
 .admin-title .icon {
@@ -97,7 +100,7 @@
 .dialog-normal .text-name {
     color: #1d4ed8;
     font-weight: bold;
- 
+
 }
 
 .dialog-form {

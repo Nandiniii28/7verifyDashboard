@@ -243,6 +243,11 @@ export default function APICataloguePage() {
               flex: 1
             }}
           >
+            Add New API
+          </button>
+        )}
+        
+      </div>
             <option value="">All Methods</option>
             <option value="GET">GET</option>
             <option value="POST">POST</option>
@@ -278,7 +283,6 @@ export default function APICataloguePage() {
               }}
             />
           </div>
-
           {/* <button
         onClick={() => allService(page, limit, search, methodFilter, minCharge, maxCharge, activeOnly)}
         style={{

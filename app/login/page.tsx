@@ -82,9 +82,7 @@ const LoginPage = () => {
 
   return (
     <div className="login-container">
-
-
-      <div className="login-right cd ">
+      <div className="login-right ">
         <div className="login-box">
           <h2 className="form-title" style={{ fontSize: "50px", fontWeight: 700 }}>
 
@@ -192,7 +190,7 @@ const LoginPage = () => {
                 />
               </div>
               <div className="input-group">
-               <FaRegEyeSlash />
+                <FaRegEyeSlash />
                 <input
                   type="password"
                   name="password"
@@ -212,11 +210,12 @@ const LoginPage = () => {
       </div>
       <div className="login-left">
         <div className="left-img">
-          <img src="/image (39).jpg" alt="Login Visual" />
+          <img src="/image (41).jpg" alt="Login Visual" />
         </div>
-      </div>
-    </div>
+      </div>     
+    </div>          
   );
 };
 
 export default LoginPage;
+ 
