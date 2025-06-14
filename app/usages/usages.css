@@ -3,12 +3,16 @@
   background: #f9fafb;
   padding: 2rem;
 }
-
-.usage-header {
+.header{
   display: flex;
+  justify-content: space-between;
+}
+.usage-header {
+
   align-items: center;
   gap: 10px;
   margin-bottom: 24px;
+  justify-content: space-between;
 }
 
 .usage-header h2 {
@@ -41,6 +45,7 @@
 
 .filter-item input {
   padding: 8px;
+  width: 350px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
@@ -48,7 +53,7 @@
 }
 
 .export-btn {
-  display: flex;
+
   align-items: center;
   justify-content: center;
   gap: 6px;

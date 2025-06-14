@@ -6,9 +6,11 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "react-toastify";
-import { FiBarChart2 } from "react-icons/fi";
+import { FaUserGroup } from "react-icons/fa6";
+import { HiOutlineDocumentArrowDown } from "react-icons/hi2";
+import { AiFillFileExcel } from "react-icons/ai";
 
-import "./all-user-report.css"; // import CSS file
+
 
 export default function AllUserReportPage() {
   const isMobile = useIsMobile();
@@ -78,14 +80,34 @@ export default function AllUserReportPage() {
   }, [search, serviceFilter, page]);
 
   return (
-    <div className="page-container">
-      <div className="card">
-        <div className="header-row">
-          <h2 className="title">
-            <FiBarChart2 className="icon" size={28} />
-            All User Report
-          </h2>
-          <div className="controls">
+    <>
+    
+    
+      <div
+        style={{
+         
+          borderRadius: "12px",
+          padding: "34px",
+          backgroundColor: "#fff",
+          marginBottom: "16px",
+        }}
+      >
+        <h1 style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <FaUserGroup size={20} />
+          All User Report
+        </h1>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: "10px",
+            marginTop: "26px",
+          }}
+        >
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
             <Input
               placeholder="Search name/email"
               value={search}
@@ -93,7 +115,7 @@ export default function AllUserReportPage() {
                 setPage(1);
                 setSearch(e.target.value);
               }}
-              className="input-small"
+              style={{ width: "200px" }}
             />
             <Input
               placeholder="Filter by service"
@@ -102,91 +124,141 @@ export default function AllUserReportPage() {
                 setPage(1);
                 setServiceFilter(e.target.value);
               }}
-              className="input-small"
+              style={{ width: "200px" }}
             />
-            <Button
-              variant="outline"
-              onClick={() => handleExport("csv")}
-              className="btn-export btn-csv"
-            >
-              Export CSV
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => handleExport("excel")}
-              className="btn-export btn-excel"
-            >
-              Export Excel
-            </Button>
+          </div>
+
+          <div style={{ display: "flex", gap: "8px" }}>
+      <button
+  onClick={() => handleExport("csv")}
+  style={{
+    backgroundColor: "#dbeafe",
+    padding: "8px 12px",
+    fontSize: "12px",
+    color: "#1e40af",
+    borderRadius: "4px",
+    cursor: "pointer",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "6px",
+  }}
+>
+  <HiOutlineDocumentArrowDown size={16} />
+  Export CSV
+</button>
+
+<button
+  onClick={() => handleExport("xlsx")}
+  style={{
+    backgroundColor: "#bbf7d0",
+    padding: "8px 12px",
+    fontSize: "12px",
+    color: "#166534",
+    borderRadius: "4px",
+    cursor: "pointer",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "6px",
+  }}
+>
+  <AiFillFileExcel size={16} />
+
+  Export Excel
+</button>
           </div>
         </div>
+      </div>
 
-        {/* Error message */}
-        {error && (
-          <div className="error-message">
-            {error}
+      {error && (
+        <div style={{ color: "red", marginBottom: "16px" }}>{error}</div>
+      )}
+
+      <div
+        style={{
+       
+       marginBottom: "1.25rem", backgroundColor: "#fff", boxShadow: "0 1px 3px rgba(0,0,0,0.1)", borderRadius: "0.375rem", overflow: "auto" 
+        }}
+      >
+        {loading ? (
+          <div style={{ textAlign: "center", color: "#666" }}>Loading...</div>
+        ) : users.length === 0 ? (
+          <div style={{ textAlign: "center", color: "#666" }}>
+            No users found.
           </div>
+        ) : (
+                   <table style={{ width: "100%",  borderSpacing: "0 0.25rem", fontSize: "0.875rem", textAlign: "left", borderBottom: "1px solid #e5e7eb"}}>
+            <thead>
+              <tr style={{ backgroundColor: "#eff6ff", fontSize: "", color: "#1d4ed8",  }}>
+                <th style={{ padding: "0.75rem 1.5rem" }}>
+                  Name
+                </th>
+                <th style={{  padding: "0.75rem 1.5rem" }}>
+                  Email
+                </th>
+                <th style={{  padding: "0.75rem 1.5rem"}}>
+                  Service
+                </th>
+                <th style={{ padding: "0.75rem 1.5rem" }}>
+                  Hit Count
+                </th>
+                <th style={{padding: "0.75rem 1.5rem" }}>
+                  Total Charges
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user) =>
+                user.serviceUsage.map((service, index) => (
+                  <tr key={`${user._id}-${index}`}>
+                    <td style={{padding: "0.75rem 1.5rem" }}>{user.name}</td>
+                    <td style={{ padding: "0.75rem 1.5rem", color: "#6b7280" }}>
+                      {user.email}
+                    </td>
+                    <td style={{ padding: "0.75rem 1.5rem" }}>{service.service}</td>
+                    <td style={{ padding: "0.75rem 1.5rem" }}>
+                      {service.hitCount}
+                    </td>
+                    <td style={{padding: "0.75rem 1.5rem" }}>
+                      ₹ {service.totalCharge?.toFixed(2)}
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         )}
-
-        {/* Table */}
-        <div className="table-container">
-          {loading ? (
-            <div className="loading-text">Loading...</div>
-          ) : users.length === 0 ? (
-            <div className="loading-text">No users found.</div>
-          ) : (
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Service</th>
-                  <th>Hit Count</th>
-                  <th>Total Charges</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user) =>
-                  user.serviceUsage.map((service, index) => (
-                    <tr key={`${user._id}-${index}`}>
-                      <td>{user.name}</td>
-                      <td className="text-muted">{user.email}</td>
-                      <td>{service.service}</td>
-                      <td className="text-green">{service.hitCount}</td>
-                      <td>₹ {service.totalCharge?.toFixed(2)}</td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          )}
-        </div>
 
         {/* Pagination */}
         {!loading && totalPages > 1 && (
-          <div className="pagination">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginTop: "20px",
+            }}
+          >
             <Button
               disabled={page === 1}
               onClick={() => setPage((p) => Math.max(p - 1, 1))}
               variant="outline"
-              className="btn-pagination"
             >
               Previous
             </Button>
-            <span className="page-info">
+            <span>
               Page {page} of {totalPages}
             </span>
             <Button
               disabled={page === totalPages}
               onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
               variant="outline"
-              className="btn-pagination"
             >
               Next
             </Button>
           </div>
         )}
       </div>
-    </div>
+  
+    </>
   );
 }

@@ -6,6 +6,8 @@ import { login } from "../redux/reducer/AdminSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/components/service/axiosInstance";
+import { FaRegEyeSlash } from "react-icons/fa";
+
 import './LoginPage.css'; // import the CSS file
 
 const LoginPage = () => {
@@ -80,15 +82,13 @@ const LoginPage = () => {
 
   return (
     <div className="login-container">
-      <div className="login-left">
-        <img src="/4957136_4957136.jpg" alt="Login Visual" />
-      </div>
-
-      <div className="login-right">
+      <div className="login-right ">
         <div className="login-box">
-          <h2 className="form-title">
-            {showLogin ? <FaUserShield /> : <FaUser />}{" "}
-            {showLogin ? "Login" : "Register"}
+          <h2 className="form-title" style={{ fontSize: "50px", fontWeight: 700 }}>
+
+            <span className="welcome-text">
+              {showLogin ? "Welcome" : "Register"}
+            </span>
           </h2>
 
           {showLogin && step === 0 && (
@@ -151,7 +151,7 @@ const LoginPage = () => {
                 />
               </div>
               <div className="input-group">
-                <FaLock />
+                <FaRegEyeSlash />
                 <input
                   type="password"
                   placeholder="New Password"
@@ -166,7 +166,7 @@ const LoginPage = () => {
 
           {!showLogin && (
             <form onSubmit={RegisterHandle} className="login-form">
-            
+
               <div className="input-group">
                 <FaUser />
                 <input
@@ -190,7 +190,7 @@ const LoginPage = () => {
                 />
               </div>
               <div className="input-group">
-                <FaLock />
+                <FaRegEyeSlash />
                 <input
                   type="password"
                   name="password"
@@ -208,8 +208,14 @@ const LoginPage = () => {
           )}
         </div>
       </div>
-    </div>
+      <div className="login-left">
+        <div className="left-img">
+          <img src="/image (41).jpg" alt="Login Visual" />
+        </div>
+      </div>     
+    </div>          
   );
 };
 
 export default LoginPage;
+ 

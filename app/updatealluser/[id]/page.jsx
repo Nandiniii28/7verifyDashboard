@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { use, useState } from "react";
 import axiosInstance from "@/components/service/axiosInstance";
 import { FaUser, FaEnvelope, FaLock, FaUserShield } from "react-icons/fa";
 import "./updateuser.css";
 
-export default function CreateUserForm() {
+export default function CreateUserForm({ params }) {
+  const { id } = use(params)
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -14,7 +16,9 @@ export default function CreateUserForm() {
   });
   const [loading, setLoading] = useState(false);
 
- 
+
+
+
 
   return (
     <form className="form-container" >
@@ -27,7 +31,7 @@ export default function CreateUserForm() {
             type="text"
             name="name"
             placeholder="Full Name"
-           
+
             className="form-input"
             required
           />
@@ -39,7 +43,7 @@ export default function CreateUserForm() {
             type="email"
             name="email"
             placeholder="Email Address"
-     
+
             className="form-input"
             required
           />
@@ -51,7 +55,7 @@ export default function CreateUserForm() {
             type="password"
             name="password"
             placeholder="Password"
-           
+
             className="form-input"
             required
           />
@@ -61,7 +65,7 @@ export default function CreateUserForm() {
           <FaUserShield className="input-icon" />
           <select
             name="role"
-            
+
             className="form-input"
             required
           >

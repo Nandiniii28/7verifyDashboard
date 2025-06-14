@@ -39,13 +39,13 @@ export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
     { id: "calendar", label: "Credentials", icon: "bi bi-shield-lock", href: "/credentials" },
     { id: "info-portal", label: "Documentation", icon: "bi bi-book", href: "https://7uniqueverify-njzw.readme.io/reference/post_api-verify-bankverify#/" },
     { id: "AssignServices", label: "Assign Services", icon: "bi bi-book", href: "/assignservices" },
-    { id: "contact", label: "Contact", icon: "bi bi-book", href: "/contact" },
+    // { id: "contact", label: "Contact", icon: "bi bi-book", href: "/contact" },
     { id: "blog", label: "Blogs", icon: "bi bi-book", href: "/blog" },
   ];
   // console.log(admin);
-const verifyData =()=>{
+// const verifyData =()=>{
   
-}
+// }
   // Bottom items
   const bottomItems = [
     { id: "settings", label: "Settings", icon: "bi bi-gear", href: "/settings" },

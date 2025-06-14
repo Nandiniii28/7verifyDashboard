@@ -117,20 +117,21 @@ export default function AssignServicesPage() {
                                 </label>
                             ))}
                         </div>
+                        
                     </div>
 
                     {/* Action Buttons */}
                     <div className="action-buttons">
-                        <Button 
-                            variant="outline" 
+                        <Button
+                            variant="outline"
                             onClick={handleAssignAllServices}
                             className="assign-all-btn"
                         >
                             <FiPackage className="icon-spacing" />
                             Assign All Services
                         </Button>
-                        <Button 
-                            onClick={handleAssignSelectedServices} 
+                        <Button
+                            onClick={handleAssignSelectedServices}
                             disabled={!selectedUserId || selectedServices.length === 0}
                             className="assign-selected-btn"
                         >
