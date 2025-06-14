@@ -18,30 +18,99 @@ export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
 
   // Full navigation list
   const navigationItems = [
-    { id: "dashboard", label: "Products Catalogue", icon: "bi bi-grid-1x2-fill", href: "/" },
-    { id: "all-user-list", label: "All User List", icon: "bi bi-card-list", href: "/all-user-list" },
-    { id: "all-user-report", label: "All User Report", icon: "bi bi-people", href: "/all-user-report" },
-    { id: "KycRequest", label: "Kyc Request", icon: "bi bi-clipboard-check", href: "/kycrequest" },
-    { id: "vacations", label: "API Usage Report", icon: "bi bi-graph-up-arrow", href: "/usages" },
-    { id: "wallet-ledger", label: "Wallet Ledger", icon: "bi bi-code-square", href: "/wallet-ledger" },
-    { id: "WalletBalance", label: "Wallet Balance", icon: "bi bi-book", href: "/walletbalance" },
-    { id: "wallet-topup", label: "Wallet Topup", icon: "bi bi-wallet2", href: "/wallet-topup" },
-    // { id: "services", label: "Service", icon: "bi bi-bag-check", href: "/services" },
+    { 
+      id: "dashboard", 
+      label: "Products Catalogue", 
+      icon: "bi bi-box-seam", // Changed from grid to box (products)
+      href: "/" 
+    },
+    { 
+      id: "all-user-list", 
+      label: "All User List", 
+      icon: "bi bi-person-lines-fill", // More specific for user lists
+      href: "/all-user-list" 
+    },
+    { 
+      id: "all-user-report", 
+      label: "All User Report", 
+      icon: "bi bi-file-earmark-bar-graph", // Better for reports
+      href: "/all-user-report" 
+    },
+    { 
+      id: "KycRequest", 
+      label: "KYC Request", 
+      icon: "bi bi-person-check", // More relevant for KYC
+      href: "/kycrequest" 
+    },
+    { 
+      id: "vacations", 
+      label: "API Usage Report", 
+      icon: "bi bi-graph-up", // Simplified graph icon
+      href: "/usages" 
+    },
+    { 
+      id: "wallet-ledger", 
+      label: "Wallet Ledger", 
+      icon: "bi bi-journal-text", // Better for ledger/transactions
+      href: "/wallet-ledger" 
+    },
+    { 
+      id: "WalletBalance", 
+      label: "Wallet Balance", 
+      icon: "bi bi-currency-exchange", // More financial
+      href: "/walletbalance" 
+    },
+    { 
+      id: "wallet-topup", 
+      label: "Wallet Topup", 
+      icon: "bi bi-cash-stack", // Better for top-ups
+      href: "/wallet-topup" 
+    },
     {
       id: "services",
       label: "Services",
-      icon: "bi bi-bag-check",
+      icon: "bi bi-collection", // For a collection of services
       children: admin?.services.map(data => (
         { "id": data._id, "label": data.name, "data": data }
       ))
     },
-    { id: "projects", label: "My API", icon: "bi bi-code-square", href: "/api-catalogue" },
-    { id: "calendar", label: "Credentials", icon: "bi bi-shield-lock", href: "/credentials" },
-    { id: "info-portal", label: "Documentation", icon: "bi bi-book", href: "https://7uniqueverify-njzw.readme.io/reference/post_api-verify-bankverify#/" },
-    { id: "AssignServices", label: "Assign Services", icon: "bi bi-book", href: "/assignservices" },
-    { id: "contact", label: "Contact", icon: "bi bi-book", href: "/contact" },
-    { id: "blog", label: "Blogs", icon: "bi bi-book", href: "/blog" },
-  ];
+    { 
+      id: "projects", 
+      label: "My API", 
+      icon: "bi bi-plug", // Represents API connections
+      href: "/api-catalogue" 
+    },
+    { 
+      id: "calendar", 
+      label: "Credentials", 
+      icon: "bi bi-key-fill", // Better for credentials
+      href: "/credentials" 
+    },
+    { 
+      id: "info-portal", 
+      label: "Documentation", 
+      icon: "bi bi-file-earmark-text", // More document-like
+      href: "https://7uniqueverify-njzw.readme.io/reference/post_api-verify-bankverify#/" 
+    },
+    { 
+      id: "AssignServices", 
+      label: "Assign Services", 
+      icon: "bi bi-person-gear", // Represents assigning to users
+      href: "/assignservices" 
+    },
+    { 
+      id: "contact", 
+      label: "Contact", 
+      icon: "bi bi-envelope", // Standard contact icon
+      href: "/contact" 
+    },
+    { 
+      id: "blog", 
+      label: "Blogs", 
+      icon: "bi bi-newspaper", // Better for blog content
+      href: "/blog" 
+    },
+];
   // console.log(admin);
 const verifyData =()=>{
   

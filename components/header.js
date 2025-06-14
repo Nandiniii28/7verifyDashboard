@@ -124,7 +124,7 @@ export default function Header({ isOpen, onToggle }) {
               <i className="bi bi-list text-xl text-gray-600" />
             </button>
 
-            {!isMobile && (
+            {/* {!isMobile && (
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <i className="bi bi-search text-gray-400" />
@@ -142,7 +142,7 @@ export default function Header({ isOpen, onToggle }) {
                   </kbd>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
 
           {/* Right side - Environment Toggle, Wallet, Notifications, Profile */}

@@ -84,8 +84,9 @@ export default function AllUserListPage() {
   const router = useRouter();
 
   return (
-    <div className="space-y-6">
-      <div className="p-6 mb-6 bg-white shadow rounded-md overflow-auto">
+
+        <div style={{ margin: ' 0px 7px' }}>
+            <div className="px-6 mb-6 py-4 bg-white  rounded-md overflow-auto border-radius: 12px;">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h1 style={{ fontSize: '20px', color: '#000000', display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -102,7 +103,7 @@ export default function AllUserListPage() {
               padding: '8px 16px',
               backgroundColor: 'rgba(105, 108, 255, 0.16)',
               color: '#696cff',
-              
+
               border: 'none',
               cursor: 'pointer',
               fontSize: '14px',
@@ -119,10 +120,10 @@ export default function AllUserListPage() {
               + Create User
             </span>
           </Link>
-        </div>
+           </div>
 
         {/* Filters Section */}
-        <div className="space-y-6 mb-6">
+          <div className="space-y-6 mb-6">
           <div className="flex gap-4 mb-4">
             <div className="flex-1 min-w-0 space-y-1">
               <label htmlFor="email" className="text-sm font-medium text-gray-700 flex items-center gap-1">
@@ -198,160 +199,173 @@ export default function AllUserListPage() {
             </div>
           </div>
         </div>
-      </div>
+         </div>
 
-      <div className=" mb-5 bg-white shadow rounded-md overflow-auto">
+      <div className="  mb-5 bg-white shadow rounded-md overflow-auto">
         {/* Table */}
-        <div className="bg-white  rounded-md overflow-auto max-h-[500px]">
-          <table className="w-full borderBottom: '1px solid #e5e7eb text-sm text-left border-separate border-spacing-y-1">
-            <thead className="bg-blue-50 text-md text-blue-700 uppercase sticky top-0 z-10 ">
-              <tr>
-                <th className="px-6 py-3">User Name</th>
-                <th className="px-6 py-3">Verified</th>
-                <th className="px-6 py-3">Email</th>
-                <th className="px-6 py-3">User ID</th>
-                <th className="px-6 py-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {users.map((user: any, idx) => (
-              <tr
-  key={user._id}
-  className="bg-white hover:bg-gray-100 transition-colors"
-  style={{ borderBottom: '1px solid #e5e7eb' }}
->
-                  <td className="px-6 py-4 font-medium">{user.name}</td>
-                  <td className="px-6 py-4">
-                    <span
-                      className={`text-xs px-2 py-1 rounded-full ${user.isVerified
-                        ? "bg-green-200 text-green-800"
-                        : "bg-red-200 text-red-800"
-                        }`}
-                    >
-                      {user.isVerified ? "Verified" : "Unverified"}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">{user.email}</td>
-                  <td className="px-6 py-4 font-mono">{user._id.slice(-6)}</td>
-                  <td className="px-6 py-4 flex items-center space-x-2 relative">
-                    <button
-                      onClick={() => handleAction("verifyKYC", user._id)}
-                      className="p-2 hover:bg-gray-100 rounded text-green-600"
-                      title="Verify KYC"
-                    >
-                      <FiCheckCircle />
-                    </button>
+  <div className="bg-white rounded-md overflow-hidden relative">
+  <div className=""> {/* Optional max height */}
+    <table className="w-full text-sm text-left border-separate border-spacing-y-1">
+      <thead className="bg-blue-50 text-md text-blue-700 uppercase sticky top-0 z-10">
+        <tr>
+          <th className="px-6 py-3">User Name</th>
+          <th className="px-6 py-3">Verified</th>
+          <th className="px-6 py-3">Email</th>
+          <th className="px-6 py-3">User ID</th>
+          <th className="px-6 py-3">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {users.map((user: any, idx) => (
+          <tr
+            key={user._id}
+            className="bg-white hover:bg-gray-100 transition-colors border-b border-gray-200"
+          >
+            <td className="px-6 py-4 font-medium">{user.name}</td>
+            <td className="px-6 py-4">
+              <span
+                className={`text-xs px-2 py-1 rounded-full ${
+                  user.isVerified
+                    ? "bg-green-200 text-green-800"
+                    : "bg-red-200 text-red-800"
+                }`}
+              >
+                {user.isVerified ? "Verified" : "Unverified"}
+              </span>
+            </td>
+            <td className="px-6 py-4">{user.email}</td>
+            <td className="px-6 py-4 font-mono">{user._id.slice(-6)}</td>
+            <td className="px-6 py-4 flex items-center space-x-2 relative">
+              <button
+                onClick={() => handleAction("verifyKYC", user._id)}
+                className="p-2 hover:bg-gray-100 rounded text-green-600"
+                title="Verify KYC"
+              >
+                <FiCheckCircle />
+              </button>
 
-                    <button
-                      onClick={() => handleAction("productionKey", user._id)}
-                      className="p-2 hover:bg-gray-100 rounded text-blue-600"
-                      title="Generate Key"
-                    >
-                      <FiKey />
-                    </button>
+              <button
+                onClick={() => handleAction("productionKey", user._id)}
+                className="p-2 hover:bg-gray-100 rounded text-blue-600"
+                title="Generate Key"
+              >
+                <FiKey />
+              </button>
 
-                    <Link
-                      href="/updatealluser"
-                      className="p-2 hover:bg-gray-100 rounded text-gray-600"
-                      title="Update"
-                    >
-                      <FiEdit2 />
-                    </Link>
+              <Link
+                href="/updatealluser"
+                className="p-2 hover:bg-gray-100 rounded text-gray-600"
+                title="Update"
+              >
+                <FiEdit2 />
+              </Link>
 
-                    <div className="relative">
-                      <button
-                        onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
-                        className="p-2 hover:bg-gray-100 rounded"
-                      >
-                        <HiOutlineDotsVertical />
-                      </button>
-                      {openIndex === idx && (
-                        <div className="absolute right-0 mt-2 bg-white border shadow-lg rounded z-10 w-48">
-                          <div className="text-xs px-4 py-2 text-gray-500">Assign Service</div>
-                          {services.map((s) => (
-                            <button
-                              key={s}
-                              onClick={() => toast.success(`${s} assigned`)}
-                              className="px-4 py-2 w-full text-left hover:bg-gray-50 text-sm flex items-center gap-2"
-                              aria-label={`Assign ${s}`}
-                            >
-                              {serviceIcons[s]}
-                              <span>{s}</span>
-                            </button>
-                          ))}
-                        </div>
-                      )}
+              <div className="relative">
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setOpenIndex(openIndex === idx ? null : idx);
+                  }}
+                  className="p-2 hover:bg-gray-100 rounded"
+                >
+                  <HiOutlineDotsVertical />
+                </button>
+
+                {/* Dropdown rendered outside overflow */}
+                {openIndex === idx && (
+                  <div
+                    className="absolute left-2 bottom-full mb-2 bg-white border shadow-lg rounded z-50 w-60 " 
+                    onMouseDown={(e) => e.stopPropagation()} // Prevent bubbling
+                  >
+                    <div className="text-xs px-4 py-2 text-gray-500">Assign Service</div>
+                    <div className=" overflow-auto max-h-60 ">
+                      {services.map((s) => (
+                        <button
+                          key={s}
+                          onMouseDown={(e) => e.preventDefault()} // Stop scroll
+                          onClick={() => {
+                            toast.success(`${s} assigned`);
+                            setOpenIndex(null);
+                          }}
+                          className=" px-4 py-2 w-full text-left hover:bg-gray-50 text-sm flex items-center gap-2"
+                          aria-label={`Assign ${s}`}
+                        >
+                          {serviceIcons[s]}
+                          <span>{s}</span>
+                        </button>
+                      ))}
                     </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                  </div>
+                )}
+              </div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
 
-        {/* Pagination */}
-     <div style={{
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  margin: '0px 10px'
-}}>
+  <div
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    margin: "1rem 10px",
+  }}
+>
   <button
-    style={{
-      backgroundColor: 'transparent',
-      border: '1px solid #e2e8f0',
-      borderRadius: '6px',
-      padding: '8px 16px',
-      cursor: page <= 1 ? 'not-allowed' : 'pointer',
-      opacity: page <= 1 ? 0.5 : 1,
-      color: '#334155',
-      fontSize: '14px',
-      fontWeight: '500',
-      transition: 'all 0.2s ease',
-      ':hover': {
-        backgroundColor: page <= 1 ? 'transparent' : '#f1f5f9',
-        borderColor: page <= 1 ? '#e2e8f0' : '#cbd5e1'
-      }
-    }}
     disabled={page <= 1}
     onClick={() => setPage(page - 1)}
+    style={{
+      backgroundColor: "transparent",
+      border: "1px solid #e5e7eb", // Tailwind's gray-200
+      borderRadius: "0.375rem", // rounded-md
+      padding: "0.5rem 1rem", // px-4 py-2
+      fontSize: "0.875rem", // text-sm
+      fontWeight: 500,
+      color: "#334155", // Tailwind's slate-700
+      transition: "all 0.2s",
+      opacity: page <= 1 ? 0.5 : 1,
+      cursor: page <= 1 ? "not-allowed" : "pointer",
+    }}
   >
     Previous
   </button>
 
-  <span style={{
-    fontSize: '14px',
-    color: '#4b5563',
-    padding: '24px',
-    margin: '16px'
-  }}>
+  <span
+    style={{
+      fontSize: "0.875rem",
+      color: "#4b5563", // Tailwind's gray-600
+    }}
+  >
     Page {page} of {totalPages}
   </span>
 
   <button
-    style={{
-      backgroundColor: 'transparent',
-      border: '1px solid #e2e8f0',
-      borderRadius: '6px',
-      padding: '8px 16px',
-      cursor: page >= totalPages ? 'not-allowed' : 'pointer',
-      opacity: page >= totalPages ? 0.5 : 1,
-      color: '#334155',
-      fontSize: '14px',
-      fontWeight: '500',
-      transition: 'all 0.2s ease',
-    hover: {
-        backgroundColor: page >= totalPages ? 'transparent' : '#f1f5f9',
-        borderColor: page >= totalPages ? '#e2e8f0' : '#cbd5e1'
-      }
-    }}
     disabled={page >= totalPages}
     onClick={() => setPage(page + 1)}
+    style={{
+      backgroundColor: "transparent",
+      border: "1px solid #e5e7eb",
+      borderRadius: "0.375rem",
+      padding: "0.5rem 1rem",
+      fontSize: "0.875rem",
+      fontWeight: 500,
+      color: "#334155",
+      transition: "all 0.2s",
+      opacity: page >= totalPages ? 0.5 : 1,
+      cursor: page >= totalPages ? "not-allowed" : "pointer",
+    }}
   >
     Next
   </button>
 </div>
-      </div>
-    </div>
+
+</div>
+</div>
+</div>
   );
 }
