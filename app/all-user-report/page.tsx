@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "react-toastify";
 import { FaUserGroup } from "react-icons/fa6";
+import { HiOutlineDocumentArrowDown } from "react-icons/hi2";
+import { AiFillFileExcel } from "react-icons/ai";
 
-import "./all-user-report.css"; // import CSS file
+
 
 export default function AllUserReportPage() {
   const isMobile = useIsMobile();
@@ -79,118 +81,184 @@ export default function AllUserReportPage() {
 
   return (
     <>
-      <h4 className="title padding: 16px 32px; ">
-        <FaUserGroup className="icon" size={28} />
-        All User Report
-      </h4>
-      <div className="page-container">
-        <div className="card">
-          <div className="header-row flex justify-between items-center">
-            <div className="controls flex gap-4">
-              <Input
-                placeholder="Search name/email"
-                value={search}
-                onChange={(e) => {
-                  setPage(1);
-                  setSearch(e.target.value);
-                }}
-                className="input-small"
-              />
-              <Input
-                placeholder="Filter by service"
-                value={serviceFilter}
-                onChange={(e) => {
-                  setPage(1);
-                  setServiceFilter(e.target.value);
-                }}
-                className="input-small"
-              />
-            </div>
+    
+    
+      <div
+        style={{
+         
+          borderRadius: "12px",
+          padding: "34px",
+          backgroundColor: "#fff",
+          marginBottom: "16px",
+        }}
+      >
+        <h1 style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <FaUserGroup size={20} />
+          All User Report
+        </h1>
 
-            <div className="export-buttons flex gap-2">
-              <button
-                onClick={() => handleExport("csv")}
-                className="inline-flex items-center bg-blue-100 px-3 py-2 text-xs font-medium text-blue-800 hover:bg-blue-200 cursor-pointer rounded"
-              >
-                Export CSV
-              </button>
-              <button
-                onClick={() => handleExport("csv")}
-                className="inline-flex items-center bg-green-100 px-3 py-2 text-xs font-medium text-green-800 hover:bg-green-200 cursor-pointer rounded"
-              >
-                Export Excel
-              </button>
-            </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: "10px",
+            marginTop: "26px",
+          }}
+        >
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+            <Input
+              placeholder="Search name/email"
+              value={search}
+              onChange={(e) => {
+                setPage(1);
+                setSearch(e.target.value);
+              }}
+              style={{ width: "200px" }}
+            />
+            <Input
+              placeholder="Filter by service"
+              value={serviceFilter}
+              onChange={(e) => {
+                setPage(1);
+                setServiceFilter(e.target.value);
+              }}
+              style={{ width: "200px" }}
+            />
           </div>
 
-          {/* Error message */}
-          {error && (
-            <div className="error-message">
-              {error}
-            </div>
-          )}
+          <div style={{ display: "flex", gap: "8px" }}>
+      <button
+  onClick={() => handleExport("csv")}
+  style={{
+    backgroundColor: "#dbeafe",
+    padding: "8px 12px",
+    fontSize: "12px",
+    color: "#1e40af",
+    borderRadius: "4px",
+    cursor: "pointer",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "6px",
+  }}
+>
+  <HiOutlineDocumentArrowDown size={16} />
+  Export CSV
+</button>
 
-          {/* Table */}
-          <div className="table-container">
-            {loading ? (
-              <div className="loading-text">Loading...</div>
-            ) : users.length === 0 ? (
-              <div className="loading-text">No users found.</div>
-            ) : (
-              <table className="data-table">
+<button
+  onClick={() => handleExport("xlsx")}
+  style={{
+    backgroundColor: "#bbf7d0",
+    padding: "8px 12px",
+    fontSize: "12px",
+    color: "#166534",
+    borderRadius: "4px",
+    cursor: "pointer",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "6px",
+  }}
+>
+  <AiFillFileExcel size={16} />
 
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Service</th>
-                    <th>Hit Count</th>
-                    <th>Total Charges</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map((user) =>
-                    user.serviceUsage.map((service, index) => (
-                      <tr key={`${user._id}-${index}`}>
-                        <td>{user.name}</td>
-                        <td className="text-muted">{user.email}</td>
-                        <td>{service.service}</td>
-                        <td className="text-green">{service.hitCount}</td>
-                        <td>₹ {service.totalCharge?.toFixed(2)}</td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            )}
+  Export Excel
+</button>
           </div>
-
-          {/* Pagination */}
-          {!loading && totalPages > 1 && (
-            <div className="pagination">
-              <Button
-                disabled={page === 1}
-                onClick={() => setPage((p) => Math.max(p - 1, 1))}
-                variant="outline"
-                className="btn-pagination"
-              >
-                Previous
-              </Button>
-              <span className="page-info">
-                Page {page} of {totalPages}
-              </span>
-              <Button
-                disabled={page === totalPages}
-                onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
-                variant="outline"
-                className="btn-pagination"
-              >
-                Next
-              </Button>
-            </div>
-          )}
         </div>
       </div>
+
+      {error && (
+        <div style={{ color: "red", marginBottom: "16px" }}>{error}</div>
+      )}
+
+      <div
+        style={{
+       
+       marginBottom: "1.25rem", backgroundColor: "#fff", boxShadow: "0 1px 3px rgba(0,0,0,0.1)", borderRadius: "0.375rem", overflow: "auto" 
+        }}
+      >
+        {loading ? (
+          <div style={{ textAlign: "center", color: "#666" }}>Loading...</div>
+        ) : users.length === 0 ? (
+          <div style={{ textAlign: "center", color: "#666" }}>
+            No users found.
+          </div>
+        ) : (
+                   <table style={{ width: "100%",  borderSpacing: "0 0.25rem", fontSize: "0.875rem", textAlign: "left", borderBottom: "1px solid #e5e7eb"}}>
+            <thead>
+              <tr style={{ backgroundColor: "#eff6ff", fontSize: "", color: "#1d4ed8",  }}>
+                <th style={{ padding: "0.75rem 1.5rem" }}>
+                  Name
+                </th>
+                <th style={{  padding: "0.75rem 1.5rem" }}>
+                  Email
+                </th>
+                <th style={{  padding: "0.75rem 1.5rem"}}>
+                  Service
+                </th>
+                <th style={{ padding: "0.75rem 1.5rem" }}>
+                  Hit Count
+                </th>
+                <th style={{padding: "0.75rem 1.5rem" }}>
+                  Total Charges
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user) =>
+                user.serviceUsage.map((service, index) => (
+                  <tr key={`${user._id}-${index}`}>
+                    <td style={{padding: "0.75rem 1.5rem" }}>{user.name}</td>
+                    <td style={{ padding: "0.75rem 1.5rem", color: "#6b7280" }}>
+                      {user.email}
+                    </td>
+                    <td style={{ padding: "0.75rem 1.5rem" }}>{service.service}</td>
+                    <td style={{ padding: "0.75rem 1.5rem" }}>
+                      {service.hitCount}
+                    </td>
+                    <td style={{padding: "0.75rem 1.5rem" }}>
+                      ₹ {service.totalCharge?.toFixed(2)}
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        )}
+
+        {/* Pagination */}
+        {!loading && totalPages > 1 && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginTop: "20px",
+            }}
+          >
+            <Button
+              disabled={page === 1}
+              onClick={() => setPage((p) => Math.max(p - 1, 1))}
+              variant="outline"
+            >
+              Previous
+            </Button>
+            <span>
+              Page {page} of {totalPages}
+            </span>
+            <Button
+              disabled={page === totalPages}
+              onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+              variant="outline"
+            >
+              Next
+            </Button>
+          </div>
+        )}
+      </div>
+  
     </>
   );
 }

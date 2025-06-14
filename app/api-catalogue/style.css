@@ -1,5 +1,0 @@
-/* styles/noOutline.css or add to globals.css */
-.no-outline:focus {
-  outline: none !important;
-  box-shadow: none !important;
-}
