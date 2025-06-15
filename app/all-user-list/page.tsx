@@ -93,8 +93,9 @@ export default function AllUserListPage() {
   const router = useRouter();
 
   return (
-    <div className="space-y-6">
-      <div className="p-6 mb-6 bg-white shadow rounded-md overflow-auto">
+
+        <div style={{ margin: ' 0px 7px' }}>
+            <div className="px-6 mb-6 py-4 bg-white  rounded-md overflow-auto border-radius: 12px;">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
 
@@ -115,8 +116,6 @@ export default function AllUserListPage() {
               padding: '8px 16px',
               backgroundColor: 'rgba(105, 108, 255, 0.16)',
               color: '#696cff',
-
-
               border: 'none',
               cursor: 'pointer',
               fontSize: '14px',
@@ -133,13 +132,21 @@ export default function AllUserListPage() {
               + Create User
             </span>
           </Link>
-        </div>
+           </div>
+        {/* Filters Section */}
+          <div className="space-y-6 mb-6">
+          <div className="flex gap-4 mb-4">
+            <div className="flex-1 min-w-0 space-y-1">
+              <label htmlFor="email" className="text-sm font-medium text-gray-700 flex items-center gap-1">
+                Email
+              </label>
 
         {/* Filters */}
         <div className="p-6 space-y-6">
           <div className="flex gap-4 flex-wrap">
             <div className="flex-1 min-w-[200px] space-y-1">
               <label className="text-sm font-medium text-gray-700">Email</label>
+
               <Input
                 value={filters.email}
                 onChange={(e) => setFilters({ ...filters, email: e.target.value })}
@@ -191,6 +198,176 @@ export default function AllUserListPage() {
             </div>
           </div>
         </div>
+
+         </div>
+
+      <div className="  mb-5 bg-white shadow rounded-md overflow-auto">
+        {/* Table */}
+  <div className="bg-white rounded-md overflow-hidden relative">
+  <div className=""> {/* Optional max height */}
+    <table className="w-full text-sm text-left border-separate border-spacing-y-1">
+      <thead className="bg-blue-50 text-md text-blue-700 uppercase sticky top-0 z-10">
+        <tr>
+          <th className="px-6 py-3">User Name</th>
+          <th className="px-6 py-3">Verified</th>
+          <th className="px-6 py-3">Email</th>
+          <th className="px-6 py-3">User ID</th>
+          <th className="px-6 py-3">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {users.map((user: any, idx) => (
+          <tr
+            key={user._id}
+            className="bg-white hover:bg-gray-100 transition-colors border-b border-gray-200"
+          >
+            <td className="px-6 py-4 font-medium">{user.name}</td>
+            <td className="px-6 py-4">
+              <span
+                className={`text-xs px-2 py-1 rounded-full ${
+                  user.isVerified
+                    ? "bg-green-200 text-green-800"
+                    : "bg-red-200 text-red-800"
+                }`}
+              >
+                {user.isVerified ? "Verified" : "Unverified"}
+              </span>
+            </td>
+            <td className="px-6 py-4">{user.email}</td>
+            <td className="px-6 py-4 font-mono">{user._id.slice(-6)}</td>
+            <td className="px-6 py-4 flex items-center space-x-2 relative">
+              <button
+                onClick={() => handleAction("verifyKYC", user._id)}
+                className="p-2 hover:bg-gray-100 rounded text-green-600"
+                title="Verify KYC"
+              >
+                <FiCheckCircle />
+              </button>
+
+              <button
+                onClick={() => handleAction("productionKey", user._id)}
+                className="p-2 hover:bg-gray-100 rounded text-blue-600"
+                title="Generate Key"
+              >
+                <FiKey />
+              </button>
+
+              <Link
+                href="/updatealluser"
+                className="p-2 hover:bg-gray-100 rounded text-gray-600"
+                title="Update"
+              >
+                <FiEdit2 />
+              </Link>
+
+              <div className="relative">
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setOpenIndex(openIndex === idx ? null : idx);
+                  }}
+                  className="p-2 hover:bg-gray-100 rounded"
+                >
+                  <HiOutlineDotsVertical />
+                </button>
+
+                {/* Dropdown rendered outside overflow */}
+                {openIndex === idx && (
+                  <div
+                    className="absolute left-2 bottom-full mb-2 bg-white border shadow-lg rounded z-50 w-60 " 
+                    onMouseDown={(e) => e.stopPropagation()} // Prevent bubbling
+                  >
+                    <div className="text-xs px-4 py-2 text-gray-500">Assign Service</div>
+                    <div className=" overflow-auto max-h-60 ">
+                      {services.map((s) => (
+                        <button
+                          key={s}
+                          onMouseDown={(e) => e.preventDefault()} // Stop scroll
+                          onClick={() => {
+                            toast.success(`${s} assigned`);
+                            setOpenIndex(null);
+                          }}
+                          className=" px-4 py-2 w-full text-left hover:bg-gray-50 text-sm flex items-center gap-2"
+                          aria-label={`Assign ${s}`}
+                        >
+                          {serviceIcons[s]}
+                          <span>{s}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    margin: "1rem 10px",
+  }}
+>
+  <button
+    disabled={page <= 1}
+    onClick={() => setPage(page - 1)}
+    style={{
+      backgroundColor: "transparent",
+      border: "1px solid #e5e7eb", // Tailwind's gray-200
+      borderRadius: "0.375rem", // rounded-md
+      padding: "0.5rem 1rem", // px-4 py-2
+      fontSize: "0.875rem", // text-sm
+      fontWeight: 500,
+      color: "#334155", // Tailwind's slate-700
+      transition: "all 0.2s",
+      opacity: page <= 1 ? 0.5 : 1,
+      cursor: page <= 1 ? "not-allowed" : "pointer",
+    }}
+  >
+    Previous
+  </button>
+
+  <span
+    style={{
+      fontSize: "0.875rem",
+      color: "#4b5563", // Tailwind's gray-600
+    }}
+  >
+    Page {page} of {totalPages}
+  </span>
+
+  <button
+    disabled={page >= totalPages}
+    onClick={() => setPage(page + 1)}
+    style={{
+      backgroundColor: "transparent",
+      border: "1px solid #e5e7eb",
+      borderRadius: "0.375rem",
+      padding: "0.5rem 1rem",
+      fontSize: "0.875rem",
+      fontWeight: 500,
+      color: "#334155",
+      transition: "all 0.2s",
+      opacity: page >= totalPages ? 0.5 : 1,
+      cursor: page >= totalPages ? "not-allowed" : "pointer",
+    }}
+  >
+    Next
+  </button>
+</div>
+
+</div>
+</div>
+</div>
+
 
         {/* Table */}
         <div className="overflow-auto max-h-[500px]">
