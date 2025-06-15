@@ -10,10 +10,11 @@ import axiosInstance from "./service/axiosInstance";
 import { MainContext } from "@/app/context/context";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAdminDetails, logout } from "@/app/redux/reducer/AdminSlice";
-import Link from "next/link";
+
 
 export default function Header({ isOpen, onToggle }) {
   const { tostymsg } = useContext(MainContext)
+
   const [searchQuery, setSearchQuery] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -35,14 +36,11 @@ export default function Header({ isOpen, onToggle }) {
 
   const handleEnvironmentSwitch = async (env) => {
     const userId = admin._id;
-
     let environment_mode = env === "live" ? true : false;
 
     if (admin?.documents?.isVerified) {
       try {
         const res = await axiosInstance.put(`/admin/status-change/${userId}`, { environment_mode });
-        console.log("Environment change response:", res.data);
-
         setEnvironment(env); // Update local state
         dispatch(fetchAdminDetails()); // Refresh admin data
         // tostymsg("Environment updated", "success");

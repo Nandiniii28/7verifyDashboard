@@ -10,23 +10,25 @@ import { FiDownload, FiCalendar, FiSearch, FiBarChart2 } from "react-icons/fi";
 import { Pagination } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 
+import "./usages.css";
+
 export default function UsagesPage() {
-  const { token } = useSelector((state) => state.admin);
+  const { admin, token } = useSelector((state) => state.admin);
   const [usageData, setUsageData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({ service: "", startDate: "", endDate: "" });
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
+  const mode = admin?.environment_mode
   useEffect(() => {
     fetchUsage();
-  }, [filters, page]);
+  }, [filters, page, mode]);
 
   const fetchUsage = async () => {
     try {
       setLoading(true);
       const res = await axiosInstance.get("/user/usage-report", {
-        params: { ...filters, page, limit: 10 },
+        params: { ...filters, page, limit: 10, mode },
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsageData(res.data.usage || []);

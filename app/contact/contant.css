@@ -78,6 +78,12 @@ align-items: center;
   white-space: nowrap;
 }
 
+h3{
+  align-items: center;
+  display: flex;
+
+}
+
 .toggle-form-btn:hover {
   background: #27ae60;
 }
@@ -138,6 +144,8 @@ align-items: center;
   border-radius: 4px;
   font-size: 14px;
   transition: border 0.2s;
+  height: 37px;
+  border-radius: 8px;
 }
 
 .form-group input:focus,

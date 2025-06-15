@@ -100,7 +100,7 @@ export default function CredentialsPage() {
                 <h3 style={{ margin: 0, fontSize: "14px", color: "#111827" }}>
                   Auth Key :- {credential.data?.jwtSecret}
                 </h3>
-                <p style={{ fontSize: "14px", color: "#6b7280" }}>{credential.data?.authKey}</p>
+                <p style={{ fontSize: "14px", color: "#6b7280" }}>Client Key :- {credential.data?.authKey}</p>
                 <div style={{ fontSize: "12px", color: "#6b7280", marginTop: "8px" }}>
                   <span style={{ marginRight: "16px" }}>Created: {credential.created}</span>
                   <span>Last used: {credential.lastUsed}</span>
@@ -154,48 +154,48 @@ export default function CredentialsPage() {
                       }}
                       onMouseOver={(e) => (e.target.style.backgroundColor = "#f3f4f6")}
                       onMouseOut={(e) => (e.target.style.backgroundColor = "#fff")}
-                       onClick={(e) => e.stopPropagation()}
+                      onClick={(e) => e.stopPropagation()}
                     />
-               <button
-  style={{
-    padding: "4px 8px 4px 6px", // Adjusted padding for icon
-    backgroundColor: "red",
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    display: "flex",
-    alignItems: "center",
-    gap: "4px",
-    cursor: "pointer",
-    transition: "background-color 0.2s",
-  }}
-  onClick={(e) => e.stopPropagation()}
-  onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#d32f2f")} // Darker red on hover
-  onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "red")}
->
-  {/* Trash can icon */}
-  <svg 
-    width="14" 
-    height="14" 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round"
-    style={{ color: "white" }}
-      onClick={(e) => e.stopPropagation()}
-  >
-    <path d="M3 6h18"></path>
-    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-    <line x1="10" y1="11" x2="10" y2="17"></line>
-    <line x1="14" y1="11" x2="14" y2="17"></line>
-  </svg>
-  Delete
-</button>
+                    <button
+                      style={{
+                        padding: "4px 8px 4px 6px", // Adjusted padding for icon
+                        backgroundColor: "red",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "4px",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "4px",
+                        cursor: "pointer",
+                        transition: "background-color 0.2s",
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                      onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#d32f2f")} // Darker red on hover
+                      onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "red")}
+                    >
+                      {/* Trash can icon */}
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        style={{ color: "white" }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <path d="M3 6h18"></path>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                      </svg>
+                      Delete
+                    </button>
                   </div>
                 ))}
-             
+
               </div>
             )}
           </div>
@@ -219,35 +219,35 @@ export default function CredentialsPage() {
 
             {openSections.callbackUrl && (
               <div style={{ marginTop: "16px" }}>
-             <div style={{ display: "flex", flexDirection: "row", gap: "8px" }}>
-  <input
-    type="url"
-    placeholder="Enter callback URL"
-    style={{
-      flex: 1,
-      padding: "8px",
-      border: "1px solid #d1d5db",
-      borderRadius: "6px"
-    }}
-     onClick={(e) => e.stopPropagation()}
-  />
-  <input
-    type="url"
-    placeholder="Add new callback URL"
-    style={{
-      flex: 1,
-      padding: "8px",
-      border: "1px solid #d1d5db",
-      borderRadius: "6px"
-    }}
-     onClick={(e) => e.stopPropagation()}
-  />
-</div>
+                <div style={{ display: "flex", flexDirection: "row", gap: "8px" }}>
+                  <input
+                    type="url"
+                    placeholder="Enter callback URL"
+                    style={{
+                      flex: 1,
+                      padding: "8px",
+                      border: "1px solid #d1d5db",
+                      borderRadius: "6px"
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                  <input
+                    type="url"
+                    placeholder="Add new callback URL"
+                    style={{
+                      flex: 1,
+                      padding: "8px",
+                      border: "1px solid #d1d5db",
+                      borderRadius: "6px"
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                </div>
 
                 <div style={{ textAlign: "center", marginTop: "16px" }}>
                   <button
                     style={{ padding: "8px 16px", backgroundColor: "#2563eb", color: "white", borderRadius: "4px" }}
-                  onClick={(e) => e.stopPropagation()} >
+                    onClick={(e) => e.stopPropagation()} >
                     Submit
                   </button>
                 </div>

@@ -1,6 +1,3 @@
-
-
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -279,4 +276,4 @@ export default function KycRequestPage() {
       </div>
     </div>
     );
-}
+} 
