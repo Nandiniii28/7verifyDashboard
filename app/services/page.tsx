@@ -13,7 +13,6 @@ const generateToken = async (payload, secret) => {
     const secretKey = new TextEncoder().encode(secret);
     const jwt = await new SignJWT(payload)
         .setProtectedHeader({ alg: "HS256" })
-        .setExpirationTime("1h")
         .sign(secretKey);
     return jwt;
 };

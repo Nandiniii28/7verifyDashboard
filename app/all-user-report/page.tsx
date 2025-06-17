@@ -117,7 +117,7 @@ export default function AllUserReportPage() {
               }}
               style={{ width: "200px" }}
             />
-            <Input
+            {/* <Input
               placeholder="Filter by service"
               value={serviceFilter}
               onChange={(e) => {
@@ -125,7 +125,7 @@ export default function AllUserReportPage() {
                 setServiceFilter(e.target.value);
               }}
               style={{ width: "200px" }}
-            />
+            /> */}
           </div>
 
           <div style={{ display: "flex", gap: "8px" }}>
