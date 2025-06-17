@@ -10,6 +10,7 @@ import axiosInstance from "./service/axiosInstance";
 import { MainContext } from "@/app/context/context";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAdminDetails, logout } from "@/app/redux/reducer/AdminSlice";
+import Link from "next/link";
 
 
 export default function Header({ isOpen, onToggle }) {
@@ -21,7 +22,7 @@ export default function Header({ isOpen, onToggle }) {
   const isMobile = useIsMobile();
   const dispatch = useDispatch()
   const { admin } = useSelector(state => state.admin)
-  const [environment, setEnvironment] = useState("uat");
+  const [environment, setEnvironment] = useState('');
   const [showUATModal, setShowUATModal] = useState(false);
 
   const getInitials = (name) => {
@@ -33,7 +34,11 @@ export default function Header({ isOpen, onToggle }) {
       .slice(0, 2);
   };
 
-
+  useEffect(
+    () => {
+      setEnvironment(admin?.environment_mode ? "live" : "uat");
+    }, [admin?.environment_mode]
+  )
   const handleEnvironmentSwitch = async (env) => {
     const userId = admin._id;
     let environment_mode = env === "live" ? true : false;
@@ -309,13 +314,13 @@ export default function Header({ isOpen, onToggle }) {
                     </div>
                   </div>
                   <div className="py-2">
-                    <a
-                      href="#"
+                    <Link
+                      href="/profile"
                       className="flex items-center px-6 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                     >
                       <i className="bi bi-person mr-3 text-gray-400" />
                       View Profile
-                    </a>
+                    </Link>
                     <a
                       href="#"
                       className="flex items-center px-6 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
