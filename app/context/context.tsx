@@ -36,7 +36,7 @@ export const Context = ({ children }) => {
     // get all Services
     const allService = async (page, limit, search, methodFilter, minCharge, maxCharge, activeOnly) => {
         try {
-            const res = await axiosInstance.get(`/admin/services?page=${page}&limit=${limit}&search=${search}&methodFilter=${methodFilter}&minCharge=${minCharge}&maxCharge=${maxCharge}&activeOnly=${activeOnly}`);
+            const res = await axiosInstance.get(`/admin/services?page=${page}&limit=${limit}&search=${search}&method=${methodFilter}&minCharge=${minCharge}&maxCharge=${maxCharge}&activeOnly=${activeOnly}`);
             setServices(res.data.services);
             setTotalPages(res.data.totalPages);
         } catch (error) {
@@ -65,7 +65,7 @@ export const Context = ({ children }) => {
             <>
                 {
                     admin && pathname != "/login" ?
-                        <div className="min-h-screen flex">
+                        <div className="min-h-screen md:flex">
                             {/* Sidebar */}
                             {!isMobile && (
                                 <div

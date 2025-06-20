@@ -80,8 +80,8 @@ export default function AssignServicesPage() {
         <div className="assign-services-container">
             <Card className="services-card">
                 <CardHeader>
-                    <CardTitle className="card-title">
-                        <FiTool className="icon-spacing" />
+                    <CardTitle className=" brandorange-text">
+                        <FiTool className=" brandorange-text" />
                         Assign Services
                     </CardTitle>
                 </CardHeader>
@@ -112,29 +112,31 @@ export default function AssignServicesPage() {
                                     <Checkbox
                                         checked={selectedServices.includes(service._id)}
                                         onCheckedChange={() => toggleService(service._id)}
+                                        className='border-[#c3653d] brandorange-bg-light brandorange-text'
                                     />
                                     <span className="service-name">{service.name}</span>
                                 </label>
                             ))}
                         </div>
+                        
                     </div>
 
                     {/* Action Buttons */}
                     <div className="action-buttons">
-                        <Button 
-                            variant="outline" 
+                        <Button
+                            variant="outline"
                             onClick={handleAssignAllServices}
                             className="assign-all-btn"
                         >
                             <FiPackage className="icon-spacing" />
                             Assign All Services
                         </Button>
-                        <Button 
-                            onClick={handleAssignSelectedServices} 
+                        <Button
+                            onClick={handleAssignSelectedServices}
                             disabled={!selectedUserId || selectedServices.length === 0}
-                            className="assign-selected-btn"
+                            className="brandorange-bg-light brandorange-text"
                         >
-                            <FiCheck className="icon-spacing" />
+                            <FiCheck className="brandorange-bg-light brandorange-text" />
                             Assign Selected Services
                         </Button>
                     </div>
