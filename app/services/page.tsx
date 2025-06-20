@@ -90,14 +90,13 @@ export default function ServiceDynamicPage() {
             }, envConfig.jwtSecret);
 
             // Step 4: API call
-            const res = await fetch(`http://localhost:5050/api/verify/${service.endpoint}`, {
+            const res = await fetch(`https://api.7uniqueverfiy.com/api/verify/${service.endpoint}`, {
                 method: "POST",
                 headers: {
                     ...headers,
                     "client-id": envConfig.authKey,
                     "authorization": `Bearer ${token}`,
                     "x-env": environment,
-                    // ❌ DO NOT manually set Content-Type for FormData
                 },
                 body: requestData,
             });
