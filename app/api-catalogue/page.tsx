@@ -164,9 +164,9 @@ export default function APICataloguePage() {
     <div className="p-6 font-sans bg-gray-50 min-h-screen">
       <div className="p-6 mb-6 bg-white shadow rounded-md overflow-auto">
         {/* Header */}
-        <div className="flex items-center text-black-600 mb-6">
+        <div className="md:flex justify-between text-black-600 mb-6">
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ alignItems: 'center', gap: '8px' }} className="flex">
             <FaServer style={{
               color: 'black',
               fontSize: '20px',
@@ -175,7 +175,7 @@ export default function APICataloguePage() {
             <h2 className="text-2xl">API Catalogue</h2>
           </div>
           {admin?.role === "admin" && (
-            <div style={{ marginLeft: 'auto' }}>
+            <div className="flex justify-center mt-2 md:mt-0 md:block  " >
               <button
                 onClick={() => {
                   setShowEdit(false);
@@ -186,19 +186,18 @@ export default function APICataloguePage() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   borderRadius: '6px',
-                  backgroundColor: '#2563eb',
-                  padding: '8px 12px',
+               padding: '8px 12px',
                   fontSize: '14px',
                   fontWeight: 500,
-                  color: 'white',
-                  boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+               boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
                   cursor: 'pointer',
                   border: 'none',
                   outline: 'none',
                   transition: 'background-color 0.2s'
                 }}
-                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#1d4ed8'}
-                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#2563eb'}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f9c4ad'}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#fde8df'}
+                className="brandorange-bg-light brandorange-text"
               >
                 <FaPlus className="mr-2" />
                 Add New API
@@ -208,8 +207,8 @@ export default function APICataloguePage() {
         </div>
 
         {/* Filters */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', width: '100%' }}>
-          <div style={{ position: 'relative', flex: 1 }}>
+        <div style={{ alignItems: 'center', gap: '16px', marginBottom: '16px', width: '100%' }} className="md:flex " >
+          <div style={{ position: 'relative', flex: 1 }} className="py-1">
             <FaSearch style={{
               position: 'absolute',
               left: '12px',
@@ -242,6 +241,7 @@ export default function APICataloguePage() {
               fontSize: '14px',
               flex: 1
             }}
+            className="py-1"
           >
             <option value="">All Methods</option>
             <option value="GET">GET</option>
@@ -250,7 +250,7 @@ export default function APICataloguePage() {
             <option value="DELETE">DELETE</option>
           </select>
 
-          <div style={{ display: 'flex', gap: '8px', flex: 1 }}>
+          <div style={{  gap: '8px', flex: 1 }} className="py-1 md:flex">
             <input
               type="number"
               placeholder="Min Charge"
@@ -263,6 +263,7 @@ export default function APICataloguePage() {
                 fontSize: '14px',
                 width: '100%'
               }}
+              className="my-1"
             />
             <input
               type="number"
@@ -276,6 +277,7 @@ export default function APICataloguePage() {
                 fontSize: '14px',
                 width: '100%'
               }}
+              className="py-1"
             />
           </div>
 
@@ -307,12 +309,18 @@ export default function APICataloguePage() {
       </div>
 
         {/* Table */}
-        <div className="p-6 mb-6 bg-white shadow rounded-md overflow-auto">
-        <  div className="border border-gray-200 rounded-lg overflow-hidden shadow-sm bg-white mb-6">
+        <div className="md:p-6 p-2 mb-6 bg-white shadow rounded-md overflow-auto">
+        <  div className="border border-gray-200 rounded-lg overflow-hidden bg-white mb-6" style={{
+          overflowX: 'auto',
+          WebkitOverflowScrolling: 'touch',
+          borderRadius: '8px',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          margin: '16px 0'
+        }}>
         
-          <table className="w-full border-collapse">
+          <table className="w-full  " >
             <thead>
-              <tr className="bg-blue-50 text-blue-800 text-sm font-semibold text-left">
+              <tr className="brandorange-bg-light brandorange-text text-sm font-semibold text-left">
                 <th className="p-3 border-b border-gray-200">API Name</th>
                 <th className="p-3 border-b border-gray-200">Method</th>
                 <th className="p-3 border-b border-gray-200">Charge</th>
@@ -361,8 +369,6 @@ export default function APICataloguePage() {
                         <button
                           onClick={() => openEditModal(api)}
                           style={{
-                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                            color: '#1D4ED8',
                             padding: '4px 8px',
                             borderRadius: '4px',
                             fontSize: '12px',
@@ -371,6 +377,7 @@ export default function APICataloguePage() {
                             alignItems: 'center',
                             gap: '4px'
                           }}
+                          className="brandorange-bg-light brandorange-text"
                         >
                           <FaEdit size={12} />
                           Edit
@@ -392,8 +399,8 @@ export default function APICataloguePage() {
             style={{
               padding: '8px 16px',
               borderRadius: '6px',
-              backgroundColor: page <= 1 ? '#E5E7EB' : '#2563EB',
-              color: page <= 1 ? '#6B7280' : 'white',
+              backgroundColor: page <= 1 ? '#fde8df' : '#f9c4ad',
+              color: page <= 1 ? 'white' :'#b7603d' ,
               cursor: page <= 1 ? 'not-allowed' : 'pointer',
               border: 'none',
               fontSize: '14px'
@@ -410,12 +417,13 @@ export default function APICataloguePage() {
             style={{
               padding: '8px 16px',
               borderRadius: '6px',
-              backgroundColor: page >= totalPages ? '#E5E7EB' : '#2563EB',
-              color: page >= totalPages ? '#6B7280' : 'white',
+              backgroundColor: page >= totalPages ? '#fde8df' : '#f9c4ad',
+              color: page >= totalPages ?  'white' :'#b7603d' ,
               cursor: page >= totalPages ? 'not-allowed' : 'pointer',
               border: 'none',
               fontSize: '14px'
             }}
+            className="hover:background-[#f9c4ad] brandorange-bg-light brandorange-text"
           >
             Next
           </button>

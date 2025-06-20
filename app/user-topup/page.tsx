@@ -53,7 +53,7 @@ export default function TopupRequestForm() {
 
             const res = await axiosInstance.post("/topupReq/request-topup", payload);
             if (res.data.success) {
-               setForm({
+                setForm({
                     amount: "",
                     mode: "UPI",
                     walletMode: "production",
@@ -79,12 +79,15 @@ export default function TopupRequestForm() {
     return (
         <form
             onSubmit={handleSubmit}
-            className="max-w-2xl mx-auto bg-white shadow-xl p-8 rounded-xl space-y-6" style={{ width: '1000px', padding: '10px' }}
+            className="max-w-xl mx-auto bg-white shadow-xl p-8 rounded-xl space-y-6" style={{  padding: '10px' }}
         >
             <h2 className="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">Request Wallet Top-Up</h2>
 
             {/* Amount */}
-            <div>
+            <div style={{
+                        padding: '0.7rem',
+                        
+                    }}>
                 <label className="block font-medium text-gray-700 mb-1">Amount <span className="text-red-500">*</span></label>
                 <input
                     type="number"
@@ -98,7 +101,10 @@ export default function TopupRequestForm() {
             </div>
 
             {/* Wallet Mode */}
-            <div>
+            <div style={{
+                        padding: '0.7rem',
+                        
+                    }}>
                 <label className="block font-medium text-gray-700 mb-1">Wallet Mode <span className="text-red-500">*</span></label>
                 <select
                     name="walletMode"
@@ -116,14 +122,18 @@ export default function TopupRequestForm() {
             </div>
 
             {/* Payment Mode */}
-            <div>
-                <label className="block font-medium text-gray-700 mb-1">Payment Mode <span className="text-red-500">*</span></label>
+            <div  style={{
+                        padding: '0.7rem',
+                        
+                    }}>
+                <label className="block font-medium text-gray-700 mb-1">Payment Mode <span className="text-red-500"  >*</span></label>
                 <select
                     name="mode"
                     value={form.mode}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     required
+                   
                 >
                     <option value="UPI">UPI</option>
                     <option value="Bank Transfer">Bank Transfer</option>
@@ -135,7 +145,10 @@ export default function TopupRequestForm() {
 
             {/* UPI Fields */}
             {form.mode === "UPI" && (
-                <div>
+                <div style={{
+                        padding: '0.7rem',
+                        
+                    }}>
                     <label className="block font-medium text-gray-700 mb-1">UPI VPA <span className="text-red-500">*</span></label>
                     <input
                         type="text"
@@ -152,7 +165,10 @@ export default function TopupRequestForm() {
             {/* Bank Transfer Fields */}
             {form.mode === "Bank Transfer" && (
                 <>
-                    <div>
+                    <div style={{
+                        padding: '0.7rem',
+                        
+                    }}>
                         <label className="block font-medium text-gray-700 mb-1">Account Name</label>
                         <input
                             type="text"
@@ -162,7 +178,10 @@ export default function TopupRequestForm() {
                             className="w-full px-4 py-2 border rounded-md"
                         />
                     </div>
-                    <div>
+                    <div style={{
+                        padding: '0.7rem',
+                        
+                    }}>
                         <label className="block font-medium text-gray-700 mb-1">Account Number</label>
                         <input
                             type="text"
@@ -172,7 +191,10 @@ export default function TopupRequestForm() {
                             className="w-full px-4 py-2 border rounded-md"
                         />
                     </div>
-                    <div>
+                    <div style={{
+                        padding: '0.7rem',
+                        
+                    }}>
                         <label className="block font-medium text-gray-700 mb-1">IFSC Code</label>
                         <input
                             type="text"
@@ -182,7 +204,10 @@ export default function TopupRequestForm() {
                             className="w-full px-4 py-2 border rounded-md uppercase"
                         />
                     </div>
-                    <div>
+                    <div style={{
+                        padding: '0.7rem',
+                        
+                    }}>
                         <label className="block font-medium text-gray-700 mb-1">Bank Name</label>
                         <input
                             type="text"
@@ -192,7 +217,10 @@ export default function TopupRequestForm() {
                             className="w-full px-4 py-2 border rounded-md"
                         />
                     </div>
-                    <div>
+                    <div style={{
+                        padding: '0.7rem',
+                        
+                    }}>
                         <label className="block font-medium text-gray-700 mb-1">Branch</label>
                         <input
                             type="text"
@@ -206,7 +234,10 @@ export default function TopupRequestForm() {
             )}
 
             {/* Description */}
-            <div>
+            <div style={{
+                        padding: '0.7rem',
+                        
+                    }}>
                 <label className="block font-medium text-gray-700 mb-1">Description</label>
                 <textarea
                     name="description"
@@ -220,7 +251,7 @@ export default function TopupRequestForm() {
             {/* Submit */}
             <button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-3 rounded-md font-medium hover:bg-blue-700 transition"
+                className="w-full brandorange-bg-light brandorange-text py-3 rounded-md font-medium hover:bg-[#f9c4ad] transition"
                 disabled={loading}
             >
                 {loading ? "Submitting..." : "Submit Top-Up Request"}

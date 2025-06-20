@@ -1,19 +1,20 @@
 "use client";
-
+import "@/styles/globals.css";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAdminDetails, lsTokenData } from "@/app/redux/reducer/AdminSlice";
 import Image from "next/image";
-import logo from "@/public/verifyIcon.jpeg"
+import logo from "@/public/7uniqueverify.png"
 import ServiceDynamicForm from "@/app/services/page";
 
 
 
 export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
+    const searchParams = useSearchParams();
   const { admin, token } = useSelector((state) => state.admin);
 
   // Full navigation list
@@ -220,47 +221,81 @@ export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
     return (
       <>
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" onClick={() => onToggle?.(false)} />
-        <aside className="fixed left-0 top-0 bottom-0 z-50 w-80 bg-white shadow-2xl">
-          <div className="h-16 flex items-center justify-between px-6 border-b border-gray-100">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
-                <Image src={logo} width={10} height={10} alt="logo" />
-                {/* <i className="bi bi-lightning-fill text-white text-sm"></i> */}
+        <aside className="fixed left-0 top-0 bottom-0 z-50 w-80 bg-white shadow-md">
+       <div className="h-16 px-6 border-b border-blue-100">
+            <div className="">
+              <div className="w-full bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg ">
+                <Image src={logo} width={20} height={20} alt="logo" className="mx-auto" />
               </div>
-              <div>
+              {/* <div>
                 <h1 className="font-semibold text-gray-900">Dashboard</h1>
                 <p className="text-xs text-gray-500">Professional Suite</p>
-              </div>
+              </div> */}
             </div>
             <button onClick={() => onToggle?.(false)} className="p-2 rounded-lg hover:bg-gray-100">
               <i className="bi bi-x-lg text-gray-500"></i>
             </button>
           </div>
-          <div className="flex-1 overflow-y-auto px-4 py-6">
-            <nav className="space-y-1">
-              {navItems.map((item) => (
-                <Link key={item.id} href={item.href} onClick={() => handleNavClick(item)}
-                  className={cn("group flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all", item.isActive ? "bg-blue-50 text-blue-700 shadow-sm" : "text-gray-700 hover:bg-gray-50 hover:text-gray-900")}
-                >
-                  <i className={cn(item.icon, "mr-3 text-lg", item.isActive ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600")} />
-                  <span className="truncate">{item.label}</span>
-                  {item.isActive && <div className="ml-auto w-2 h-2 bg-blue-600 rounded-full"></div>}
-                </Link>
-              ))}
-            </nav>
-            <div className="mt-8 pt-6 border-t border-gray-100">
-              <nav className="space-y-1">
-                {bottomNavItems.map((item) => (
-                  <Link key={item.id} href={item.href} onClick={() => handleNavClick(item)}
-                    className={cn("group flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all", item.isActive ? "bg-blue-50 text-blue-700 shadow-sm" : "text-gray-700 hover:bg-gray-50 hover:text-gray-900")}
+             <div className="h-full flex flex-col px-4 py-6 overflow-hidden">
+              <nav className="space-y-1 flex-1 ">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={item.href}
+                    onClick={() => handleNavClick(item)}
+                    className={cn(
+                      "group flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all",
+                      item.isActive
+                        ? "bg-blue-50 brandcolor-text shadow-sm"
+                        : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                    )}
                   >
-                    <i className={cn(item.icon, "mr-3 text-lg", item.isActive ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600")} />
+                    <i
+                      className={cn(
+                        item.icon,
+                        "mr-3 text-lg",
+                        item.isActive
+                          ? "brandcolor-text"
+                          : "text-gray-400 group-hover:text-gray-600"
+                      )}
+                    />
                     <span className="truncate">{item.label}</span>
+                    {item.isActive && (
+                      <div className="ml-auto w-2 h-2 brandcolor-bg rounded-full"></div>
+                    )}
                   </Link>
                 ))}
               </nav>
+
+              <div className="pt-6 border-t border-gray-100 ">
+                <nav className="space-y-1">
+                  {bottomNavItems.map((item) => (
+                    <Link
+                      key={item.id}
+                      href={item.href}
+                      onClick={() => handleNavClick(item)}
+                      className={cn(
+                        "group flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all",
+                        item.isActive
+                          ? "bg-blue-50 brandcolor-text shadow-sm"
+                          : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                      )}
+                    >
+                      <i
+                        className={cn(
+                          item.icon,
+                          "mr-3 text-lg",
+                          item.isActive
+                            ? "brandcolor-text"
+                            : "text-gray-400 group-hover:text-gray-600"
+                        )}
+                      />
+                      <span className="truncate">{item.label}</span>
+                    </Link>
+                  ))}
+                </nav>
+              </div>
             </div>
-          </div>
           <div className="border-t border-gray-100 p-4">
             {renderUserProfile()}
           </div>
@@ -271,12 +306,12 @@ export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
 
   if (!isMobile) {
     return (
-      <aside className={cn("fixed left-0 top-0 bottom-0 bg-white shadow-professional-lg transition-all z-30 border-r border-gray-100", isOpen ? "w-60" : "w-20")}
-        style={{ margin: "10px", borderRadius: "16px" }}>
-        <div className={cn("h-16 flex items-center border-b border-gray-100", isOpen ? "px-6 justify-start" : "px-4 justify-center")}>
-          <div className="flex items-center space-x-3">
+      <aside className={cn("fixed left-0 top-0 bottom-0 bg-white shadow-md transition-all z-30  border-gray-100", isOpen ? "w-60" : "w-20")}
+     >
+      <div className={cn("h-16  border-b border-gray-100", isOpen ? "" : "")}>
+          <div className="flex items-center h-16">
             {/* <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center"> */}
-            <Image src={logo} width={100} height={100} alt="logo" />
+            <Image src={logo} width={100} height={100} alt="logo" className="mx-auto " />
             {/* <i className="bi bi-lightning-fill text-white text-sm"></i> */}
             {/* </div> */}
             {isOpen && (
@@ -287,7 +322,7 @@ export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
             )}
           </div>
         </div>
-        <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto custom-scrollbar">
           <div className={cn("py-6", isOpen ? "px-4" : "px-3")} style={{ height: "calc(100vh - 200px)" }}>
             <nav className="space-y-1">
               {navItems.map((item) =>
@@ -298,9 +333,9 @@ export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
                     onClick={() => handleNavClick(item)}
                     title={!isOpen ? item.label : undefined}
                     className={cn(
-                      "group flex items-center text-sm font-medium rounded-xl transition-all relative",
+                      "group flex items-center text-sm font-medium rounded transition-all relative",
                       isOpen ? "px-3 py-2" : "p-2 justify-center",
-                      item.isActive ? "bg-blue-50 text-blue-700 shadow-sm text-[12px]" : "text-gray-700 hover:bg-gray-50 hover:text-gray-900 text-[12px]"
+                      item.isActive ? "brandcolor-bg text-white shadow-sm text-[12px]" : "text-gray-700 hover:bg-gray-50 hover:text-gray-900 text-[12px]"
                     )}
                   >
                     <i
@@ -308,59 +343,80 @@ export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
                         item.icon,
                         "text-sm",
                         isOpen ? "mr-3" : "",
-                        item.isActive ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600"
+                        // item.isActive ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600"
                       )}
                     />
                     {isOpen && (
                       <>
                         <span className="truncate">{item.label}</span>
-                        {item.isActive && <div className="ml-auto w-2 h-2 bg-blue-600 rounded-full" />}
+                        {/* {item.isActive && <div className="ml-auto w-2 h-2 bg-white rounded-full" />} */}
                       </>
                     )}
                     {item.isActive && !isOpen && (
-                      <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-1 h-6 bg-blue-600 rounded-l-full" />
+                      <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-1 h-6 brandcolor-bg rounded-l-full" />
                     )}
                   </Link>
                 ) : (
-                  <div key={item.id} className="relative">
-                    <div
-                      onClick={() => toggleDropdown(item.id)}
-                      className={cn(
-                        "flex items-center gap-2 cursor-pointer rounded-xl text-sm font-medium transition-all",
-                        isOpen ? "px-3 py-2" : "p-2 justify-center",
-                        item.id === openDropdownId ? "bg-blue-50 text-sm font-bold text-blue-700 shadow-sm" : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-                      )}
-                    >
-                      <i className={cn(item.icon, isOpen ? "mr-3" : "", item.id === openDropdownId ? "text-blue-600" : "text-gray-400")} />
-                      {isOpen && <span className="flex-1 truncate">{item.label}</span>}
-                      {isOpen && <i className={cn("bi", openDropdownId === item.id ? "bi-chevron-up" : "bi-chevron-down", "text-xs ml-auto")} />}
-                    </div>
+    <div key={item.id} className="relative overflow-hidden scrollbar-hide">
+      {/* Check if any child is active */}
+      {(() => {
+        const hasActiveChild = item.children?.some(child => searchParams.get("id") === child.id);
 
-                    {openDropdownId === item.id && isOpen && (
-                      <div className="ml-6 mt-1 space-y-1 transition-all">
-                        {item.children.map((child) => (
-                          <Link
-                            key={child.id}
-                            href={`/services?id=${child.id}`}
-
-                            style={{
-                              display: 'block',
-                              fontSize: '0.875rem',
-                              fontWeight: '500',
-                              color: 'gray',
-                              hover: {
-                                color: 'blue'
-                              }
-                            }}
-                          >
-                            {child.label}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )
+        return (
+          <>
+            <div
+              onClick={() => toggleDropdown(item.id)}
+              className={cn(
+                "flex items-center gap-2 cursor-pointer rounded text-sm font-medium transition-all",
+                isOpen ? "px-3 py-2" : "p-2 justify-center",
+                item.id === openDropdownId || hasActiveChild
+                  ? "text-white text-sm font-bold brandcolor-bg shadow-sm"
+                  : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
               )}
+            >
+              <i
+                className={cn(
+                  item.icon,
+                  isOpen ? "mr-3" : "",
+                  item.id === openDropdownId || hasActiveChild ? "text-white" : "text-gray-400"
+                )}
+              />
+              {isOpen && <span className="flex-1 truncate">{item.label}</span>}
+              {isOpen && (
+                <i
+                  className={cn("bi", openDropdownId === item.id ? "bi-chevron-up" : "bi-chevron-down", "text-xs ml-auto")}
+                />
+              )}
+            </div>
+
+            {openDropdownId === item.id && isOpen && (
+              <div className="relative ml-6 mt-1 space-y-1">
+                <div className="absolute left-0 top-0 h-full w-[3px] bg-gray-300" />
+
+                {item.children.map((child) => {
+                  const isActive = searchParams.get("id") === child.id;
+                  return (
+                    <Link
+                      key={child.id}
+                      href={`/services?id=${child.id}`}
+                      className={`relative block pl-4 py-2 text-sm font-medium capitalize
+                                  ${isActive ? "brandcolor-text" : "text-gray-600"}`}
+                    >
+                      {isActive && (
+                        <span className="absolute left-0 top-0 h-full w-[3px] brandcolor-bg drop-shadow-[0_0_4px_rgba(9,51,60,0.9)]" />
+                      )}
+                      {child.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </>
+        );
+      })()}
+    </div>
+  )
+)}
 
             </nav>
           </div>

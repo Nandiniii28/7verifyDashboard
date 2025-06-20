@@ -233,7 +233,7 @@ export default function ContactAdminPage() {
             <div className="flex justify-end">
               <button
                 type="submit"
-                className="inline-flex items-center bg-blue-100 px-3 py-2 text-xs font-medium text-blue-800 hover:bg-blue-100 cursor-pointer rounded"
+                className="inline-flex items-center hover:bg-[#f9c4ad] brandorange-bg-light brandorange-text px-3 py-2 text-xs font-medium cursor-pointer rounded"
               >
                 Send Message
               </button>

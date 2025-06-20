@@ -65,7 +65,7 @@ export const Context = ({ children }) => {
             <>
                 {
                     admin && pathname != "/login" ?
-                        <div className="min-h-screen flex">
+                        <div className="min-h-screen md:flex">
                             {/* Sidebar */}
                             {!isMobile && (
                                 <div

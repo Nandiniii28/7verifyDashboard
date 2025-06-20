@@ -113,11 +113,11 @@ export default function WalletBalanceReportPage() {
                                     alignItems: 'center',
                                     gap: '8px',
                                     borderRadius: '6px',
-                                    backgroundColor: '#eff6ff',
+                                 
                                     padding: '8px 12px',
                                     fontSize: '14px',
                                     fontWeight: 500,
-                                    color: '#1d4ed8',
+                                   
                                     border: '1px solid rgba(29, 78, 216, 0.1)',
                                     outline: 'none',
                                     cursor: 'pointer',
@@ -133,6 +133,7 @@ export default function WalletBalanceReportPage() {
                                     e.currentTarget.style.backgroundColor = '#eff6ff';
                                     e.currentTarget.style.boxShadow = 'none';
                                 }}
+                                className="brandorange-bg-light brandorange-text"
                             >
                                 <FiDownload />
                                 Export
@@ -290,10 +291,10 @@ export default function WalletBalanceReportPage() {
             </div>
 
             {/* Table */}
-            <div className="border border-gray-200 rounded-lg overflow-hidden shadow-sm bg-white mb-6">
+            <div className="border border-gray-200 rounded-lg overflow-hidden shadow bg-white mb-6 p-3 ">
                 <table className="w-full border-collapse">
                     <thead>
-                        <tr className="bg-blue-50 text-blue-800 text-sm font-semibold text-left">
+                        <tr className="brandorange-bg-light brandorange-text text-sm font-semibold text-left">
                             <th className="p-3 border-b border-gray-200">S.NO.</th>
                             <th className="p-3 border-b border-gray-200">Name</th>
                             <th className="p-3 border-b border-gray-200">Email</th>
@@ -328,8 +329,6 @@ export default function WalletBalanceReportPage() {
                                         <Link
                                             href={`userwalletreport/${user._id}`}
                                             style={{
-                                                backgroundColor: 'rgba(105, 108, 255, 0.16)',
-                                                color: 'black',
                                                 padding: '0.5rem 0.75rem',
                                                 borderRadius: '0.25rem',
                                                 fontSize: '0.75rem',
@@ -338,6 +337,7 @@ export default function WalletBalanceReportPage() {
                                                 cursor: 'pointer',
                                                 transition: 'background-color 0.2s'
                                             }}
+                                            className="brandorange-bg-light brandorange-text"
                                         >
                                             View Ledger
                                         </Link>
@@ -354,6 +354,7 @@ export default function WalletBalanceReportPage() {
                 <Button
                     disabled={page <= 1}
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
+                    className="brandorange-bg-light brandorange-text"
                 >
                     Previous
                 </Button>
@@ -363,6 +364,7 @@ export default function WalletBalanceReportPage() {
                 <Button
                     disabled={page >= totalPages}
                     onClick={() => setPage((p) => p + 1)}
+                    className="brandorange-bg-light brandorange-text"
                 >
                     Next
                 </Button>
