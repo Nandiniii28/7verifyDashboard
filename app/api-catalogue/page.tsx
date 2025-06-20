@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MainContext } from "../context/context";
 import axiosInstance from "@/components/service/axiosInstance";
-import { Fasear, FaEdit, FaPlus, FaMinus, FaServer } from "react-icons/fa";
+import {  FaEdit, FaPlus, FaMinus, FaServer } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 
 import "./style.css";
@@ -47,10 +47,17 @@ export default function APICataloguePage() {
     setFormFields(updated);
   };
 
-  const handleFieldChange = (formIndex, fieldIndex, e) => {
+  const handleFieldChange = (
+    formIndex: number,
+    fieldIndex: number,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const updated = [...formFields];
-    updated[formIndex].fields[fieldIndex][e.target.name] =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    const field = updated[formIndex].fields[fieldIndex];
+    const { name, type, checked, value } = e.target;
+    if (field && typeof field === "object" && name in field) {
+      (field as any)[name] = type === "checkbox" ? checked : value;
+    }
     setFormFields(updated);
   };
 
