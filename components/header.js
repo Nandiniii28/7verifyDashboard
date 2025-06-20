@@ -41,7 +41,7 @@ export default function Header({ isOpen, onToggle }) {
   const handleEnvironmentSwitch = async (env) => {
     const userId = admin._id;
     let environment_mode = env === "live" ? true : false;
-
+ 
     if (admin?.documents?.isVerified) {
       try {
         const res = await axiosInstance.put(`/admin/status-change/${userId}`, { environment_mode });
@@ -296,7 +296,7 @@ export default function Header({ isOpen, onToggle }) {
             </Link>
           </div>
         </div>
-
+ 
         {/* Mobile Search */}
         {isMobile && (
           <div className={styles.mobileSearch}>
