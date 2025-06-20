@@ -15,8 +15,10 @@ import axiosInstance from "@/components/service/axiosInstance";
 import Link from "next/link";
 import { FaWallet } from "react-icons/fa";
 import { FiDownload, FiChevronDown } from 'react-icons/fi';
+import { useSelector } from "react-redux";
 
 export default function WalletBalanceReportPage() {
+    const { admin } = useSelector(state => state.admin)
     const [users, setUsers] = useState([]);
     const [total, setTotal] = useState(0);
     const [totalUsers, setTotalUsers] = useState(0);
@@ -36,6 +38,7 @@ export default function WalletBalanceReportPage() {
         if (maxWallet) params.append("maxWallet", maxWallet);
         params.append("page", page.toString());
         params.append("limit", "10");
+        params.append("mode", admin?.environment_mode);
         if (exportType) params.append("export", exportType);
 
         try {
@@ -61,13 +64,13 @@ export default function WalletBalanceReportPage() {
 
     useEffect(() => {
         fetchData();
-    }, [page]);
+    }, [page, search, role, minWallet, maxWallet, admin?.environment_mode]);
 
     const [isOpen, setIsOpen] = useState(false);
 
     return (
         <div className="p-6 font-sans bg-gray-50 min-h-screen">
-            <div className="p-6 mb-6 bg-white shadow rounded-md overflow-auto">  
+            <div className="p-6 mb-6 bg-white shadow rounded-md overflow-auto">
                 {/* Header */}
                 <div className="flex items-center text-black-600 mb-6">
                     <div className="flex items-center">
@@ -100,7 +103,7 @@ export default function WalletBalanceReportPage() {
                                 Total: ₹{total}
                             </span>
                         </div>
-                        
+
 
                         <div style={{ position: 'relative', display: 'inline-block' }}>
                             <button
@@ -135,9 +138,9 @@ export default function WalletBalanceReportPage() {
                                 Export
                                 <FiChevronDown />
                             </button>
-                            
+
                             {isOpen && (
-                                <div 
+                                <div
                                     style={{
                                         position: 'absolute',
                                         top: '100%',
@@ -180,7 +183,7 @@ export default function WalletBalanceReportPage() {
                                         <FiDownload />
                                         CSV
                                     </button>
-                                    
+
                                     <button
                                         onClick={() => {
                                             fetchData("excel");
@@ -252,7 +255,7 @@ export default function WalletBalanceReportPage() {
                                 className="w-24"
                             />
                         </div>
-                        <button
+                        {/* <button
                             onClick={() => fetchData()}
                             style={{
                                 display: 'inline-flex',
@@ -281,7 +284,7 @@ export default function WalletBalanceReportPage() {
                             }}
                         >
                             Apply Filter
-                        </button>
+                        </button> */}
                     </div>
                 </div>
             </div>
@@ -316,21 +319,25 @@ export default function WalletBalanceReportPage() {
                                     <td className="p-3 text-sm text-gray-700">{user.name}</td>
                                     <td className="p-3 text-sm text-gray-700">{user.email}</td>
                                     <td className="p-3 text-sm text-gray-700 capitalize">{user.role}</td>
-                                    <td className="p-3 text-sm font-semibold text-gray-700">₹ {!user?.documents?.isVerify ? user?.wallet?.mode?.credentials : user?.wallet?.mode?.production || 0}</td>
+                                    <td className="p-3 text-sm font-semibold text-gray-700">
+                                        ₹ {admin?.environment_mode
+                                            ? user?.wallet?.mode?.production || 0
+                                            : user?.wallet?.mode?.credentials || 0}
+                                    </td>
                                     <td className="p-3">
                                         <Link
                                             href={`userwalletreport/${user._id}`}
-                                           style={{
-  backgroundColor:   'rgba(105, 108, 255, 0.16)',
-  color: 'black',
-  padding: '0.5rem 0.75rem',
-  borderRadius: '0.25rem',
-  fontSize: '0.75rem',
-  fontWeight: '500',
-  display: 'inline-block',
-  cursor: 'pointer',
-  transition: 'background-color 0.2s'
-}}
+                                            style={{
+                                                backgroundColor: 'rgba(105, 108, 255, 0.16)',
+                                                color: 'black',
+                                                padding: '0.5rem 0.75rem',
+                                                borderRadius: '0.25rem',
+                                                fontSize: '0.75rem',
+                                                fontWeight: '500',
+                                                display: 'inline-block',
+                                                cursor: 'pointer',
+                                                transition: 'background-color 0.2s'
+                                            }}
                                         >
                                             View Ledger
                                         </Link>

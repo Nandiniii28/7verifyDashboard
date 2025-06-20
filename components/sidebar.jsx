@@ -18,53 +18,65 @@ export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
 
   // Full navigation list
   const navigationItems = [
-    { 
-      id: "dashboard", 
-      label: "Products Catalogue", 
+    {
+      id: "dashboard",
+      label: "Products Catalogue",
       icon: "bi bi-box-seam", // Changed from grid to box (products)
-      href: "/" 
+      href: "/"
     },
-    { 
-      id: "all-user-list", 
-      label: "All User List", 
+    {
+      id: "all-user-list",
+      label: "All User List",
       icon: "bi bi-person-lines-fill", // More specific for user lists
-      href: "/all-user-list" 
+      href: "/all-user-list"
     },
-    { 
-      id: "all-user-report", 
-      label: "All User Report", 
+    {
+      id: "all-user-report",
+      label: "All User Report",
       icon: "bi bi-file-earmark-bar-graph", // Better for reports
-      href: "/all-user-report" 
+      href: "/all-user-report"
     },
-    { 
-      id: "KycRequest", 
-      label: "KYC Request", 
+    {
+      id: "KycRequest",
+      label: "KYC Request",
       icon: "bi bi-person-check", // More relevant for KYC
-      href: "/kycrequest" 
+      href: "/kycrequest"
     },
-    { 
-      id: "vacations", 
-      label: "API Usage Report", 
+    {
+      id: "vacations",
+      label: "API Usage Report",
       icon: "bi bi-graph-up", // Simplified graph icon
-      href: "/usages" 
+      href: "/usages"
     },
-    { 
-      id: "wallet-ledger", 
-      label: "Wallet Ledger", 
+    {
+      id: "wallet-ledger",
+      label: "Wallet Ledger",
       icon: "bi bi-journal-text", // Better for ledger/transactions
-      href: "/wallet-ledger" 
+      href: `/userwalletreport/${admin?._id}`
     },
-    { 
-      id: "WalletBalance", 
-      label: "Wallet Balance", 
+    {
+      id: "WalletBalance",
+      label: "Wallet Balance",
       icon: "bi bi-currency-exchange", // More financial
-      href: "/walletbalance" 
+      href: "/walletbalance"
     },
-    { 
-      id: "wallet-topup", 
-      label: "Wallet Topup", 
+    {
+      id: "wallet-topup",
+      label: "Wallet Topup",
       icon: "bi bi-cash-stack", // Better for top-ups
-      href: "/wallet-topup" 
+      href: "/wallet-topup"
+    },
+    {
+      id: "user-topup",
+      label: "Topup",
+      icon: "bi bi-wallet2",
+      href: "/user-topup"
+    },
+    {
+      id: "topup-request",
+      label: "Topup Request",
+      icon: "bi bi-journal-arrow-up",
+      href: "/topup-request"
     },
     {
       id: "services",
@@ -74,47 +86,49 @@ export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
         { "id": data._id, "label": data.name, "data": data }
       ))
     },
-    { 
-      id: "projects", 
-      label: "My API", 
+    {
+      id: "projects",
+      label: "My API",
       icon: "bi bi-plug", // Represents API connections
-      href: "/api-catalogue" 
+      href: "/api-catalogue"
     },
-    { 
-      id: "calendar", 
-      label: "Credentials", 
+    {
+      id: "calendar",
+      label: "Credentials",
       icon: "bi bi-key-fill", // Better for credentials
-      href: "/credentials" 
+      href: "/credentials"
     },
-    { 
-      id: "info-portal", 
-      label: "Documentation", 
+    {
+      id: "info-portal",
+      label: "Documentation",
       icon: "bi bi-file-earmark-text", // More document-like
-      href: "https://7uniqueverify-njzw.readme.io/reference/post_api-verify-bankverify#/" 
+      href: "https://7uniqueverify-njzw.readme.io/reference/post_api-verify-bankverify#/"
     },
-    { 
-      id: "AssignServices", 
-      label: "Assign Services", 
+    {
+      id: "AssignServices",
+      label: "Assign Services",
       icon: "bi bi-person-gear", // Represents assigning to users
-      href: "/assignservices" 
+      href: "/assignservices"
     },
-    { 
-      id: "contact", 
-      label: "Contact", 
-      icon: "bi bi-envelope", // Standard contact icon
-      href: "/contact" 
-    },
-    { 
-      id: "blog", 
-      label: "Blogs", 
+    // { 
+    //   id: "contact", 
+    //   label: "Contact", 
+    //   icon: "bi bi-envelope", // Standard contact icon
+    //   href: "/contact" 
+    // },
+    {
+      id: "blog",
+      label: "Blogs",
       icon: "bi bi-newspaper", // Better for blog content
-      href: "/blog" 
+      href: "/blog"
     },
-];
+  ];
+
+
   // console.log(admin);
-const verifyData =()=>{
-  
-}
+  // const verifyData =()=>{
+
+  // }
   // Bottom items
   const bottomItems = [
     { id: "settings", label: "Settings", icon: "bi bi-gear", href: "/settings" },
@@ -123,10 +137,10 @@ const verifyData =()=>{
 
   // Role-based nav access config
   const roleBasedAccess = {
-    user: ["dashboard", "wallet-ledger", "projects", "calendar", "vacations", "info-portal", "services"],
+    user: ["dashboard", "wallet-ledger", "projects", "calendar", "vacations", "info-portal", "services", "user-topup"],
     admin: [
       "dashboard", "projects", "calendar", "vacations", "info-portal",
-      "wallet-topup", "services", "all-user-report", "all-user-list", "KycRequest", "WalletBalance", "AssignServices", "contact", "blog"
+      "wallet-topup", "topup-request", "services", "all-user-report", "all-user-list", "KycRequest", "WalletBalance", "AssignServices", "contact", "blog"
     ]
   };
   const dispatch = useDispatch();
@@ -152,7 +166,6 @@ const verifyData =()=>{
   useEffect(() => {
     if (!token) router.push("/login");
   }, [token, router]);
-  console.log(admin);
 
   useEffect(() => {
     if (admin?.role) {
@@ -182,26 +195,26 @@ const verifyData =()=>{
   };
 
 
-  const renderUserProfile = () => (
-    <div className="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer">
-      <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-        <span className="text-white text-sm font-semibold">{admin?.email.charAt(0).toUpperCase()}</span>
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-gray-900 truncate">{admin?.name}</p>
-        <p className="text-xs text-gray-500 truncate">{admin?.email}</p>
-      </div>
-      <i className="bi bi-three-dots text-gray-400"></i>
-    </div>
-  );
+  // const renderUserProfile = () => (
+  //   <div className="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer">
+  //     <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+  //       <span className="text-white text-sm font-semibold">{admin?.email.charAt(0).toUpperCase()}</span>
+  //     </div>
+  //     <div className="flex-1 min-w-0">
+  //       <p className="text-sm font-medium text-gray-900 truncate">{admin?.name}</p>
+  //       <p className="text-xs text-gray-500 truncate">{admin?.email}</p>
+  //     </div>
+  //     <i className="bi bi-three-dots text-gray-400"></i>
+  //   </div>
+  // );
 
-  const renderCompactUserProfile = () => (
-    <div className="flex justify-center">
-      <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center cursor-pointer hover:scale-105 transition-transform">
-        <span className="text-white text-sm font-semibold">{admin?.email.charAt(0).toUpperCase()}</span>
-      </div>
-    </div>
-  );
+  // const renderCompactUserProfile = () => (
+  //   <div className="flex justify-center">
+  //     <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center cursor-pointer hover:scale-105 transition-transform">
+  //       <span className="text-white text-sm font-semibold">{admin?.email.charAt(0).toUpperCase()}</span>
+  //     </div>
+  //   </div>
+  // );
 
   if (isMobile && isOpen) {
     return (
@@ -329,16 +342,16 @@ const verifyData =()=>{
                           <Link
                             key={child.id}
                             href={`/services?id=${child.id}`}
-                           
+
                             style={{
-  display: 'block',
-  fontSize: '0.875rem',  
-  fontWeight: '500',     
-  color: 'gray',     
-hover: {
-    color: 'blue'    
-  }
-}}
+                              display: 'block',
+                              fontSize: '0.875rem',
+                              fontWeight: '500',
+                              color: 'gray',
+                              hover: {
+                                color: 'blue'
+                              }
+                            }}
                           >
                             {child.label}
                           </Link>
@@ -352,9 +365,9 @@ hover: {
             </nav>
           </div>
         </div>
-        <div className="border-t border-gray-100 p-4">
+        {/* <div className="border-t border-gray-100 p-4">
           {isOpen ? renderUserProfile() : renderCompactUserProfile()}
-        </div>
+        </div> */}
       </aside>
     );
   }

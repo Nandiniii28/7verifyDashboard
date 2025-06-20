@@ -50,9 +50,10 @@ export default function WalletTopupForm() {
 
     try {
       setLoading(true);
-
+      const mode = admin?.environment_mode ? 'production' : 'credentials';
       const res = await axiosInstance.post("admin/wallet-topup", {
         userId: selectedUserId,
+        mode,
         amount: parseFloat(amount),
         description,
       });

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -147,103 +148,101 @@ export default function ContactAdminPage() {
 
   return (
     <div className="contact-admin-container">
-  <div className="controls flex">
-      <h2 className="page-title flex gap-2 ">
-      
-  <GrContact />Contact</h2>
+      <div className="controls flex">
+        {/* <h2 className="page-title flex gap-2 ">
 
-    
-        <div className="filter-buttons" style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <GrContact />Contact</h2> */}
+
+
+        {/* <div className="filter-buttons" style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <button
             className={activeFilter === "all" ? "active" : ""}
             onClick={() => setActiveFilter("all")}
           >
             Seen Message
           </button>
-        </div>
+        </div> */}
 
       </div>
 
       {isFormVisible && (
-        <div className="contact-form-card">
-          <h2 className="form-title">Send a Message</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="form-group ">
-              <div className="name-box flex">
-                <div>
-                  <label htmlFor="name ">
-
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="email">
-
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="contact">
-
-                    Contact Number
-                  </label>
-                  <input
-                    type="tel"
-                    id="contact"
-                    name="contact"
-                    value={formData.contact}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="message w-full">
-              <div className="form-group mb-4">
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                  Message
+        <div className="bg-white p-6 rounded-lg shadow-md mb-8 border border-gray-200">
+          <h3 className="text-[20px] font-semibold text-gray-800 mb-4 flex" > <GrContact style={{ marginRight: '10px' }} /> Send New Message</h3>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                  Name *
                 </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
-                  rows="4"
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                ></textarea>
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                  Email *
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="contact" className="block text-sm font-medium text-gray-700 mb-1">
+                  Contact Number
+                </label>
+                <input
+                  type="tel"
+                  id="contact"
+                  name="contact"
+                  value={formData.contact}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
               </div>
             </div>
 
+            <div>
+              <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                Message *
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                rows="4"
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              ></textarea>
+            </div>
 
-            <div className="form-actions ">
-              <button type="submit" className="submit-btn">
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                className="inline-flex items-center bg-blue-100 px-3 py-2 text-xs font-medium text-blue-800 hover:bg-blue-100 cursor-pointer rounded"
+              >
                 Send Message
               </button>
-
             </div>
           </form>
         </div>
       )}
 
-      <div className="submissions-container">
+      <div className="submissions-container my-2">
         <div className="submissions-header">
           <h3>
             Messages ({filteredSubmissions.length})
@@ -359,3 +358,4 @@ export default function ContactAdminPage() {
     </div>
   );
 }
+

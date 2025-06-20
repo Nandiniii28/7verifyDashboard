@@ -10,16 +10,30 @@ import { fetchAdminDetails, logout } from "@/app/redux/reducer/AdminSlice";
 import Link from "next/link";
 import styles from './Header.module.css';
 
+
 export default function Header({ isOpen, onToggle }) {
-  const { tostymsg } = useContext(MainContext);
+
+  const { tostymsg } = useContext(MainContext)
+
+
   const [searchQuery, setSearchQuery] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const isMobile = useIsMobile();
+
   const dispatch = useDispatch();
   const { admin } = useSelector(state => state.admin);
   const [environment, setEnvironment] = useState("uat");
   const [showUATModal, setShowUATModal] = useState(false);
+
+
+
+
+  useEffect(
+    () => {
+      setEnvironment(admin?.environment_mode ? "live" : "uat");
+    }, [admin?.environment_mode]
+  )
 
   const handleEnvironmentSwitch = async (env) => {
     const userId = admin._id;
@@ -30,6 +44,9 @@ export default function Header({ isOpen, onToggle }) {
         const res = await axiosInstance.put(`/admin/status-change/${userId}`, { environment_mode });
         setEnvironment(env);
         dispatch(fetchAdminDetails());
+        setEnvironment(env); // Update local state
+        dispatch(fetchAdminDetails()); // Refresh admin data
+        // tostymsg("Environment updated", "success");
       } catch (error) {
         console.error("Failed to update environment mode:", error);
       }
