@@ -11,7 +11,7 @@ import { MainContext } from "@/app/context/context";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAdminDetails, logout } from "@/app/redux/reducer/AdminSlice";
 import Link from "next/link";
-
+ 
 export default function Header({ isOpen, onToggle }) {
   const { tostymsg } = useContext(MainContext)
   const [searchQuery, setSearchQuery] = useState("");
@@ -22,7 +22,7 @@ export default function Header({ isOpen, onToggle }) {
   const { admin } = useSelector(state => state.admin)
   const [environment, setEnvironment] = useState("uat");
   const [showUATModal, setShowUATModal] = useState(false);
-
+ 
   const getInitials = (name) => {
     return name
       .split(" ")
@@ -31,18 +31,18 @@ export default function Header({ isOpen, onToggle }) {
       .toUpperCase()
       .slice(0, 2);
   };
-
-
+ 
+ 
   const handleEnvironmentSwitch = async (env) => {
     const userId = admin._id;
-
+ 
     let environment_mode = env === "live" ? true : false;
-
+ 
     if (admin?.documents?.isVerified) {
       try {
         const res = await axiosInstance.put(`/admin/status-change/${userId}`, { environment_mode });
         console.log("Environment change response:", res.data);
-
+ 
         setEnvironment(env); // Update local state
         dispatch(fetchAdminDetails()); // Refresh admin data
         // tostymsg("Environment updated", "success");
@@ -54,33 +54,33 @@ export default function Header({ isOpen, onToggle }) {
       setShowUATModal(true);
     }
   };
-
-
+ 
+ 
   const closeUATModal = () => {
     setShowUATModal(false);
     setEnvironment("uat"); // Switch back to live when modal is closed
   };
-
+ 
   // form
   const [message, setMessage] = useState("");
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+ 
     const formData = new FormData(e.target);
-
+ 
     const panCard = formData.get("panCard");
     const aadhaarCard = formData.get("aadhaarCard");
     const gstCert = formData.get("gstCert");
-
-
+ 
+ 
     try {
       const response = await axiosInstance.post("/user/upload-kyc", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-
+ 
       console.log("Upload Success:", response.data);
       tostymsg(response.data.message, response.data.status)
       setShowUATModal(false);
@@ -91,20 +91,20 @@ export default function Header({ isOpen, onToggle }) {
       // Optionally show an error message
     }
   };
-
+ 
   // useEffect(
   //   () => {
   //     dispatch(fetchAdminDetails())
   //   }, [environment, admin?.environment_mode]
   // )
-
+ 
   // useEffect(() => {
   //   const timeout = setTimeout(() => {
   //     if (admin?.documents?.isVerified) {
   //       setEnvironment("live");
   //     }
   //   }, 200);
-
+ 
   //   return () => clearTimeout(timeout);
   // }, [environment, admin]);
   return (
@@ -123,7 +123,7 @@ export default function Header({ isOpen, onToggle }) {
             >
               <i className="bi bi-list text-xl text-gray-600" />
             </button>
-
+ 
             {!isMobile && (
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -144,7 +144,7 @@ export default function Header({ isOpen, onToggle }) {
               </div>
             )}
           </div>
-
+ 
           {/* Right side - Environment Toggle, Wallet, Notifications, Profile */}
           <div className="flex items-center space-x-4">
             {/* Environment Toggle */}
@@ -172,7 +172,7 @@ export default function Header({ isOpen, onToggle }) {
                 </button>
               </div>
             </div>
-
+ 
             {/* Wallet Info */}
             <div className="hidden md:flex items-center bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 shadow-sm">
               <i className="bi bi-wallet2 text-blue-600 text-xl mr-3" />
@@ -182,13 +182,13 @@ export default function Header({ isOpen, onToggle }) {
                   || 0}</p>
               </div>
               {/* <button className="bg-blue-600 hover:bg-blue-700  text-xs font-medium px-3 py-1.5 rounded-lg">
-
+ 
                 <Link href={'wallet-topup'}><i className="bi bi-plus-circle mr-1" />
                   Topup
                 </Link>
               </button> */}
             </div>
-
+ 
             {/* Notifications Button */}
             {/* Notifications */}
             <div className="relative">
@@ -199,7 +199,7 @@ export default function Header({ isOpen, onToggle }) {
                 <i className="bi bi-bell text-xl text-gray-600" />
                 <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
               </button>
-
+ 
               {/* Notifications dropdown */}
               {showNotifications && (
                 <div className="absolute right-0 mt-3 w-96 bg-white rounded-2xl shadow-professional-lg border border-gray-100 z-50 animate-fade-in">
@@ -271,8 +271,8 @@ export default function Header({ isOpen, onToggle }) {
                 </div>
               )}
             </div>
-
-
+ 
+ 
             {/* Profile Button */}
             {/* Profile */}
             <div className="relative">
@@ -293,7 +293,7 @@ export default function Header({ isOpen, onToggle }) {
                 )}
                 <i className="bi bi-chevron-down text-gray-400 text-sm" />
               </button>
-
+ 
               {/* Profile dropdown */}
               {showProfile && (
                 <div className="absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-professional-lg border border-gray-100 z-50 animate-fade-in">
@@ -353,7 +353,7 @@ export default function Header({ isOpen, onToggle }) {
             </div>
           </div>
         </div>
-
+ 
         {/* Mobile Search */}
         {
           isMobile && (
@@ -374,7 +374,7 @@ export default function Header({ isOpen, onToggle }) {
           )
         }
       </header >
-
+ 
       {/* Full Screen UAT Modal */}
       < Dialog open={showUATModal} onOpenChange={setShowUATModal} >
         <DialogContent
@@ -389,7 +389,7 @@ export default function Header({ isOpen, onToggle }) {
             >
               <X className="h-6 w-6 text-gray-600" />
             </button>
-
+ 
             {/* Modal Content */}
             <div className="">
               <h2 className="text-xl font-bold mb-4">Upload Documents</h2>

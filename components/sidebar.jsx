@@ -18,7 +18,8 @@ export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
 
   // Full navigation list
   const navigationItems = [
-    { id: "dashboard", label: "Products Catalogue", icon: "bi bi-grid-1x2-fill", href: "/" },
+    { id: "dashboard", label: "Dashboard", icon: "bi bi-grid-1x2-fill", href: "/" },
+    { id: "products-catalogue", label: "Products Catalogue", icon: "bi bi-grid-1x2-fill", href: "/products-catalogue" },
     { id: "all-user-list", label: "All User List", icon: "bi bi-card-list", href: "/all-user-list" },
     { id: "all-user-report", label: "All User Report", icon: "bi bi-people", href: "/all-user-report" },
     { id: "KycRequest", label: "Kyc Request", icon: "bi bi-clipboard-check", href: "/kycrequest" },
@@ -54,9 +55,9 @@ const verifyData =()=>{
 
   // Role-based nav access config
   const roleBasedAccess = {
-    user: ["dashboard", "wallet-ledger", "projects", "calendar", "vacations", "info-portal", "services"],
+    user: ["dashboard", "products-catalogue", "wallet-ledger", "projects", "calendar", "vacations", "info-portal", "services"],
     admin: [
-      "dashboard", "projects", "calendar", "vacations", "info-portal",
+      "dashboard", "products-catalogue",  "projects", "calendar", "vacations", "info-portal",
       "wallet-topup", "services", "all-user-report", "all-user-list", "KycRequest", "WalletBalance", "AssignServices", "contact", "blog"
     ]
   };
@@ -262,14 +263,14 @@ const verifyData =()=>{
                             href={`/services?id=${child.id}`}
                            
                             style={{
-  display: 'block',
-  fontSize: '0.875rem',  
-  fontWeight: '500',     
-  color: 'gray',     
-hover: {
-    color: 'blue'    
-  }
-}}
+                                display: 'block',
+                                fontSize: '0.875rem',  
+                                fontWeight: '500',     
+                                color: 'gray',     
+                              hover: {
+                                  color: 'blue'    
+                                }
+                              }}
                           >
                             {child.label}
                           </Link>
