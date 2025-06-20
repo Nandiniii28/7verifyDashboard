@@ -62,7 +62,7 @@ export default function UsagesPage() {
         {/* Header: title + export button */}
         <div
           style={{
-            display: 'flex',
+            
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -70,6 +70,7 @@ export default function UsagesPage() {
             padding: '0.5rem 0',
             gap: '1rem',
           }}
+          className="md-flex"
         >
           {/* Title with icon */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -78,20 +79,22 @@ export default function UsagesPage() {
           </div>
 
           {/* Export button */}
-          <Button
+           <div className="flex justify-center mt-2 md:mt-0">
+            <Button
             onClick={exportToExcel}
             style={{
-              backgroundColor: '#dbeafe',
-              color: '#1d4ed8',
-              padding: '0.5rem 1rem',
+            padding: '0.5rem 1rem',
               borderRadius: '0.375rem',
               display: 'flex',
               alignItems: 'center',
               whiteSpace: 'nowrap',
             }}
+            className="brandorange-bg-light brandorange-text"
           >
-            <FiDownload size={16} style={{ marginRight: '0.5rem' }} /> Export
+            <FiDownload size={16} style={{ marginRight: '0.5rem' }} className="brandorange-text"/> Export
           </Button>
+           </div>
+          
         </div>
 
         {/* Filters grid */}
@@ -173,7 +176,7 @@ export default function UsagesPage() {
 
 
       {/* Table */}
-      <div className="bg-white shadow-sm rounded-lg overflow-hidden">
+      <div className="bg-white shadow-sm rounded-lg overflow-hidden p-3">
         {loading ? (
           <div className="p-6 flex flex-col gap-4">
             {[...Array(5)].map((_, i) => (
@@ -181,9 +184,15 @@ export default function UsagesPage() {
             ))}
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto" style={{
+          overflowX: 'auto',
+          WebkitOverflowScrolling: 'touch',
+          borderRadius: '8px',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          margin: '16px 0'
+        }}>
             <table className="w-full border-collapse">
-              <thead className="bg-blue-50">
+              <thead className="brandorange-bg-light brandorange-text">
                 <tr>
 
                 </tr>
@@ -191,7 +200,7 @@ export default function UsagesPage() {
                   {["Service", "Hit Count", "Total Charges", "Last Used"].map(header => (
                     <th
                       key={header}
-                      className="p-3 md:p-4 text-left text-xs font-semibold text-gray-500 uppercase"
+                      className="p-3 md:p-4 text-left text-xs font-semibold  uppercase"
                     >
                       {header}
                     </th>

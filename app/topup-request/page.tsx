@@ -86,8 +86,8 @@ export default function PaymentRequestListPage() {
             </div>
 
             <div className="bg-white rounded-xl shadow overflow-x-auto">
-                <table className="min-w-full table-auto text-sm">
-                    <thead className="bg-gray-100 text-left">
+                <table className="w-full table-auto text-sm ">
+                    <thead className="brandorange-bg-light brandorange-text text-left">
                         <tr>
                             {/* <th className="p-3">Reference</th> */}
                             <th className="p-3">User</th>
@@ -101,7 +101,7 @@ export default function PaymentRequestListPage() {
                     </thead>
                     <tbody>
                         {requests?.map((req) => (
-                            <tr key={req._id} className="border-b">
+                            <tr key={req._id} className="border-b" >
                                 {/* <td className="p-3 font-medium">{req.reference}</td> */}
                                 <td className="p-3">{req.userId?.name || "-"}</td>
                                 <td className="p-3 text-center">{req.mode}</td>
@@ -156,13 +156,13 @@ export default function PaymentRequestListPage() {
                 <div className="space-x-2">
                     <Button
                         onClick={() => setFilters((prev) => ({ ...prev, page: prev.page - 1 }))}
-                        disabled={filters.page <= 1}
+                        disabled={filters.page <= 1} className="brandorange-bg-light brandorange-text"
                     >
                         Previous
                     </Button>
                     <Button
                         onClick={() => setFilters((prev) => ({ ...prev, page: prev.page + 1 }))}
-                        disabled={filters.page >= Math.ceil(total / filters.limit)}
+                        disabled={filters.page >= Math.ceil(total / filters.limit)} className="brandorange-bg-light brandorange-text"
                     >
                         Next
                     </Button>

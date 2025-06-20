@@ -88,9 +88,9 @@ export default function KycRequestPage() {
     return (
     <div style={{ minHeight: "105vh", padding: "24px", backgroundColor: "#f9fafb" }}>
       {/* Filters Card */}
-      <div style={{ backgroundColor: "#fff", padding: "24px", borderRadius: "12px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)", marginBottom: "24px" }}>
+      <div style={{ backgroundColor: "#fff", borderRadius: "12px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)", marginBottom: "24px" }} className=" p-3 md:p-7">
        <div style={{ marginBottom: "24px" }}>
-  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+  <div style={{  alignItems: "center", justifyContent: "space-between" }} className="md:flex">
     {/* Left Section: Icon + Heading */}
     <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
       <GoPasskeyFill size={20} style={{ color: "#000" }} />
@@ -182,7 +182,7 @@ export default function KycRequestPage() {
       </div>
 
       {/* Table */}
-      <div style={{ backgroundColor: "#fff", boxShadow: "0 1px 3px rgba(0,0,0,0.1)", borderRadius: "8px", overflow: "hidden" }}>
+      <div style={{  borderRadius: "8px", overflow: "hidden" }} className="p-3 shadow bg-white">
         {loading ? (
           <div style={{ padding: "24px", display: "flex", flexDirection: "column", gap: "16px" }}>
             {[...Array(5)].map((_, i) => <Skeleton key={i} style={{ height: "64px", width: "100%" }} />)}
@@ -195,11 +195,11 @@ export default function KycRequestPage() {
           </div>
         ) : (
           <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
-              <thead style={{ backgroundColor: "#eff6ff" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse" }} >
+              <thead className="brandorange-bg-light brandorange-text">
                 <tr>
                   {["User", "Details", "Status", "Date", "Actions"].map(header => (
-                    <th key={header} style={{ padding: "12px 24px", textAlign: "left", fontSize: "12px", fontWeight: "600", color: "#6b7280", textTransform: "uppercase" }}>{header}</th>
+                    <th key={header} style={{ padding: "12px 24px", textAlign: "left", fontSize: "12px", fontWeight: "600",  textTransform: "uppercase" }}>{header}</th>
                   ))}
                 </tr>
               </thead>
