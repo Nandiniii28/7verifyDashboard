@@ -141,13 +141,18 @@ export default function VAConfigurationPage() {
                     placeholder="Enter training data or knowledge base content..."
                   />
                 </div>
-                <div className="flex space-x-3">
-                  <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                <div className="md:flex space-x-3">
+                   <div className="flex justify-center mt-2 md:mt-0">
+                     <button className=" px-4 py-2 rounded-lg hover:bg-[#f9c4ad] brandorange-bg-light brandorange-text  transition-colors">
                     Upload File
                   </button>
-                  <button className="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">
+                   </div>
+                  <div className="flex justify-center mt-2 md:mt-0">
+                    <button className="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">
                     Import from URL
                   </button>
+                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -157,7 +162,7 @@ export default function VAConfigurationPage() {
           <div className="flex justify-end">
             <button
               onClick={handleSave}
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className=" px-6 py-2 rounded-lg hover:bg-[#f9c4ad] brandorange-bg-light brandorange-text transition-colors"
             >
               Save Configuration
             </button>

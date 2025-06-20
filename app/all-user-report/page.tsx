@@ -90,7 +90,7 @@ export default function AllUserReportPage() {
           padding: "34px",
           backgroundColor: "#fff",
           marginBottom: "16px",
-        }}
+        }} className="shadow"
       >
         <h1 style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <FaUserGroup size={20} />
@@ -132,16 +132,16 @@ export default function AllUserReportPage() {
       <button
   onClick={() => handleExport("csv")}
   style={{
-    backgroundColor: "#dbeafe",
     padding: "8px 12px",
     fontSize: "12px",
-    color: "#1e40af",
+
     borderRadius: "4px",
     cursor: "pointer",
     display: "inline-flex",
     alignItems: "center",
     gap: "6px",
-  }}
+  }} 
+  className="brandorange-bg-light brandorange-text"
 >
   <HiOutlineDocumentArrowDown size={16} />
   Export CSV
@@ -186,9 +186,10 @@ export default function AllUserReportPage() {
             No users found.
           </div>
         ) : (
-                   <table style={{ width: "100%",  borderSpacing: "0 0.25rem", fontSize: "0.875rem", textAlign: "left", borderBottom: "1px solid #e5e7eb"}}>
+         <div className="p-3 shadow">
+                    <table style={{ width: "100%",  borderSpacing: "0 0.25rem", fontSize: "0.875rem", textAlign: "left", borderBottom: "1px solid #e5e7eb"}} className="p-3">
             <thead>
-              <tr style={{ backgroundColor: "#eff6ff", fontSize: "", color: "#1d4ed8",  }}>
+              <tr style={{ fontSize: "",   }} className="brandorange-bg-light brandorange-text">
                 <th style={{ padding: "0.75rem 1.5rem" }}>
                   Name
                 </th>
@@ -226,6 +227,7 @@ export default function AllUserReportPage() {
               )}
             </tbody>
           </table>
+         </div>
         )}
 
         {/* Pagination */}

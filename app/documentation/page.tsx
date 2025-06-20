@@ -46,21 +46,20 @@ export default function DocumentationPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <main className="p-6 mt-5 max-w-6xl mx-auto">
-        <div className="flex md:flex-row gap-6">
+        <div className=" md:flex-row gap-6">
           {/* Sidebar Navigation */}
-          <div className="md:w-1/5">
-            <div className="bg-white rounded-lg shadow p-4 sticky top-24">
+          <div className="md:w-1/5 ">
+            <div className="bg-white rounded-lg shadow p-4 sticky top-24 ">
               <h3 className="font-semibold text-gray-900 mb-4">Quick Navigation</h3>
               <nav className="space-y-2">
                 {navigationSections.map((section) => (
                   <button
                     key={section.id}
                     onClick={() => setActiveSection(section.id)}
-                    className={`w-full text-left flex items-center space-x-2 px-3 py-2 rounded-lg text-sm transition-colors ${
-                      activeSection === section.id
-                        ? "bg-blue-50 text-blue-700 font-medium"
-                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                    }`}
+                    className={`w-full text-left flex items-center space-x-2 px-3 py-2 rounded-lg text-sm transition-colors ${activeSection === section.id
+                      ? "brandcolor-bg text-white font-medium"
+                      : "brandcolor-text hover:text-gray-900 hover:bg-gray-50"
+                      }`}
                   >
                     <i className={`bi ${section.icon}`} />
                     <span>{section.label}</span>
@@ -71,7 +70,7 @@ export default function DocumentationPage() {
           </div>
 
           {/* Main Content */}
-          <div className="md:w-2/3">
+          <div className="md:w-2/3 mt-5 md:mt-0">
             <div className="bg-white rounded-lg shadow p-6">
               {activeSection === "getting-started" && (
                 <div className="space-y-6">
@@ -87,9 +86,9 @@ export default function DocumentationPage() {
                     <li>Integrate with your application</li>
                   </ol>
                   <div className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="font-medium text-gray-900 mb-2">Example Request</h4>
-                    <pre className="text-sm text-gray-800 overflow-x-auto">
-{`curl -X GET "https://api.example.com/v1/users" \\
+                    <h4 className="font-medium text-gray-900 mb-2 ">Example Request</h4>
+                    <pre className="text-sm text-gray-800 overflow-x-auto" >
+                      {`curl -X GET "https://api.example.com/v1/users" \\
 -H "Authorization: Bearer YOUR_API_KEY" \\
 -H "Content-Type: application/json"`}
                     </pre>
@@ -103,12 +102,12 @@ export default function DocumentationPage() {
                   <p className="text-gray-600 mb-4">
                     Our API uses API keys for authentication. Include your API key in the Authorization header of your requests.
                   </p>
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className=" border brandorange-bg-light rounded-lg p-4">
                     <div className="flex">
-                      <i className="fas fa-info-circle text-blue-600 mt-1 mr-2"></i>
+                      <i className="fas fa-info-circle brandorange-text mt-1 mr-2"></i>
                       <div>
-                        <h4 className="font-medium text-blue-900">Important</h4>
-                        <p className="text-blue-800 text-sm mt-1">
+                        <h4 className="font-medium brandorange-text">Important</h4>
+                        <p className=" brandorange-text text-sm mt-1">
                           Keep your API keys secure and never expose them in client-side code.
                         </p>
                       </div>
@@ -151,7 +150,7 @@ export default function DocumentationPage() {
                       <h3 className="text-lg font-medium text-gray-900 mb-3">JavaScript</h3>
                       <div className="bg-gray-50 rounded-lg p-4">
                         <pre className="text-sm text-gray-800 overflow-x-auto">
-{`fetch('https://api.example.com/v1/users', {
+                          {`fetch('https://api.example.com/v1/users', {
   method: 'GET',
   headers: {
     'Authorization': 'Bearer YOUR_API_KEY',
@@ -168,7 +167,7 @@ export default function DocumentationPage() {
                       <h3 className="text-lg font-medium text-gray-900 mb-3">Python</h3>
                       <div className="bg-gray-50 rounded-lg p-4">
                         <pre className="text-sm text-gray-800 overflow-x-auto">
-{`import requests
+                          {`import requests
 
 headers = {
   'Authorization': 'Bearer YOUR_API_KEY',

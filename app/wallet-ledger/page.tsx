@@ -91,8 +91,8 @@ export default function ServiceListPage() {
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="bg-white rounded-xl shadow-lg p-6">
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
-          <h2 className="text-xl font-semibold text-blue-700">⚙️ Service Management</h2>
-          <Button onClick={openCreateModal}>Create New</Button>
+          <h2 className="text-xl font-semibold brandorange-text">⚙️ Service Management</h2>
+          <Button onClick={openCreateModal} className="brandorange-bg-light brandorange-text hover:bg-[#f9c4ad]">Create New</Button>
         </div>
 
         <div className="mb-4 max-w-xs">
@@ -119,9 +119,15 @@ export default function ServiceListPage() {
         ) : services.length === 0 ? (
           <div className="text-center text-gray-500 py-20">No services found.</div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto "  style={{
+          overflowX: 'auto',
+          WebkitOverflowScrolling: 'touch',
+          borderRadius: '8px',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          margin: '16px 0'
+        }}>
             <table className="w-full text-sm text-left text-gray-600 border rounded-md">
-              <thead className="bg-blue-50 text-blue-700 uppercase text-xs">
+              <thead className=" brandorange-bg-light brandorange-text uppercase text-xs">
                 <tr>
                   <th className="px-4 py-3">Name</th>
                   <th className="px-4 py-3">Charge</th>
@@ -150,7 +156,7 @@ export default function ServiceListPage() {
             <Button
               onClick={() => setPage((p) => Math.max(p - 1, 1))}
               disabled={page === 1}
-              className="text-sm"
+              className="text-sm brandorange-bg-light brandorange-text"
             >
               Previous
             </Button>
@@ -158,7 +164,7 @@ export default function ServiceListPage() {
             <Button
               onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
               disabled={page === totalPages}
-              className="text-sm"
+              className="brandorange-bg-light brandorange-text text-sm"
             >
               Next
             </Button>

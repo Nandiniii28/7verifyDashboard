@@ -76,9 +76,11 @@ export default function WalletTopupForm() {
     <div className="container">
       <div className="card">
         <div className="title">
-          <h2 className="card-title">
-            <FaWallet size={20} color="#2f84c9" />
-            Wallet Top-Up
+          <h2 className="card-title brandorange-text">
+            <FaWallet size={20} className="brandorange-text" />
+           <p  className="brandorange-text">
+             Wallet Top-Up
+           </p>
           </h2>
         </div>
 
@@ -129,7 +131,7 @@ export default function WalletTopupForm() {
               </div>
             </div>
             <div className="button-container">
-              <button type="submit" className="submit-btn" disabled={loading}>
+              <button type="submit" className="submit-btn" style={{"background":"#fde8df" , "color":"#b7603d"}} disabled={loading}>
                 {loading ? (
                   <>
                     <Loader2 className="spinner" size={18} />
