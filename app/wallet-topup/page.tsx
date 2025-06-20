@@ -1,24 +1,23 @@
-"use client";
-
-import { useEffect, useState } from "react";
+"use client"
+import { useState, useEffect } from "react";
 import axiosInstance from "@/components/service/axiosInstance";
 import { toast } from "react-toastify";
-import { Loader2 } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchAdminDetails } from "../redux/reducer/AdminSlice";
 import { FaWallet } from "react-icons/fa";
+import { Loader2 } from "lucide-react";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@/components/ui/select';
-import "./topup.css"; // Import the external CSS file
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import "./topup.css"; // Make sure this is imported
 
 export default function WalletTopupForm() {
-  const { admin } = useSelector((state: any) => state.admin);
-  const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState('');
-  const [amount, setAmount] = useState("");
-  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState('');
+  const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(false);
 
   const fetchUsers = async () => {
@@ -32,41 +31,27 @@ export default function WalletTopupForm() {
 
   useEffect(() => {
     fetchUsers();
-
   }, []);
 
-  const handleTopup = async (e: React.FormEvent) => {
+  const handleTopup = async (e) => {
     e.preventDefault();
-
-    if (!amount || !description) {
-      toast.error("Amount and description are required.");
-      return;
-    }
-
-    if (parseFloat(amount) <= 0) {
-      toast.error("Amount must be greater than zero.");
-      return;
-    }
+    if (!amount || !description) return toast.error("Amount and description are required.");
+    if (parseFloat(amount) <= 0) return toast.error("Amount must be greater than zero.");
 
     try {
       setLoading(true);
-      const mode = admin?.environment_mode ? 'production' : 'credentials';
       const res = await axiosInstance.post("admin/wallet-topup", {
         userId: selectedUserId,
-        mode,
+        mode: "production",
         amount: parseFloat(amount),
         description,
       });
 
       toast.success(res.data.message || "Top-up successful!");
-      dispatch(fetchAdminDetails());
-
       setAmount("");
       setDescription("");
-    } catch (err: any) {
-      toast.error(
-        err?.response?.data?.message || "Top-up failed. Please try again."
-      );
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "Top-up failed.");
     } finally {
       setLoading(false);
     }
@@ -74,36 +59,33 @@ export default function WalletTopupForm() {
 
   return (
     <div className="container">
-      <div className="card">
-        <div className="title">
-          <h2 className="card-title brandorange-text">
-            <FaWallet size={20} className="brandorange-text" />
-           <p  className="brandorange-text">
-             Wallet Top-Up
-           </p>
-          </h2>
+      <div className="card custom-card">
+        <div className="header-row">
+          <FaWallet className="wallet-icon" />
+          <h2 className="card-title">Wallet Top-Up</h2>
         </div>
 
         <form onSubmit={handleTopup} className="topup-form">
-          {/* Select User */}
-          <div className="form-group">
-            <label className="form-label">Select User</label>
-            <Select onValueChange={(val) => setSelectedUserId(val)}>
-              <SelectTrigger className="select-input">
-                <SelectValue placeholder="Choose a user" />
-              </SelectTrigger>
-              <SelectContent>
-                {users.map((user) => (
-                  <SelectItem key={user._id} value={user._id}>
-                    {user.name} ({user.email})
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="grid-row">
-            <div className="col-md-6">
+          {/* Row 1 - Select User and Amount */}
+          <div className="form-row">
+            <div className="form-group">
+              <label className="form-label">Select User</label>
+              <Select onValueChange={(val) => setSelectedUserId(val)}>
+                
+                <SelectTrigger className="form-input">
+                  <SelectValue placeholder="Choose a user" />
+                </SelectTrigger>
+                <SelectContent>
+                  {users.map((user) => (
+                    <SelectItem key={user._id} value={user._id}>
+                      {user.name} ({user.email})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
+            <div className="form-group">
               <label className="form-label">Amount (₹)</label>
               <input
                 type="number"
@@ -114,37 +96,39 @@ export default function WalletTopupForm() {
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="Enter amount e.g. 1000"
               />
-
-
-            </div>
-            <div className="col-md-6 ">
-              <div className="amount-1">
-                <label className="form-label">Description</label>
-                <input
-                  type="text"
-                  required
-                  className="form-input"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="E.g., Recharge, Bonus, Adjustment"
-                />
-              </div>
-            </div>
-            <div className="button-container">
-              <button type="submit" className="submit-btn" style={{"background":"#fde8df" , "color":"#b7603d"}} disabled={loading}>
-                {loading ? (
-                  <>
-                    <Loader2 className="spinner" size={18} />
-                    Processing...
-                  </>
-                ) : (
-                  "Top Up Now"
-                )}
-              </button>
             </div>
           </div>
 
+          {/* Row 2 - Description */}
+          <div className="form-group">
+            <label className="form-label">Description</label>
+            <input
+              type="text"
+              required
+              className="form-input"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="E.g., Recharge, Bonus, Adjustment"
+            />
+          </div>
 
+          {/* Submit Button */}
+          <div className="button-container">
+            <button
+              type="submit"
+              className="submit-btn"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="spinner" size={18} />
+                  Processing...
+                </>
+              ) : (
+                "Top Up Now"
+              )}
+            </button>
+          </div>
         </form>
       </div>
     </div>

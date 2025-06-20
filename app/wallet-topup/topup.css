@@ -1,94 +1,104 @@
-/* WalletTopupForm.css */
-
 .container {
-  max-width: 650px;
-  padding: 0 16px;
-  font-family: Arial, sans-serif;
-  align-items: center;
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 24px;
 }
 
-.card {
-  background-color: #ffffff;
-  border-radius: 16px;
-  padding: 40px;
-  margin-top: 8rem;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-  border: 1px solid #e5e7eb;
+.custom-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  padding: 24px;
 }
 
-
-.card-title {
+.header-row {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 22px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: #2f84c9;
-  justify-content: left;
-
+  margin-bottom: 24px;
 }
 
-.form-label {
-  display: block;
-  margin-bottom: 6px;
-  text-align: left;
-  color: #374151;
-  font-size: 14px;
+.wallet-icon {
+  color: #0c0b0b;
+  font-size: 20px;
 }
 
-.form-input {
-  width: 100%;
-  padding: 10px 14px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 14px;
-  outline: none;
-  transition: border 0.2s ease, box-shadow 0.2s ease;
-  box-sizing: border-box;
-}
-.submit-btn {
-  width: auto;
-  min-width: 120px;
-  background-color: #2f84c9;
-  color: white;
-  font-weight: 600;
-  font-size: 14px;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 28px;
-  margin-left: auto;
-  margin-right: auto;
-  transition: background-color 0.2s ease;
-}
 
-/* try */
 .topup-form {
   display: flex;
   flex-direction: column;
- 
+  gap: 24px;
 }
 
-.grid-row {
+.form-row {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-input
+{
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  background-color: #f9f9f9;
+}
+
+.form-input:focus,
+.select-input:focus {
+  outline: none;
+  border-color: #f26522;
+  background-color: #fff;
 }
 
 .button-container {
-  display: flex;
-  justify-content: center;
-
+  margin-top: 16px;
 }
 
-.amount-1 {
-  min-width: 250px;
+.submit-btn {
+  background-color: #fde8df;
+  color: #b7603d;
+  padding: 12px 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
