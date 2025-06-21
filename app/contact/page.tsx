@@ -166,9 +166,12 @@ export default function ContactAdminPage() {
       </div>
 
       {isFormVisible && (
-        <div className="bg-white p-6 rounded-lg shadow-md mb-8 border border-gray-200">
-          <h3 className="text-[20px] font-semibold text-gray-800 mb-4 flex" > <GrContact style={{ marginRight: '10px' }} /> Send New Message</h3>
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="  card custom-card mb-8">
+          <div className="card-header">
+          <h3 className="card-title font-semibold text-gray-800  flex" > <GrContact style={{ marginRight: '10px' }} /> Send New Message</h3>
+
+          </div>
+          <form onSubmit={handleSubmit} className="space-y-4 p-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -242,7 +245,7 @@ export default function ContactAdminPage() {
         </div>
       )}
 
-      <div className="submissions-container my-2">
+      <div className="submissions-container  my-2">
         <div className="submissions-header">
           <h3>
             Messages ({filteredSubmissions.length})

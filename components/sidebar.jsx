@@ -19,11 +19,17 @@ export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
 
   // Full navigation list
   const navigationItems = [
-    {
+     {
       id: "dashboard",
+      label: "Dashboard",
+      icon: "bi bi-house", // Better for blog content
+      href: "/"
+    },
+    {
+      id: "products-catalogue",
       label: "Products Catalogue",
       icon: "bi bi-box-seam", // Changed from grid to box (products)
-      href: "/"
+      href: "/products-catalogue"
     },
     {
       id: "all-user-list",
@@ -138,9 +144,9 @@ export function Sidebar({ isOpen = true, onToggle, onNavigate }) {
 
   // Role-based nav access config
   const roleBasedAccess = {
-    user: ["dashboard", "wallet-ledger", "projects", "calendar", "vacations", "info-portal", "services", "user-topup"],
+    user: ["dashboard","products-catalogue", "wallet-ledger", "projects", "calendar", "vacations", "info-portal", "services", "user-topup"],
     admin: [
-      "dashboard", "projects", "calendar", "vacations", "info-portal",
+      "dashboard","products-catalogue", "projects", "calendar", "vacations", "info-portal",
       "wallet-topup", "topup-request", "services", "all-user-report", "all-user-list", "KycRequest", "WalletBalance", "AssignServices", "contact", "blog"
     ]
   };

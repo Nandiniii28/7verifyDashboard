@@ -79,11 +79,14 @@ export default function TopupRequestForm() {
     return (
         <form
             onSubmit={handleSubmit}
-            className="max-w-xl mx-auto bg-white shadow-xl p-8 rounded-xl space-y-6" style={{  padding: '10px' }}
+            className=" card custom-card space-y-6" 
         >
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">Request Wallet Top-Up</h2>
+           <div className="card-header">
+             <h2 className="card-title">Request Wallet Top-Up</h2>
 
-            {/* Amount */}
+           </div>
+    <div className="p-4">
+                {/* Amount */}
             <div style={{
                         padding: '0.7rem',
                         
@@ -256,6 +259,7 @@ export default function TopupRequestForm() {
             >
                 {loading ? "Submitting..." : "Submit Top-Up Request"}
             </button>
+    </div>
         </form>
     );
 }

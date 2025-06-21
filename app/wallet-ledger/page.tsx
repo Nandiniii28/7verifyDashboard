@@ -89,13 +89,13 @@ export default function ServiceListPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      <div className="bg-white rounded-xl shadow-lg p-6">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
-          <h2 className="text-xl font-semibold brandorange-text">⚙️ Service Management</h2>
+      <div className="card custom-card  ">
+        <div className="flex justify-between items-center gap-4 mb-6 card-header">
+          <h2 className="card-title">Service Management</h2>
           <Button onClick={openCreateModal} className="brandorange-bg-light brandorange-text hover:bg-[#f9c4ad]">Create New</Button>
         </div>
 
-        <div className="mb-4 max-w-xs">
+        <div className="mb-4 max-w-xs p-4">
           <Input
             placeholder="Search by name..."
             value={search}
@@ -105,6 +105,7 @@ export default function ServiceListPage() {
             }}
           />
         </div>
+         </div>
 
         {/* Error */}
         {error && (
@@ -119,22 +120,25 @@ export default function ServiceListPage() {
         ) : services.length === 0 ? (
           <div className="text-center text-gray-500 py-20">No services found.</div>
         ) : (
-          <div className="overflow-x-auto "  style={{
-          overflowX: 'auto',
-          WebkitOverflowScrolling: 'touch',
-          borderRadius: '8px',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-          margin: '16px 0'
-        }}>
-            <table className="w-full text-sm text-left text-gray-600 border rounded-md">
-              <thead className=" brandorange-bg-light brandorange-text uppercase text-xs">
-                <tr>
-                  <th className="px-4 py-3">Name</th>
-                  <th className="px-4 py-3">Charge</th>
-                  <th className="px-4 py-3">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
+
+
+
+
+          
+  <div className="card custom-card mt-3">
+        <div className="card-header justify-content-between">
+          <div className="card-title"> User Tables </div>
+        </div>
+        <div className="card-body">
+          <div className="table-responsive ">
+            <table className="table text-nowrap w-full">
+              <thead className="brandorange-bg-light"><tr className="text-left">
+                  <th className="col">Name</th>
+                  <th className="col">Charge</th>
+                  <th className="col">Actions</th>
+              </tr> </thead>
+
+              <tbody className="">
                 {services.map((service) => (
                   <tr key={service._id} className="bg-white border-b hover:bg-gray-50 transition-all">
                     <td className="px-4 py-3">{service.name}</td>
@@ -146,13 +150,11 @@ export default function ServiceListPage() {
                   </tr>
                 ))}
               </tbody>
-            </table>
-          </div>
-        )}
 
-        {/* Pagination */}
+            </table>
+           {/* Pagination */}
         {!loading && services.length > 0 && (
-          <div className="flex justify-between items-center mt-4">
+          <div className="flex justify-between items-center mt-4 px-2 pb-2">
             <Button
               onClick={() => setPage((p) => Math.max(p - 1, 1))}
               disabled={page === 1}
@@ -170,7 +172,17 @@ export default function ServiceListPage() {
             </Button>
           </div>
         )}
-      </div>
+          </div> </div>
+          </div>
+
+
+
+
+
+        )}
+
+       
+     
 
       {/* Modal */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

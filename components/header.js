@@ -1,7 +1,7 @@
 "use client";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { X, ChevronDown, Bell, Wallet, Menu, Search ,Settings } from "lucide-react";
-import { useContext, useState } from "react";
+import { useContext, useState ,useEffect} from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import axiosInstance from "./service/axiosInstance";
 import { MainContext } from "@/app/context/context";

@@ -36,7 +36,7 @@ export default function CredentialsPage() {
     <div style={{ padding: "20px", maxWidth: "1000px", margin: "0 auto" }}>
       <div style={{ display: "grid", gap: "24px" }}>
         {/* API Credentials Section */}
-        <div style={{ background: "#fff", borderRadius: "8px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}>
+        <div className="card custom-card">
           <div
             style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px" }}
           >
@@ -111,7 +111,7 @@ export default function CredentialsPage() {
         </div>
 
         {/* Security Settings Section */}
-        <div style={{ backgroundColor: "#fff", border: "1px solid #e5e7eb", borderRadius: "8px" }}>
+        <div className="card custom-card">
           <div style={{ padding: "16px", borderBottom: "1px solid #e5e7eb" }}>
             <h2 style={{ margin: 0, fontSize: "16px", fontWeight: "600", color: "#1f2937" }}>Security Settings</h2>
           </div>

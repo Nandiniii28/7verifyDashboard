@@ -100,9 +100,9 @@ export default function AdminBlogManagementPage() {
     return (
         <div className="admin-page-container">
             <div className="admin-box m">
-                <div className="bg-white p-6 rounded-lg shadow-md mb-8 border border-gray-200">
-                    <div className=" md:flex  justify-between items-center">
-                        <h1 className="flex" style={{ fontSize: '20px', color: '#000000', display: 'flex', alignItems: 'center' , justifyContent:'center', gap: '8px' }}>
+                <div className=" card custom-card mb-8 border ">
+                    <div className=" md:flex p-4 justify-between items-center">
+                        <h1 className="flex card-title" style={{ color: '#000000', display: 'flex', alignItems: 'center' , justifyContent:'center', gap: '8px' }}>
                             <RiBloggerLine className="fs-4"/>
                             Blog Management
                         </h1>
@@ -123,18 +123,22 @@ export default function AdminBlogManagementPage() {
                 ) : blogs.length === 0 ? (
                     <div className="admin-empty">No blogs found.</div>
                 ) : (
-                    <div className="admin-table-wrapper mt-3 p-3 bg-white">
-                        <table className="admin-table">
-                            <thead className="brandorange-bg-light brandorange-text">
-                                <tr>
-                                    <th>Image</th>
+ <div className="card custom-card mt-5">
+        <div className="card-header justify-content-between">
+          <div className="card-title"> User Tables </div>
+        </div>
+        <div className="card-body">
+          <div className="table-responsive ">
+            <table className="table text-nowrap w-full">
+              <thead className="brandorange-bg-light"><tr className="text-left">
+                   <th>Image</th>
                                     <th>Title</th>
                                     <th>Status</th>
                                     <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {blogs.map((blog) => (
+              </tr> </thead>
+
+              <tbody className="">
+                   {blogs.map((blog) => (
                                     <tr key={blog._id}>
                                         <td>
                                             <img
@@ -159,9 +163,16 @@ export default function AdminBlogManagementPage() {
                                         </td>
                                     </tr>
                                 ))}
-                            </tbody>
-                        </table>
-                    </div>
+              </tbody>
+
+            </table>
+         
+          </div> </div>
+          </div>
+
+
+
+                   
                 )}
             </div>
 
