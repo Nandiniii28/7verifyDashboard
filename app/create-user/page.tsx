@@ -38,10 +38,12 @@ export default function CreateUserForm() {
   };
 
   return (
-    <form className="form-container" onSubmit={handleSubmit}>
-      <h1 className="form-title"><FaUserShield className="icon" /> Create New User</h1>
+    <form className="card custom-card " onSubmit={handleSubmit}>
+      <div className="card-header">
+        <h1 className="card-title flex align-middle "><FaUserShield className="icon mt-1 me-1" /> Create New User</h1>
+      </div>
 
-      <div className="form-grid">
+      <div className="form-grid p-4">
         <div className="input-wrapper">
           <FaUser className="input-icon" />
           <input
@@ -95,10 +97,11 @@ export default function CreateUserForm() {
           </select>
         </div>
       </div>
-
-      <button className="submit-button" type="submit" disabled={loading}>
-        {loading ? "Creating..." : "Create User"}
-      </button>
+      <div className="flex justify-center">
+        <button className="brandorange-text brandorange-bg-light p-2 mb-2 rounded" type="submit" disabled={loading}>
+          {loading ? "Creating..." : "Create User"}
+        </button>
+      </div>
     </form>
   );
 }

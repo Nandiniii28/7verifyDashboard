@@ -99,15 +99,15 @@ export default function APIStatusPage() {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       {/* System Status */}
-      <div className="bg-white rounded-lg shadow p-6 mb-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-medium text-gray-900">System Status</h2>
+      <div className="card custom-card mb-6">
+        <div className="flex items-center justify-between card-header">
+          <h2 className="card-title">System Status</h2>
           <div className="flex items-center">
             <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
             <span className="text-sm font-medium text-green-600">All Systems Operational</span>
           </div>
         </div>
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
           <div className="text-center">
             <p className="text-2xl font-bold text-gray-900">99.8%</p>
             <p className="text-sm text-gray-500">Overall Uptime</p>
@@ -124,11 +124,11 @@ export default function APIStatusPage() {
       </div>
 
       {/* Service Status */}
-      <div className="bg-white rounded-lg shadow mb-6">
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-lg font-medium text-gray-900">Service Status</h2>
+      <div className=" card custom-card">
+        <div className="card-header">
+          <h1 className="card-title">Service Status</h1>
         </div>
-        <div className="p-6 space-y-4">
+        <div className="p-4 space-y-4 bg-white">
           {services.map((service, index) => (
             <div key={index} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
               <div className="flex items-center space-x-4">
@@ -165,9 +165,9 @@ export default function APIStatusPage() {
       </div>
 
       {/* Recent Incidents */}
-      <div className="bg-white rounded-lg shadow">
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-lg font-medium text-gray-900">Recent Incidents</h2>
+      <div className="card custom-card">
+        <div className="card-header">
+          <h2 className="card-title">Recent Incidents</h2>
         </div>
         <div className="p-6 space-y-4">
           {incidents.map((incident, index) => (
