@@ -139,7 +139,7 @@ export default function EditUserForm() {
             checked={form.isVerified}
             onChange={handleChange}
           />
-          <label htmlFor="isVerified">
+          <label htmlFor="isVerified " className="ms-2">
              Is Verified
           </label>
         </div>
