@@ -53,9 +53,10 @@ export default function WalletLedger({ params }) {
 
   return (
     <div className="p-6 font-sans bg-gray-50 min-h-screen">
-      <div className="p-6 mb-6 bg-white shadow rounded-md overflow-auto">
+      <div className="p-6 mb-6   overflow-auto">
         {/* Header */}
-        <div className="flex items-center text-black-600 mb-6">
+       <div className="card card-custom">
+         <div className="flex items-center text-black-600 mb-6 card-header">
           <div className="flex items-center">
             <FaWallet className="mr-2 text-lg text-black-600" />
             <h2 className="text-2xl">Wallet Ledger Summary</h2>
@@ -64,7 +65,7 @@ export default function WalletLedger({ params }) {
 
 
         {/* Filters */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', width: '100%' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', width: '100%' }} className="p-4 bg-white mb-3">
           <select
             name="type"
             value={filters.type}
@@ -138,6 +139,7 @@ export default function WalletLedger({ params }) {
             Apply Filters
           </button> */}
         </div>
+       </div>
 
         {/* Table */}
         {loading ? (
@@ -145,17 +147,16 @@ export default function WalletLedger({ params }) {
         ) : (
 
           <div className="border border-gray-200 rounded-lg overflow-hidden shadow-sm bg-white mb-6">
-            <table className="w-full border-collapse">
-              <thead>
-                <tr className="bg-blue-50 text-blue-800 text-sm font-semibold text-left">
+
+  <table className="table text-nowrap w-full">
+              <thead className="brandorange-bg-light"> <tr className="text-left">
                   {["S.NO.", "Type", "Amount", "Description", "Reference ID", "Created At"].map((title) => (
-                    <th key={title} className="p-3 border-b border-gray-200">
+                    <th key={title} className="col">
                       {title}
                     </th>
                   ))}
-                </tr>
-              </thead>
-              <tbody>
+                </tr> </thead>
+  <tbody>
                 {walletData.length > 0 ? (
                   walletData.map((item, index) => (
                     <tr key={index} className="border-b border-gray-200 hover:bg-gray-50">
@@ -177,46 +178,33 @@ export default function WalletLedger({ params }) {
                   </tr>
                 )}
               </tbody>
+
             </table>
+
+
           </div>
         )}
 
         {/* Pagination */}
-        <div className="flex justify-between items-center py-4">
-          <button
-            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-            disabled={page === 1}
-            style={{
-              padding: '8px 16px',
-              borderRadius: '6px',
-              backgroundColor: page === 1 ? '#E5E7EB' : '#2563EB',
-              color: page === 1 ? '#6B7280' : 'white',
-              cursor: page === 1 ? 'not-allowed' : 'pointer',
-              border: 'none',
-              fontSize: '14px'
-            }}
-          >
-            Previous
-          </button>
-          <span className="text-sm text-gray-500">
-            Page {page} of {totalPages}
-          </span>
-          <button
-            onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
-            disabled={page === totalPages}
-            style={{
-              padding: '8px 16px',
-              borderRadius: '6px',
-              backgroundColor: page === totalPages ? '#E5E7EB' : '#2563EB',
-              color: page === totalPages ? '#6B7280' : 'white',
-              cursor: page === totalPages ? 'not-allowed' : 'pointer',
-              border: 'none',
-              fontSize: '14px'
-            }}
-          >
-            Next
-          </button>
-        </div>
+     <div className="flex justify-between items-center mt-4 p-2">
+            <button
+              className="border border-gray-300 rounded px-4 py-2 text-sm font-medium brandorange-bg-light  text-slate-700 disabled:opacity-50"
+              disabled={page <= 1}
+              onClick={() => setPage(page - 1)}
+            >
+              Previous
+            </button>
+            <span className="text-sm text-slate-600">
+              Page {page} of {totalPages}
+            </span>
+            <button
+              className="border border-gray-300 brandorange-bg-light rounded px-4 py-2 text-sm font-medium text-slate-700 disabled:opacity-50"
+              disabled={page >= totalPages}
+              onClick={() => setPage(page + 1)}
+            >
+              Next
+            </button>
+          </div>
       </div>
     </div>
   );

@@ -123,10 +123,9 @@ export default function WalletBalanceReportPage() {
                                     cursor: 'pointer',
                                     transition: 'all 0.2s'
                                 }}
-                                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#dbeafe'}
-                                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#eff6ff'}
+                               
                                 onFocus={(e) => {
-                                    e.currentTarget.style.backgroundColor = '#dbeafe';
+                                  
                                     e.currentTarget.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.5)';
                                 }}
                                 onBlur={(e) => {

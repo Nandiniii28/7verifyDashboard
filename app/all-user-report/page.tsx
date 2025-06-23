@@ -14,7 +14,6 @@ import { AiFillFileExcel } from "react-icons/ai";
 
 export default function AllUserReportPage() {
   const isMobile = useIsMobile();
-
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [serviceFilter, setServiceFilter] = useState("");
@@ -34,7 +33,7 @@ export default function AllUserReportPage() {
           search,
           service: serviceFilter,
           page,
-          limit,
+          limit:10,
         },
       });
 
@@ -222,28 +221,7 @@ export default function AllUserReportPage() {
 
                 </table>
 
-                {!loading && totalPages > 1 && (
-                  <div
-                  >
-                    <Button
-                      disabled={page === 1}
-                      onClick={() => setPage((p) => Math.max(p - 1, 1))}
-                      variant="outline"
-                    >
-                      Previous
-                    </Button>
-                    <span>
-                      Page {page} of {totalPages}
-                    </span>
-                    <Button
-                      disabled={page === totalPages}
-                      onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
-                      variant="outline"
-                    >
-                      Next
-                    </Button>
-                  </div>
-                )}
+      
               </div> </div>
           </div>
 
@@ -294,7 +272,7 @@ export default function AllUserReportPage() {
         )}
 
         {/* Pagination */}
-        {!loading && totalPages > 1 && (
+        {!loading && totalPages >= 1 && (
           <div
             style={{
               display: "flex",
@@ -302,6 +280,7 @@ export default function AllUserReportPage() {
               alignItems: "center",
               marginTop: "20px",
             }}
+            className="px-2 pb-2"
           >
             <Button
               disabled={page === 1}
