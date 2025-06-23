@@ -1,12 +1,16 @@
 "use client";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { X, ChevronDown, Bell, Wallet, Menu, Search ,Settings } from "lucide-react";
-import { useContext, useState } from "react";
+import { useContext, useState,useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import axiosInstance from "./service/axiosInstance";
 import { MainContext } from "@/app/context/context";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAdminDetails, logout } from "@/app/redux/reducer/AdminSlice";
+import { PiBellRingingLight } from "react-icons/pi";
+import { TestTube, Server } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 import Link from "next/link";
 import styles from './Header.module.css';
 
@@ -38,7 +42,7 @@ export default function Header({ isOpen, onToggle }) {
   const handleEnvironmentSwitch = async (env) => {
     const userId = admin._id;
     let environment_mode = env === "live" ? true : false;
-
+ 
     if (admin?.documents?.isVerified) {
       try {
         const res = await axiosInstance.put(`/admin/status-change/${userId}`, { environment_mode });
@@ -113,41 +117,79 @@ export default function Header({ isOpen, onToggle }) {
         {/* Right Section */}
         <div className={styles.rightSection}>
           {/* Environment Toggle */}
-   <div className={styles.environmentToggle}>
-  <span className={styles.environmentLabel}>Mode:</span>
-  <div 
-    className={styles.toggleButtons}
-    data-active={environment} // This drives the color change
-  >
-    <button
-      onClick={() => handleEnvironmentSwitch("uat")}
-      className={`${styles.toggleButton} ${
-        environment === "uat" ? styles.activeToggle : ""
+<div className={styles.environmentToggle}>
+  {/* UAT Side */}
+  <div className={styles.iconLabel}>
+    <TestTube
+      className={`${styles.icon} ${
+        environment === "uat" ? styles.uatActive : styles.inactive
       }`}
+    />
+    <span
+      className={
+        environment === "uat" ? styles.labeluatActive : styles.labelInactive
+      }
     >
       UAT
-    </button>
-    <button
-      onClick={() => handleEnvironmentSwitch("live")}
-      className={`${styles.toggleButton} ${
-        environment === "live" ? styles.activeToggle : ""
+    </span>
+  </div>
+
+  {/* Toggle */}
+  <Switch
+    checked={environment === "live"}
+    onCheckedChange={(checked) =>
+      handleEnvironmentSwitch(checked ? "live" : "uat")
+    }
+    className={styles.envSwitch}
+  />
+
+  {/* LIVE Side */}
+  <div className={styles.iconLabel}>
+    <Server
+      className={`${styles.icon} ${
+        environment === "live" ? styles.liveActive : styles.inactive
       }`}
+    />
+    <span
+      className={
+        environment === "live" ? styles.labelActive : styles.labelInactive
+      }
     >
       LIVE
-    </button>
+    </span>
+  </div>
+
+  {/* Status Dot + Text */}
+  <div className={styles.statusContainer}>
+    <div
+      className={`${styles.statusDot} ${
+        environment === "live" ? styles.liveDot : styles.uatDot
+      }`}
+    />
+    <span
+      className={
+        environment === "live" ? styles.liveStatusText : styles.uatStatusText
+      }
+    >
+      {environment === "live" ? "Approved" : "Testing"}
+    </span>
   </div>
 </div>
+
+
+
 
 {/* Wallet Info */}
 <div className={styles.walletInfo}>
   <Wallet className={styles.walletIcon} />
   <div className={styles.walletDetails}>
-    <span className={styles.walletLabel}> Wallet Balance</span>
-    <span className={styles.walletAmount}>
+       <span className={styles.walletAmount}>
       ₹{!admin?.environment_mode 
         ? admin?.wallet?.mode?.credentials || '0.00' 
         : admin?.wallet?.mode?.production || '0.00'}
     </span>
+    <span className={styles.walletLabel}> Wallet Balance</span>
+ 
   </div>
 </div>
 
@@ -159,9 +201,14 @@ export default function Header({ isOpen, onToggle }) {
           aria-label="Notifications"
         >
           <div className={styles.notificationDot}>
-          <Bell className={`${styles.notificationIcon} ${styles.bellAnimation}`} />
-          </div>
-        </button>
+  <div className={styles.icon}>
+    <PiBellRingingLight
+      className={`${styles.notificationIcon} ${styles.bellAnimation}`}
+    />
+    <span className={styles.dot} />
+  </div>
+</div>
+            </button>
 
             {showNotifications && (
               <div className={styles.notificationDropdown}>
@@ -250,7 +297,7 @@ export default function Header({ isOpen, onToggle }) {
             </Link>
           </div>
         </div>
-
+ 
         {/* Mobile Search */}
         {isMobile && (
           <div className={styles.mobileSearch}>
