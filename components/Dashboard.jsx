@@ -4,6 +4,9 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Comp
 import { Button } from "@/components/ui/button"
 import { Download, Calendar, Upload, ChevronDown, TrendingUp, TrendingDown } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
+import { useSelector } from 'react-redux'
+
+
 
 
 const weeklyData = [
@@ -40,12 +43,15 @@ const timePeriods = ["Day", "Week", "Month", "Year"]
 function Dashboard() {
     const [sortBy, setSortBy] = useState("Date")
     const [selectedPeriod, setSelectedPeriod] = useState("Day")
+    const {admin}=useSelector(state=>state?.admin)
+    console.log("dfgfdsdfgfdf",admin);
+    
     return (
         <>
             <div className='bg-gray-50 p-2 md:p-6'>
                 <div className="lg:flex items-center justify-between ">
                     <div className="flex flex-col">
-                        <h1 className="text-2xl font-semibold text-gray-900">Welcome Back, Jack Miller</h1>
+                        <h1 className="text-2xl font-semibold text-gray-900">Welcome Back, {admin?.name}</h1>
                         <p className="text-gray-500 mt-1">{"Let's dive in and get things done."}</p>
                     </div>
 
@@ -55,10 +61,7 @@ function Dashboard() {
                             <span className="text-sm font-medium">May, 01 2024 to May, 30 2024</span>
                         </div>
 
-                        <Button className="brandorange-bg-light brandorange-text text-white">
-                            <Upload className="w-4 h-4 mr-2" />
-                            Export report
-                        </Button>
+                      
                     </div>
                 </div>
                 <div className="row grid grid-cols-12 py-4 gap-3">
@@ -66,10 +69,11 @@ function Dashboard() {
                         <div className="bg-white shadow-sm border rounded-lg p-4 ">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-500">Total Sales</p>
-                                    <h2 className="text-2xl font-semibold text-gray-900">32,981</h2>
+                                    <p className="text-sm text-gray-500">Total wallet</p>
+                                    <h2 className="text-2xl font-semibold text-gray-900">{admin?.wallet?.mode?.production}</h2>
                                     <a href="#" className="text-sm text-indigo-600 hover:underline">
-                                        View all sales
+                                        Total wallet
+
                                     </a>
                                 </div>
                                 <div className="bg-indigo-100 brandorange-bg-light p-3 rounded-full">
@@ -85,10 +89,13 @@ function Dashboard() {
                         <div className="bg-white shadow-sm border rounded-lg p-4 ">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-500">Total Sales</p>
-                                    <h2 className="text-2xl font-semibold text-gray-900">32,981</h2>
+                                    <p className="text-sm text-gray-500">Total Transaction</p>
+                                   <h2 className="text-2xl font-semibold text-gray-900">
+  {admin?.serviceUsage?.length || 0}
+</h2>
+
                                     <a href="#" className="text-sm text-indigo-600 hover:underline">
-                                        View all sales
+                                        View all Transaction
                                     </a>
                                 </div>
                                 <div className="bg-indigo-100 brandorange-bg-light p-3 rounded-full">
@@ -104,10 +111,12 @@ function Dashboard() {
                         <div className="bg-white shadow-sm border rounded-lg p-4 ">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-500">Total Sales</p>
-                                    <h2 className="text-2xl font-semibold text-gray-900">32,981</h2>
+                                    <p className="text-sm text-gray-500">My API</p>
+                                    <h2 className="text-2xl font-semibold text-gray-900">
+  {admin?.services?.length || 0}
+</h2>
                                     <a href="#" className="text-sm text-indigo-600 hover:underline">
-                                        View all sales
+                                        View all API
                                     </a>
                                 </div>
                                 <div className="bg-indigo-100 brandorange-bg-light p-3 rounded-full">
@@ -236,18 +245,7 @@ function Dashboard() {
                              <div className="lg:flex items-center justify-between p-2 md:p-4">
                                 <h1 className="text-2xl font-semibold text-gray-900 ">Order Statistics</h1>
                                 <div className="md:flex items-center gap-4">
-                                    <div className="flex bg-gray-100 rounded-lg p-1">
-                                        {timePeriods.map((period) => (
-                                            <button
-                                                key={period}
-                                                onClick={() => setSelectedPeriod(period)}
-                                                className={`px-4 py-1 rounded-md text-sm font-medium transition-colors ${selectedPeriod === period ? "bg-blue-500 text-white shadow-sm" : "text-blue-600  hover:text-gray-900"
-                                                    }`}
-                                            >
-                                                {period}
-                                            </button>
-                                        ))}
-                                    </div>
+
                                     <Button variant="outline" className="bg-grey200  text-gray-700 border-gray-300 mt-2 md:mt-0">
                                         <span>Export</span>
                                         <Download className="w-4 h-1 ml-2" />

@@ -193,10 +193,57 @@ export default function ServiceDynamicPage() {
                     ))}
 
                     </div>
-                    
-                </form>
-
-                {response && (
+                    <div style={{ display: 'flex', justifyContent: 'end' , margin:"10px 0px"}}>
+                        <button
+                            type="submit"
+                            style={{
+                                padding: '0.75rem',
+                                borderRadius: '0.5rem',
+                                fontWeight: '600',
+                                border: 'none',
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease',
+                              
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                opacity: loading ? 0.9 : 1
+                            }}
+                            onMouseOver={(e) => {
+                               
+                                e.target.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
+                            }}
+                            onMouseOut={(e) => {
+                           
+                                e.target.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+                            }}
+                            disabled={loading}
+                            className="brandorange-bg-light brandorange-text"
+                        >
+                            {loading ? (
+                                <>
+                                    <div style={{
+                                        animation: 'spin 1s linear infinite',
+                                        marginRight: '0.75rem',
+                                        width: '1.25rem',
+                                        height: '1.25rem',
+                                        border: '2px solid rgba(255, 255, 255, 0.3)',
+                                        borderTopColor: 'white',
+                                        borderRadius: '50%'
+                                    }}></div>
+                                    Processing...
+                                </>
+                            ) : (
+                                <>
+                                    Submit
+                                    <svg style={{ marginLeft: '0.5rem', width: '1.25rem', height: '1.25rem' }} fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd"></path>
+                                    </svg>
+                                </>
+                            )}
+                        </button>
+                    </div>
+                     {response && (
                     <div style={{
                         marginTop: '1.5rem',
                         padding: '1.5rem',
@@ -273,56 +320,10 @@ export default function ServiceDynamicPage() {
                         </div>
                     </div>
                 )}
-                <div style={{ display: 'flex', justifyContent: 'end' , margin:"10px 0px"}}>
-                        <button
-                            type="submit"
-                            style={{
-                                padding: '0.75rem',
-                                borderRadius: '0.5rem',
-                                fontWeight: '600',
-                                border: 'none',
-                                cursor: 'pointer',
-                                transition: 'all 0.3s ease',
-                              
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                opacity: loading ? 0.9 : 1
-                            }}
-                            onMouseOver={(e) => {
-                               
-                                e.target.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
-                            }}
-                            onMouseOut={(e) => {
-                           
-                                e.target.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
-                            }}
-                            disabled={loading}
-                            className="brandorange-bg-light brandorange-text"
-                        >
-                            {loading ? (
-                                <>
-                                    <div style={{
-                                        animation: 'spin 1s linear infinite',
-                                        marginRight: '0.75rem',
-                                        width: '1.25rem',
-                                        height: '1.25rem',
-                                        border: '2px solid rgba(255, 255, 255, 0.3)',
-                                        borderTopColor: 'white',
-                                        borderRadius: '50%'
-                                    }}></div>
-                                    Processing...
-                                </>
-                            ) : (
-                                <>
-                                    Submit
-                                    <svg style={{ marginLeft: '0.5rem', width: '1.25rem', height: '1.25rem' }} fill="currentColor" viewBox="0 0 20 20">
-                                        <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd"></path>
-                                    </svg>
-                                </>
-                            )}
-                        </button>
-                    </div>
+                
+                </form>
+
+               
             </div>
         </div>
     );
