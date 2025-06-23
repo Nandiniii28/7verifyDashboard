@@ -275,10 +275,10 @@ export default function Header({ isOpen, onToggle }) {
                   <Link href="/profile" className={styles.menuItem}>
                     <span>My Profile</span>
                   </Link>
-                  <Link href="/settings" className={styles.menuItem}>
+                  {/* <Link href="/settings" className={styles.menuItem}>
                     <span>Account Settings</span>
-                  </Link>
-                  <Link href="/billing" className={styles.menuItem}>
+                  </Link> */}
+                  <Link href="/all-user-report" className={styles.menuItem}>
                     <span>Billing</span>
                   </Link>
                   <div className={styles.divider}></div>

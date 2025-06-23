@@ -76,7 +76,7 @@ export default function UsagesPage() {
 
           {/* Export button */}
           <div className="flex justify-center mt-2 md:mt-0">
-            <Button
+            <button
               onClick={exportToExcel}
               style={{
                 padding: '0.5rem 1rem',
@@ -85,10 +85,10 @@ export default function UsagesPage() {
                 alignItems: 'center',
                 whiteSpace: 'nowrap',
               }}
-              className="brandorange-bg-light brandorange-text"
+              className="brandorange-bg-light brandorange-text hover:!scale-105 "
             >
               <FiDownload size={16} style={{ marginRight: '0.5rem' }} className="brandorange-text" /> Export
-            </Button>
+            </button>
           </div>
 
         </div>
@@ -231,14 +231,34 @@ export default function UsagesPage() {
                   </tbody>
 
                 </table>
-                {!loading && totalPages > 1 && (
-                  <div className="flex flex-col gap-3 mt-6 items-center justify-between">
-                    <div className="text-sm text-gray-500">
-                      Showing page {page} of {totalPages} • {usageData.length} results
-                    </div>
-                    <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
-                  </div>
-                )}
+             {!loading && totalPages >= 1 && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginTop: "20px",
+            }}
+          >
+            <Button
+              disabled={page === 1}
+              onClick={() => setPage((p) => Math.max(p - 1, 1))}
+              variant="outline"
+            >
+              Previous
+            </Button>
+            <span>
+              Page {page} of {totalPages}
+            </span>
+            <Button
+              disabled={page === totalPages}
+              onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+              variant="outline"
+            >
+              Next
+            </Button>
+          </div>
+        )}
               </div> </div>
           </div>
 
