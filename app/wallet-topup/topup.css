@@ -4,12 +4,12 @@
   padding: 24px;
 }
 
-.custom-card {
+/* .custom-card {
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   padding: 24px;
-}
+} */
 
 .header-row {
   display: flex;

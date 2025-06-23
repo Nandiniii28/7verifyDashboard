@@ -253,7 +253,7 @@ export default function Header({ isOpen, onToggle }) {
               </div>
               {!isMobile && (
                 <div className={styles.profileInfo}>
-                  <span className={styles.profileName}>{admin?.name || 'User'}</span>
+                  <span className={`${styles.profileName} capitalize`}>{admin?.name || 'User'}</span>
                   
                 </div>
               )}
@@ -266,7 +266,7 @@ export default function Header({ isOpen, onToggle }) {
                     {getInitials(admin?.name)}
                   </div>
                   <div>
-                    <p className={styles.profileTitle}>{admin?.name}</p>
+                    <p className= {styles.profileTitle} >{admin?.name}</p>
                     <p className={styles.profileEmail}>{admin?.email}</p>
                   </div>
                 </div>

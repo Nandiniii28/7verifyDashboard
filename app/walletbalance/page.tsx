@@ -70,12 +70,12 @@ export default function WalletBalanceReportPage() {
 
     return (
         <div className="p-6 font-sans bg-gray-50 min-h-screen">
-            <div className="p-6 mb-6 bg-white shadow rounded-md overflow-auto">
+            <div className=" mb-6 card custom-card rounded-md overflow-auto">
                 {/* Header */}
-                <div className="flex items-center text-black-600 mb-6">
+                <div className="flex items-center text-black-600 mb-6 card-header">
                     <div className="flex items-center">
-                        <FaWallet className="mr-2 text-lg text-black-600" />
-                        <h2 className="text-2xl ">Wallet Balance Report</h2>
+                        <FaWallet className="card-title " />
+                        <h2 className="card-title ml-1">Wallet Balance Report</h2>
                     </div>
                     <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
                         <div style={{
@@ -219,7 +219,7 @@ export default function WalletBalanceReportPage() {
                 </div>
 
                 {/* Filters */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', width: '100%' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', width: '100%' }} className="p-4">
                     <Input
                         placeholder="Search by name or email"
                         value={search}
@@ -290,21 +290,24 @@ export default function WalletBalanceReportPage() {
                 </div>
             </div>
 
-            {/* Table */}
-            <div className="border border-gray-200 rounded-lg overflow-hidden shadow bg-white mb-6 p-3 ">
-                <table className="w-full border-collapse">
-                    <thead>
-                        <tr className="brandorange-bg-light brandorange-text text-sm font-semibold text-left">
-                            <th className="p-3 border-b border-gray-200">S.NO.</th>
-                            <th className="p-3 border-b border-gray-200">Name</th>
-                            <th className="p-3 border-b border-gray-200">Email</th>
-                            <th className="p-3 border-b border-gray-200">Role</th>
-                            <th className="p-3 border-b border-gray-200">Wallet</th>
-                            <th className="p-3 border-b border-gray-200">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {users.length === 0 ? (
+              <div className="card custom-card">
+        <div className="card-header justify-content-between">
+          <div className="card-title"> Wallet Table </div>
+        </div>
+        <div className="card-body">
+          <div className="table-responsive ">
+            <table className="table text-nowrap w-full">
+              <thead className="brandorange-bg-light"><tr className="text-left">
+                  <th className="col">S.NO.</th>
+                            <th className="col">Name</th>
+                            <th className="col">Email</th>
+                            <th className="col">Role</th>
+                            <th className="col">Wallet</th>
+                            <th className="col">Action</th>
+              </tr> </thead>
+
+              <tbody className="">
+                 {users.length === 0 ? (
                             <tr>
                                 <td colSpan={6} className="p-6 text-center text-gray-500">
                                     No users found.
@@ -314,13 +317,13 @@ export default function WalletBalanceReportPage() {
                             users.map((user, index) => (
                                 <tr
                                     key={user._id}
-                                    className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
+                                    className=""
                                 >
-                                    <td className="p-3 text-sm text-gray-700">{index + 1}</td>
-                                    <td className="p-3 text-sm text-gray-700">{user.name}</td>
-                                    <td className="p-3 text-sm text-gray-700">{user.email}</td>
-                                    <td className="p-3 text-sm text-gray-700 capitalize">{user.role}</td>
-                                    <td className="p-3 text-sm font-semibold text-gray-700">
+                                    <td className="">{index + 1}</td>
+                                    <td className="">{user.name}</td>
+                                    <td className="">{user.email}</td>
+                                    <td className=" capitalize">{user.role}</td>
+                                    <td className="">
                                         ₹ {admin?.environment_mode
                                             ? user?.wallet?.mode?.production || 0
                                             : user?.wallet?.mode?.credentials || 0}
@@ -345,12 +348,10 @@ export default function WalletBalanceReportPage() {
                                 </tr>
                             ))
                         )}
-                    </tbody>
-                </table>
-            </div>
+              </tbody>
 
-            {/* Pagination */}
-            <div className="flex justify-between items-center py-4">
+            </table>
+          <div className="flex justify-between items-center py-4 px-2">
                 <Button
                     disabled={page <= 1}
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
@@ -369,6 +370,10 @@ export default function WalletBalanceReportPage() {
                     Next
                 </Button>
             </div>
+          </div> </div>
+          </div>
+
+       
         </div>
     );
 }

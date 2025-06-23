@@ -26,11 +26,11 @@ export default function VAConfigurationPage() {
       <main className="p-6">
         <div className="grid gap-6">
           {/* General Settings */}
-          <div className="bg-white rounded-lg shadow">
-            <div className="p-6 border-b border-gray-200">
+          <div className="card custom-card">
+            <div className=" card-header">
               <h2 className="text-lg font-medium text-gray-900">General Settings</h2>
             </div>
-            <div className="p-6">
+            <div className="p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Assistant Name</label>
@@ -85,9 +85,9 @@ export default function VAConfigurationPage() {
           </div>
 
           {/* Behavior Settings */}
-          <div className="bg-white rounded-lg shadow">
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-lg font-medium text-gray-900">Behavior Settings</h2>
+          <div className="card custom-card">
+            <div className=" card-header ">
+              <h2 className="card-title">Behavior Settings</h2>
             </div>
             <div className="p-6">
               <div className="space-y-6">
@@ -127,9 +127,9 @@ export default function VAConfigurationPage() {
           </div>
 
           {/* Training Data */}
-          <div className="bg-white rounded-lg shadow">
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-lg font-medium text-gray-900">Training Data</h2>
+          <div className="card custom-card">
+            <div className="card-header">
+              <h2 className="card-title">Training Data</h2>
             </div>
             <div className="p-6">
               <div className="space-y-4">

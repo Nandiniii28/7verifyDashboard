@@ -83,12 +83,14 @@ export default function EditUserForm() {
   };
 
   return (
-    <form className="form-container" onSubmit={handleSubmit}>
-      <h1 className="form-title">
-        <FaUserShield className="icon" /> Edit User
+    <form className="card custom-card" onSubmit={handleSubmit}>
+  <div className="card-header">
+        <h1 className="card-title flex ">
+        <FaUserShield className="icon mt-1 me-1" /> Edit User
       </h1>
+  </div>
 
-      <div className="form-grid">
+      <div className="form-grid p-4">
         <div className="input-wrapper">
           <FaUser className="input-icon" />
           <input
@@ -138,14 +140,16 @@ export default function EditUserForm() {
             onChange={handleChange}
           />
           <label htmlFor="isVerified">
-            <FaCheckCircle className="input-icon" /> Is Verified
+             Is Verified
           </label>
         </div>
       </div>
 
-      <button className="submit-button" type="submit" disabled={loading}>
+        <div className="flex justify-center">
+        <button className="brandorange-text brandorange-bg-light p-2 mb-2 rounded" type="submit" disabled={loading}>
         {loading ? "Updating..." : "Update User"}
       </button>
+      </div>
     </form>
   );
 }
