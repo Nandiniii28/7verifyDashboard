@@ -89,7 +89,7 @@ export default function KycRequestPage() {
     <div style={{ minHeight: "105vh", padding: "24px", backgroundColor: "#f9fafb" }}>
       {/* Filters Card */}
       <div style={{  marginBottom: "24px" }} className="  card custom-card">
-        <div style={{ marginBottom: "24px" }}>
+        <div >
           <div style={{ alignItems: "center", justifyContent: "space-between" }} className="md:flex card-header">
             {/* Left Section: Icon + Heading */}
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
@@ -98,7 +98,7 @@ export default function KycRequestPage() {
             </div>
 
             {/* Right Section: Sort Order Dropdown */}
-            <div style={{ display: "flex", gap: "40px", marginTop: "8px" }} >
+            <div style={{ display: "flex", gap: "40px"}} >
               <Select
                 id="sortOrder"
                 value={filters.sortOrder}
@@ -189,7 +189,9 @@ export default function KycRequestPage() {
           </div>
         ) : users?.length === 0 ? (
           <div style={{ textAlign: "center", padding: "48px 0" }}>
-            <FiUserCheck size={40} style={{ color: "#9ca3af", marginBottom: "16px" }} />
+            <div className="flex justify-center">
+              <FiUserCheck size={40} style={{ color: "#9ca3af", marginBottom: "16px" }} />
+            </div>
             <h3 style={{ fontSize: "18px", fontWeight: "600" }}>No KYC requests found</h3>
             <p style={{ color: "#6b7280", marginTop: "4px" }}>Try adjusting your filters or check back later</p>
           </div>
@@ -197,7 +199,7 @@ export default function KycRequestPage() {
 
           <div className="card custom-card">
             <div className="card-header justify-content-between">
-              <div className="card-title"> User Tables </div>
+              <div className="card-title"> KYC Table </div>
             </div>
             <div className="card-body">
               <div className="table-responsive ">

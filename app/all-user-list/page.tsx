@@ -94,7 +94,7 @@ export default function AllUserListPage() {
   return (
 
     <div style={{ margin: ' 0px 7px' }}>
-      <div className=" mb-6 py-4 card custom-card  overflow-auto ">
+      <div className=" mb-6 card custom-card  overflow-auto ">
         {/* Header */}
         <div className="md:flex card-header justify-between items-center mb-6">
 
@@ -211,7 +211,7 @@ export default function AllUserListPage() {
       </div>
       <div className="card custom-card">
         <div className="card-header justify-content-between">
-          <div className="card-title"> User Tables </div>
+          <div className="card-title"> User Table </div>
         </div>
         <div className="card-body">
           <div className="table-responsive ">

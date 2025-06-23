@@ -184,7 +184,7 @@ export default function UsagesPage() {
         ) : (
           <div className="card custom-card">
             <div className="card-header justify-content-between">
-              <div className="card-title"> User Tables </div>
+              <div className="card-title"> Usages Table </div>
             </div>
             <div className="card-body">
               <div className="table-responsive ">

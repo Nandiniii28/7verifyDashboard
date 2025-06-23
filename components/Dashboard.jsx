@@ -55,7 +55,7 @@ function Dashboard() {
                             <span className="text-sm font-medium">May, 01 2024 to May, 30 2024</span>
                         </div>
 
-                        <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">
+                        <Button className="brandorange-bg-light brandorange-text text-white">
                             <Upload className="w-4 h-4 mr-2" />
                             Export report
                         </Button>

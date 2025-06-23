@@ -81,7 +81,7 @@ export default function AssignServicesPage() {
             <Card className="">
                 <div className='card-header'>
                     <div className=" text-left flex " style={{"fontSize" :"1.1rem" , "fontWeight": "600"}}>
-                        <FiTool className=" me-1" />
+                        <FiTool className=" me-1 mt-1" />
                         Assign Services
                     </div>
                 </div>

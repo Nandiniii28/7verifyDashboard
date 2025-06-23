@@ -127,7 +127,7 @@ export default function ServiceListPage() {
           
   <div className="card custom-card mt-3">
         <div className="card-header justify-content-between">
-          <div className="card-title"> User Tables </div>
+          <div className="card-title"> User Table </div>
         </div>
         <div className="card-body">
           <div className="table-responsive ">
@@ -186,7 +186,7 @@ export default function ServiceListPage() {
 
       {/* Modal */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-md top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 fixed">
           <DialogHeader>
             <DialogTitle>{editingService ? "Edit Service" : "Create Service"}</DialogTitle>
           </DialogHeader>
@@ -210,7 +210,7 @@ export default function ServiceListPage() {
             </div>
           </div>
           <DialogFooter>
-            <Button onClick={handleSubmit}>
+            <Button onClick={handleSubmit} className="brandorange-text brandorange-bg-light">
               {editingService ? "Update" : "Create"}
             </Button>
           </DialogFooter>

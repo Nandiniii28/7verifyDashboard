@@ -33,14 +33,14 @@ export default function CredentialsPage() {
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "1000px", margin: "0 auto" }}>
+    <div style={{ padding: "20px",  margin: "0 auto" }}>
       <div style={{ display: "grid", gap: "24px" }}>
         {/* API Credentials Section */}
         <div className="card custom-card">
           <div
-            style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px" }}
+          className="card-header lg:flex justify-between"
           >
-            <h2 style={{ margin: 0, fontSize: "18px", fontWeight: 600 }}>API Credentials</h2>
+            <h2 className="card-title">API Credentials</h2>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <button
                 style={{ padding: "6px 12px", background: !isProd ? "#e5e7eb" : "#fff", borderRadius: "4px" }}
@@ -91,11 +91,11 @@ export default function CredentialsPage() {
             </div>
           </div>
 
-          <div style={{ padding: "24px" }}>
+          <div className="p-4">
             {credentials.map((credential) => (
               <div
                 key={credential.id}
-                style={{ borderBottom: "1px solid #e5e7eb", paddingBottom: "16px", marginBottom: "16px" }}
+                style={{ marginBottom: "16px" }}
               >
                 <h3 style={{ margin: 0, fontSize: "14px", color: "#111827" }}>
                   Auth Key :- {credential.data?.jwtSecret}
@@ -112,14 +112,15 @@ export default function CredentialsPage() {
 
         {/* Security Settings Section */}
         <div className="card custom-card">
-          <div style={{ padding: "16px", borderBottom: "1px solid #e5e7eb" }}>
-            <h2 style={{ margin: 0, fontSize: "16px", fontWeight: "600", color: "#1f2937" }}>Security Settings</h2>
+          <div className="card-header">
+            <h2 className="card-title">Security Settings</h2>
           </div>
 
           {/* IP Whitelist Section */}
           <div
-            style={{ padding: "16px", backgroundColor: "W", cursor: "pointer" }}
+            style={{   cursor: "pointer" }}
             onClick={() => toggleSection("ipWhitelist")}
+            className="p-4"
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <h1 style={{ fontSize: "14px", fontWeight: 500, color: "#374151" }}>IP Whitelist Update</h1>
@@ -202,8 +203,9 @@ export default function CredentialsPage() {
 
           {/* Callback URL Section */}
           <div
-            style={{ padding: "16px", backgroundColor: "#f9fafb", cursor: "pointer" }}
+            style={{  cursor: "pointer" }}
             onClick={() => toggleSection("callbackUrl")}
+            className="p-4"
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <h1 style={{ fontSize: "14px", fontWeight: 500, color: "#374151" }}>Callback URL</h1>
@@ -246,8 +248,9 @@ export default function CredentialsPage() {
 
                 <div style={{ textAlign: "center", marginTop: "16px" }}>
                   <button
-                    style={{ padding: "8px 16px", backgroundColor: "#2563eb", color: "white", borderRadius: "4px" }}
-                    onClick={(e) => e.stopPropagation()} >
+                    style={{ padding: "8px 16px", borderRadius: "4px" }}
+                    onClick={(e) => e.stopPropagation()} 
+                    className="brandorange-bg-light brandorange-text">
                     Submit
                   </button>
                 </div>

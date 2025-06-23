@@ -126,28 +126,16 @@ export default function ServiceDynamicPage() {
 
     return (
         <div style={{
-            maxWidth: '80rem',  // Increased to accommodate side-by-side layout
+           
             margin: '0 auto',
-            padding: '2rem',
-            backgroundColor: 'white',
-            borderRadius: '0.75rem',
-            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
             marginTop: '2.5rem',
-            border: '1px solid #f0f0f0',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center'  // This will center the form horizontally
-        }}>
-            <h1 style={{
-                fontSize: '1.875rem',
-                fontWeight: '700',
-                textAlign: 'center',
-                color: '#1d4ed8',
-                marginBottom: '1.5rem',
-                position: 'relative'
-            }}>
+        
+        }}
+        className="card custom-card">
+         <div className="card-header ">
+               <h1  className="card-title">
                 {service.name} Verification
-                <span style={{
+                {/* <span style={{
                     position: 'absolute',
                     bottom: '-0.5rem',
                     left: '50%',
@@ -156,26 +144,17 @@ export default function ServiceDynamicPage() {
                     height: '0.25rem',
                     backgroundColor: '#dbeafe',
                     borderRadius: '9999px'
-                }}></span>
+                }}></span> */}
             </h1>
+         </div>
 
-            <div style={{
-                display: 'flex',
-                width: '100%',
-                gap: '2rem',
-                justifyContent: 'center'
-            }}>
-                <form onSubmit={handleSubmit} style={{
-                    marginTop: '1.5rem',
-                    flex: '0 0 40rem',  // Fixed width for form
-                    maxWidth: '40rem'
-                }}>
-                    {service.fields.map((field) => (
-                        <div key={field.name} style={{
-                            marginBottom: '1.5rem',
-                            position: 'relative'
-                        }}>
-                            <label style={{
+            <div  className="p-4 ">
+                <form onSubmit={handleSubmit} >
+                    <div className="grid grid-cols-12 gap-4">
+                        {service.fields.map((field) => (
+                        <div key={field.name} className="col-span-12 sm:col-span-6 lg:col-span-4">
+                          
+                              <label style={{
                                 display: 'block',
                                 color: '#374151',
                                 fontWeight: '500',
@@ -209,61 +188,12 @@ export default function ServiceDynamicPage() {
                                 }}
                                 placeholder={`Enter ${field.label.toLowerCase()}`}
                             />
+                        
                         </div>
                     ))}
 
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <button
-                            type="submit"
-                            style={{
-                                width: '40%',
-                                background: 'linear-gradient(to right, #2563eb, #1d4ed8)',
-                                color: 'white',
-                                padding: '0.75rem',
-                                borderRadius: '0.5rem',
-                                fontWeight: '600',
-                                border: 'none',
-                                cursor: 'pointer',
-                                transition: 'all 0.3s ease',
-                                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                opacity: loading ? 0.9 : 1
-                            }}
-                            onMouseOver={(e) => {
-                                e.target.style.background = 'linear-gradient(to right, #1d4ed8, #1e40af)';
-                                e.target.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
-                            }}
-                            onMouseOut={(e) => {
-                                e.target.style.background = 'linear-gradient(to right, #2563eb, #1d4ed8)';
-                                e.target.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
-                            }}
-                            disabled={loading}
-                        >
-                            {loading ? (
-                                <>
-                                    <div style={{
-                                        animation: 'spin 1s linear infinite',
-                                        marginRight: '0.75rem',
-                                        width: '1.25rem',
-                                        height: '1.25rem',
-                                        border: '2px solid rgba(255, 255, 255, 0.3)',
-                                        borderTopColor: 'white',
-                                        borderRadius: '50%'
-                                    }}></div>
-                                    Processing...
-                                </>
-                            ) : (
-                                <>
-                                    Submit
-                                    <svg style={{ marginLeft: '0.5rem', width: '1.25rem', height: '1.25rem' }} fill="currentColor" viewBox="0 0 20 20">
-                                        <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd"></path>
-                                    </svg>
-                                </>
-                            )}
-                        </button>
                     </div>
+                    
                 </form>
 
                 {response && (
@@ -275,8 +205,6 @@ export default function ServiceDynamicPage() {
                         borderRadius: '0.5rem',
                         transition: 'all 0.3s ease',
                         transform: 'scale(1)',
-                        flex: '0 0 30rem',  // Fixed width for response box
-                        maxWidth: '30rem',
                         alignSelf: 'flex-start'  // Align to top of container
                     }}
                         onMouseOver={(e) => {
@@ -345,6 +273,56 @@ export default function ServiceDynamicPage() {
                         </div>
                     </div>
                 )}
+                <div style={{ display: 'flex', justifyContent: 'end' , margin:"10px 0px"}}>
+                        <button
+                            type="submit"
+                            style={{
+                                padding: '0.75rem',
+                                borderRadius: '0.5rem',
+                                fontWeight: '600',
+                                border: 'none',
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease',
+                              
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                opacity: loading ? 0.9 : 1
+                            }}
+                            onMouseOver={(e) => {
+                               
+                                e.target.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
+                            }}
+                            onMouseOut={(e) => {
+                           
+                                e.target.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+                            }}
+                            disabled={loading}
+                            className="brandorange-bg-light brandorange-text"
+                        >
+                            {loading ? (
+                                <>
+                                    <div style={{
+                                        animation: 'spin 1s linear infinite',
+                                        marginRight: '0.75rem',
+                                        width: '1.25rem',
+                                        height: '1.25rem',
+                                        border: '2px solid rgba(255, 255, 255, 0.3)',
+                                        borderTopColor: 'white',
+                                        borderRadius: '50%'
+                                    }}></div>
+                                    Processing...
+                                </>
+                            ) : (
+                                <>
+                                    Submit
+                                    <svg style={{ marginLeft: '0.5rem', width: '1.25rem', height: '1.25rem' }} fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd"></path>
+                                    </svg>
+                                </>
+                            )}
+                        </button>
+                    </div>
             </div>
         </div>
     );

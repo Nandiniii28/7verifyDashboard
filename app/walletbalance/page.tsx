@@ -292,7 +292,7 @@ export default function WalletBalanceReportPage() {
 
               <div className="card custom-card">
         <div className="card-header justify-content-between">
-          <div className="card-title"> User Tables </div>
+          <div className="card-title"> Wallet Table </div>
         </div>
         <div className="card-body">
           <div className="table-responsive ">

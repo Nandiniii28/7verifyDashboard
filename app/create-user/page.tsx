@@ -97,7 +97,7 @@ export default function CreateUserForm() {
           </select>
         </div>
       </div>
-      <div className="flex justify-center">
+      <div className="flex px-4" style={{"justifyContent" :"end"}}>
         <button className="brandorange-text brandorange-bg-light p-2 mb-2 rounded" type="submit" disabled={loading}>
           {loading ? "Creating..." : "Create User"}
         </button>

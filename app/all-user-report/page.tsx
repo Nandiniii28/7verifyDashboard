@@ -83,56 +83,47 @@ export default function AllUserReportPage() {
     <>
 
 
-    <div className="card custom-card">
+      <div className="card custom-card">
         <div
-        className="card-header"
-      >
-        <h1 style={{ display: "flex", alignItems: "center", gap: "8px" }} className="card-title">
-          <FaUserGroup size={20} />
-          All User Report
-        </h1>
+          className="card-header"
+        >
+          <h1 style={{ display: "flex", alignItems: "center", gap: "8px" }} className="card-title">
+            <FaUserGroup size={20} />
+            All User Report
+          </h1>
 
-       
-      </div>
-       <div
+
+        </div>
+        <div
           style={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
             flexWrap: "wrap",
             gap: "10px",
-            marginTop: "26px",
           }}
           className="p-4"
         >
-          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-            <Input
+          <div style={{ display: "flex", flex: 1, gap: "10px", flexWrap: "wrap" }}>
+            <input
               placeholder="Search name/email"
               value={search}
-              onChange={(e)  => {
+              onChange={(e) => {
                 setPage(1);
                 setSearch(e.target.value);
               }}
-              style={{ width: "200px" }}
+              className="px-3 py-2 border rounded w-full"
+              style={{ flex: 1, minWidth: "200px" }}
             />
-            {/* <Input
-              placeholder="Filter by service"
-              value={serviceFilter}
-              onChange={(e) => {
-                setPage(1);
-                setServiceFilter(e.target.value);
-              }}
-              style={{ width: "200px" }}
-            /> */}
           </div>
 
-          <div style={{ display: "flex", gap: "8px" }}>
+          {/* Right: Buttons */}
+          <div style={{ display: "flex", gap: "8px", flexShrink: 0 }}>
             <button
               onClick={() => handleExport("csv")}
               style={{
                 padding: "8px 12px",
                 fontSize: "12px",
-
                 borderRadius: "4px",
                 cursor: "pointer",
                 display: "inline-flex",
@@ -160,12 +151,12 @@ export default function AllUserReportPage() {
               }}
             >
               <AiFillFileExcel size={16} />
-
               Export Excel
             </button>
           </div>
         </div>
-    </div>
+
+      </div>
 
       {error && (
         <div style={{ color: "red", marginBottom: "16px" }}>{error}</div>
@@ -186,7 +177,7 @@ export default function AllUserReportPage() {
         ) : (
           <div className="card custom-card">
             <div className="card-header justify-content-between">
-              <div className="card-title"> User Tables </div>
+              <div className="card-title"> Report Table </div>
             </div>
             <div className="card-body">
               <div className="table-responsive ">

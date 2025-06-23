@@ -64,22 +64,23 @@ export default function PaymentRequestListPage() {
                      <h1 className="card-title">Top-Up Requests</h1>
                 </div>
 
-            <div className="flex gap-4 mb-6">
-                <input
+              <div className="grid grid-cols-2  gap-4 mb-6 p-4">
+               <div> <input
                     name="search"
                     value={filters.search}
                     onChange={handleFilterChange}
                     placeholder="Search..."
-                    className="p-3 rounded"
-                />
-                <select name="mode" value={filters.mode} onChange={handleFilterChange} className="px-2  rounded">
+                    className="px-3 py-2 w-full rounded border"
+                /></div>
+               <div className="grid grid-cols-2 gap-4">
+                    <select name="mode" value={filters.mode} onChange={handleFilterChange} className="px-2 border rounded">
                     <option value="">All Modes</option>
                     <option value="UPI">UPI</option>
                     <option value="Bank Transfer">Bank Transfer</option>
                     <option value="Cash">Cash</option>
                     <option value="Wallet">Wallet</option>
                 </select>
-                <select name="status" value={filters.status} onChange={handleFilterChange} className="px-2 rounded">
+                <select name="status" value={filters.status} onChange={handleFilterChange} className="px-2 border rounded">
                     <option value="">All Status</option>
                     <option value="Pending">Pending</option>
                     <option value="Processing">Processing</option>
@@ -87,6 +88,8 @@ export default function PaymentRequestListPage() {
                     <option value="Failed">Failed</option>
                     <option value="Cancelled">Cancelled</option>
                 </select>
+               </div>
+            
             </div>
             </div>
            
@@ -94,7 +97,7 @@ export default function PaymentRequestListPage() {
 
             <div className="card custom-card">
                 <div className="card-header justify-content-between">
-                    <div className="card-title"> User Tables </div>
+                    <div className="card-title"> Top-up Tables </div>
                 </div>
                 <div className="card-body">
                     <div className="table-responsive ">
@@ -106,6 +109,7 @@ export default function PaymentRequestListPage() {
                                 <th className="col" >Mode</th>
                                 <th className="col" >Status</th>
                                 <th className="col" >Amount</th>
+                                <th className="col" >Account Type</th>
                                 <th className="col" >Action</th>
                                 <th className="col" >Date</th>
                             </tr> </thead>
@@ -119,6 +123,7 @@ export default function PaymentRequestListPage() {
                                         <td >{req.walletMode}</td>
                                         <td >{req.status}</td>
                                         <td >₹{req.amount}</td>
+                                        <td >{req.account}</td>
                                         <td >
                                             <select
                                                 value={req.status}
@@ -166,13 +171,13 @@ export default function PaymentRequestListPage() {
                             <div className="space-x-2">
                                 <Button
                                     onClick={() => setFilters((prev) => ({ ...prev, page: prev.page - 1 }))}
-                                    disabled={filters.page <= 1} className="brandorange-bg-light brandorange-text"
+                                    disabled={filters.page <= 1} className="brandorange-bg-light brandorange-text "
                                 >
                                     Previous
                                 </Button>
                                 <Button
                                     onClick={() => setFilters((prev) => ({ ...prev, page: prev.page + 1 }))}
-                                    disabled={filters.page >= Math.ceil(total / filters.limit)} className="brandorange-bg-light brandorange-text"
+                                    disabled={filters.page >= Math.ceil(total / filters.limit)} className="ml-2 brandorange-bg-light brandorange-text"
                                 >
                                     Next
                                 </Button>

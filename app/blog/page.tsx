@@ -125,7 +125,7 @@ export default function AdminBlogManagementPage() {
                 ) : (
  <div className="card custom-card mt-5">
         <div className="card-header justify-content-between">
-          <div className="card-title"> User Tables </div>
+          <div className="card-title"> Blog Table </div>
         </div>
         <div className="card-body">
           <div className="table-responsive ">
@@ -149,7 +149,7 @@ export default function AdminBlogManagementPage() {
                                         </td>
                                         <td>{blog.title}</td>
                                         <td>
-                                            <span className={`status ${blog.status ? "published" : "unpublished"}`}>
+                                            <span className={`status ${blog.status ? "bg-green-100 text-green-500 text-xs font-medium me-2 px-2.5 py-2 rounded-2xl " : "bg-red-100 text-red-500 text-xs font-medium me-2 px-2.5  rounded-2xl py-2"}`}>
                                                 {blog.status ? "Published" : "Unpublished"}
                                             </span>
                                         </td>
@@ -157,9 +157,9 @@ export default function AdminBlogManagementPage() {
                                             <Button variant="outline" size="sm" onClick={() => handleStatusToggle(blog._id)} className="mr-2 mb-1 md:mb-0">
                                                 Toggle Status
                                             </Button>
-                                            <Button variant="destructive" size="sm" onClick={() => handleDelete(blog._id)}>
+                                            <button variant="destructive" size="sm" onClick={() => handleDelete(blog._id)} className=" bg-red-100 text-red-500 text-xs font-medium me-2 px-2 py-2 rounded-sm ">
                                                 Delete
-                                            </Button>
+                                            </button>
                                         </td>
                                     </tr>
                                 ))}
@@ -226,7 +226,7 @@ export default function AdminBlogManagementPage() {
                         </div>
                     </div>
 
-                    <DialogFooter className="dialog-footer">
+                    <DialogFooter className="dialog-footer ">
                         <Button onClick={handleDialogClose} variant="outline">Cancel</Button>
                         <Button onClick={handleCreateBlog} className="brandorange-bg-light brandorange-text  hover:bg-[#f9c4ad]">Create</Button>
                     </DialogFooter>

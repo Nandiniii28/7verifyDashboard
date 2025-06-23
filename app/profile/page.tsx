@@ -57,8 +57,8 @@ export default function UserProfilePage() {
                 <h1 className="card-title">User Profile</h1>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
-                <div>
+            <div className="grid grid-cols-12 gap-6 p-4">
+                <div className="col-span-12 lg:col-span-4">
                     <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="name">
                         Name
                     </label>
@@ -70,8 +70,40 @@ export default function UserProfilePage() {
                         disabled={!editMode}
                     />
                 </div>
+                {!editMode && (
+                   
+                         <div className="col-span-12 lg:col-span-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="name">
+                        Auth Key
+                    </label>
+                    <Input
+                        id="auth"
+                        name="auth"
+                        value={form.auth || ""}
+                        onChange={handleChange}
+                        disabled={!editMode}
+                    />
+                </div>
+                
+                   
+                )}
 
-                <div>
+                {!editMode && (
+                     <div className="col-span-12 lg:col-span-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="name">
+                        JWT key
+                    </label>
+                    <Input
+                        id="jwt"
+                        name="jwt"
+                        value={form.jwt || ""}
+                        onChange={handleChange}
+                        disabled={!editMode}
+                    />
+                </div>
+                )}
+
+                 <div className="col-span-12 lg:col-span-4">
                     <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="email">
                         Email
                     </label>
@@ -84,7 +116,7 @@ export default function UserProfilePage() {
                     />
                 </div>
 
-                <div>
+                 <div className="col-span-12 lg:col-span-4">
                     <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="role">
                         Role
                     </label>
@@ -98,7 +130,7 @@ export default function UserProfilePage() {
                 </div>
             </div>
 
-            <div className="flex justify-center gap-4 py-6">
+            <div className="flex  gap-4 py-6 px-4" style={{"justifyContent" :"end"}}>
                 <Button
                     onClick={() => setEditMode((prev) => !prev)}
                     variant={editMode ? "outline" : "secondary"}

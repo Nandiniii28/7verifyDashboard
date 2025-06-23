@@ -317,7 +317,7 @@ export default function APICataloguePage() {
 
       <div className="card custom-card">
         <div className="card-header justify-content-between">
-          <div className="card-title"> User Tables </div>
+          <div className="card-title"> Catalouge Table </div>
         </div>
         <div className="card-body">
           <div className="table-responsive ">
@@ -435,9 +435,9 @@ export default function APICataloguePage() {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="absolute inset-0" onClick={() => setShowModal(false)}></div>
-          <div className="relative z-10 bg-white max-w-2xl p-6 rounded-lg shadow-xl w-full overflow-y-auto max-h-[90vh]">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-2">
+             <div className="absolute inset-0" onClick={() => setShowModal(false)}></div>
+            <div className="relative z-10 bg-white w-full max-w-md rounded-lg p-4 sm:p-6 shadow-lg">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-xl font-semibold">{showEdit ? "Edit API" : "Create API(s)"}</h3>
               <button onClick={() => setShowModal(false)}>❌</button>
@@ -445,26 +445,28 @@ export default function APICataloguePage() {
 
             <form className="space-y-4" onSubmit={handleSubmit}>
               {formFields.map((field, index) => (
-                <div key={index} className="space-y-2 border-b pb-4">
-                  <input type="text" name="name" placeholder="API Name" value={field.name} onChange={(e) => handleChange(index, e)} required className="w-full p-2 border rounded" />
-                  <input type="number" name="charge" placeholder="Charge" value={field.charge} onChange={(e) => handleChange(index, e)} required className="w-full p-2 border rounded" />
-                  <input type="number" name="active_charge" placeholder="Active Charge" value={field.active_charge} onChange={(e) => handleChange(index, e)} required className="w-full p-2 border rounded" />
-                  <textarea name="descreption" placeholder="Description" value={field.descreption} onChange={(e) => handleChange(index, e)} rows={2} className="w-full p-2 border rounded" />
-                  <input type="text" name="endpoint" placeholder="/api/endpoint" value={field.endpoint} onChange={(e) => handleChange(index, e)} required className="w-full p-2 border rounded" />
-                  <select name="method" value={field.method} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded">
+                <div key={index} className="  pb-4 ">
+                 <div className="grid grid-cols-12">
+                   <div className="col-span-12 lg:col-span-6"><input type="text" name="name" placeholder="API Name" value={field.name} onChange={(e) => handleChange(index, e)} required className="  p-2 border rounded" /></div>
+                  <div className="col-span-12 lg:col-span-6"><input type="number" name="charge" placeholder="Charge" value={field.charge} onChange={(e) => handleChange(index, e)} required className="  p-2 border rounded" /></div>
+                  <div className="col-span-12 lg:col-span-6"><input type="number" name="active_charge" placeholder="Active Charge" value={field.active_charge} onChange={(e) => handleChange(index, e)} required className=" p-2 border rounded" /></div>
+                  <div className="col-span-12 lg:col-span-6"><textarea name="descreption" placeholder="Description" value={field.descreption} onChange={(e) => handleChange(index, e)} rows={2} className=" p-2 border rounded" /></div>
+                  <div className="col-span-12 lg:col-span-6"><input type="text" name="endpoint" placeholder="/api/endpoint" value={field.endpoint} onChange={(e) => handleChange(index, e)} required className=" p-2 border rounded" /></div>
+                  <div className="col-span-12 lg:col-span-6"><select name="method" value={field.method} onChange={(e) => handleChange(index, e)} className="  p-2 border rounded">
                     <option value="GET">GET</option>
                     <option value="POST">POST</option>
                     <option value="PUT">PUT</option>
                     <option value="DELETE">DELETE</option>
-                  </select>
+                  </select></div>
+                 </div>
 
                   <div className="mt-4">
                     <h4 className="font-medium">Fields:</h4>
                     {field.fields.map((f, i) => (
-                      <div key={i} className="grid grid-cols-2 gap-2 mb-2">
+                      <div key={i} className=" gap-2 mb-2">
                         <input type="text" name="label" placeholder="Label" value={f.label} onChange={(e) => handleFieldChange(index, i, e)} className="p-2 border rounded" />
                         <input type="text" name="name" placeholder="Field Name" value={f.name} onChange={(e) => handleFieldChange(index, i, e)} className="p-2 border rounded" />
-                        <select name="type" value={f.type} onChange={(e) => handleFieldChange(index, i, e)} className="col-span-1 p-2 border rounded">
+                        <select name="type" value={f.type} onChange={(e) => handleFieldChange(index, i, e)} className=" p-2 border rounded">
                           <option value="text">Text</option>
                           <option value="number">Number</option>
                           <option value="file">File</option>
@@ -474,13 +476,13 @@ export default function APICataloguePage() {
                           Required
                         </label>
                         {field.fields.length > 1 && (
-                          <button type="button" onClick={() => removeInputField(index, i)} className="col-span-2 text-red-600 text-sm flex items-center gap-1">
+                          <button type="button" onClick={() => removeInputField(index, i)} className=" text-red-600 text-sm flex items-center gap-1">
                             <FaMinus /> Remove Field
                           </button>
                         )}
                       </div>
                     ))}
-                    <button type="button" onClick={() => addInputField(index)} className="text-blue-600 text-sm flex items-center gap-1 mt-2">
+                    <button type="button" onClick={() => addInputField(index)} className="brandorange-text text-sm flex items-center gap-1 mt-2">
                       <FaPlus /> Add Input Field
                     </button>
                   </div>
@@ -494,7 +496,7 @@ export default function APICataloguePage() {
               ))}
 
               {!showEdit && (
-                <button type="button" onClick={addField} className="flex items-center gap-1 text-sm text-blue-600 hover:underline">
+                <button type="button" onClick={addField} className="flex items-center gap-1 text-sm brandorange-text hover:underline">
                   <FaPlus /> Add Another API
                 </button>
               )}
@@ -503,7 +505,7 @@ export default function APICataloguePage() {
                 <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 text-gray-700 border border-gray-300 rounded">
                   Cancel
                 </button>
-                <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                <button type="submit" className="px-4 py-2 brandorange-text brandorange-bg-light rounded ">
                   {showEdit ? "Update" : "Create"}
                 </button>
               </div>
