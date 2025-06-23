@@ -89,6 +89,7 @@ export default function Header({ isOpen, onToggle }) {
   };
 
   return (
+    <>
     <header className={styles.header}>
       <div className={styles.headerContainer}>
         {/* Left Section */}
@@ -314,55 +315,59 @@ export default function Header({ isOpen, onToggle }) {
         )}
       </div>
 
-      {/* UAT Modal */}
-      <Dialog open={showUATModal} onOpenChange={setShowUATModal}>
-        <DialogContent className={styles.uatModal}>
-          <div className={styles.uatModalContent}>
-            <button onClick={closeUATModal} className={styles.closeButton}>
-              <X size={20} />
-            </button>
-            <h2 className={styles.modalTitle}>Verify Your Account</h2>
-            <p className={styles.modalText}>
-              To switch to LIVE mode, please upload the required documents:
-            </p>
-            <form onSubmit={handleSubmit} className={styles.uploadForm}>
-              <div className={styles.formGroup}>
-                <label className={styles.inputLabel}>PAN Card</label>
-                <input
-                  type="file"
-                  name="panCard"
-                  required
-                  className={styles.fileInput}
-                  accept=".pdf,.jpg,.jpeg,.png"
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label className={styles.inputLabel}>Aadhaar Card</label>
-                <input
-                  type="file"
-                  name="aadhaarCard"
-                  required
-                  className={styles.fileInput}
-                  accept=".pdf,.jpg,.jpeg,.png"
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label className={styles.inputLabel}>GST Certificate</label>
-                <input
-                  type="file"
-                  name="gstCert"
-                  required
-                  className={styles.fileInput}
-                  accept=".pdf,.jpg,.jpeg,.png"
-                />
-              </div>
-              <button type="submit" className={styles.submitButton}>
-                Upload Documents
-              </button>
-            </form>
-          </div>
-        </DialogContent>
-      </Dialog>
+      
     </header>
+    {/* UAT Modal */}
+    <Dialog open={showUATModal}  onOpenChange={setShowUATModal}>
+    <DialogContent className="fixed top-1/2 h-[77%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded shadow-lg w-full max-w-md">
+      <div className="card card-custom">
+        <button onClick={closeUATModal} className={styles.closeButton}>
+        </button>
+        <div className="">
+        <h2 className="card-title">Verify Your Account</h2>
+        </div>
+        
+        <p className={styles.modalText}>
+          To switch to LIVE mode, please upload the required documents:
+        </p>
+        <form onSubmit={handleSubmit} className={styles.uploadForm}>
+          <div className={styles.formGroup}>
+            <label className={styles.inputLabel}>PAN Card</label>
+            <input
+              type="file"
+              name="panCard"
+              required
+              className={styles.fileInput}
+              accept=".pdf,.jpg,.jpeg,.png"
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.inputLabel}>Aadhaar Card</label>
+            <input
+              type="file"
+              name="aadhaarCard"
+              required
+              className={styles.fileInput}
+              accept=".pdf,.jpg,.jpeg,.png"
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.inputLabel}>GST Certificate</label>
+            <input
+              type="file"
+              name="gstCert"
+              required
+              className={styles.fileInput}
+              accept=".pdf,.jpg,.jpeg,.png"
+            />
+          </div>
+          <button type="submit" className="btn brandorange-bg-light brandorange-bg-light text-[12px] p-2 font-bold mb-3">
+            Upload Documents
+          </button>
+        </form>
+      </div>
+    </DialogContent>
+  </Dialog>
+  </>
   );
 }
