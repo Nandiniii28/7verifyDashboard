@@ -77,14 +77,14 @@ export default function AssignServicesPage() {
     };
 
     return (
-        <div className="assign-services-container">
-            <Card className="services-card">
-                <CardHeader>
-                    <CardTitle className=" brandorange-text">
-                        <FiTool className=" brandorange-text" />
+        <div className="card custom-card ">
+            <Card className="">
+                <div className='card-header'>
+                    <div className=" text-left flex " style={{"fontSize" :"1.1rem" , "fontWeight": "600"}}>
+                        <FiTool className=" me-1 mt-1" />
                         Assign Services
-                    </CardTitle>
-                </CardHeader>
+                    </div>
+                </div>
                 <CardContent className="card-content">
                     {/* Select User */}
                     <div className="form-group">

@@ -1,12 +1,12 @@
 
 "use client";
 
-import DashboardCard from "../components/dashboard-card";
+import Dashboard from "../components/Dashboard";
 
 export default function HomePage() {
   return (
     <>
-      <DashboardCard />
+      <Dashboard />
     </>
   );
 }

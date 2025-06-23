@@ -46,12 +46,14 @@ export default function DocumentationPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <main className="p-6 mt-5 max-w-6xl mx-auto">
-        <div className=" md:flex-row gap-6">
+        <div className="grid grid-cols-12 gap-6">
           {/* Sidebar Navigation */}
-          <div className="md:w-1/5 ">
-            <div className="bg-white rounded-lg shadow p-4 sticky top-24 ">
-              <h3 className="font-semibold text-gray-900 mb-4">Quick Navigation</h3>
-              <nav className="space-y-2">
+          <div className="col-span-12 lg:col-span-4">
+            <div className="card custom-card sticky top-24 ">
+              <div className="card-header">
+                <h3 className="font-semibold card-title text-gray-900 mb-4">Quick Navigation</h3>
+              </div>
+              <nav className="space-y-2 p-4">
                 {navigationSections.map((section) => (
                   <button
                     key={section.id}
@@ -70,12 +72,16 @@ export default function DocumentationPage() {
           </div>
 
           {/* Main Content */}
-          <div className="md:w-2/3 mt-5 md:mt-0">
-            <div className="bg-white rounded-lg shadow p-6">
+          <div className="col-span-12 lg:col-span-8">
+            <div className="card custom-card">
               {activeSection === "getting-started" && (
-                <div className="space-y-6">
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Getting Started</h2>
-                  <p className="text-gray-600 mb-4">
+
+                <div className="">
+                  <div className="card-header">
+                    <h2 className="card-title font-semibold text-gray-900 ">Getting Started</h2>
+                  </div>
+               <div className="p-4">
+                   <p className="text-gray-600 mb-4">
                     Welcome to our API documentation. This guide will help you get started with integrating our services into your application.
                   </p>
                   <h3 className="text-lg font-medium text-gray-900 mb-3">Quick Start</h3>
@@ -85,14 +91,15 @@ export default function DocumentationPage() {
                     <li>Explore our endpoints and features</li>
                     <li>Integrate with your application</li>
                   </ol>
-                  <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="bg-gray-50 rounded-lg p-4" >
                     <h4 className="font-medium text-gray-900 mb-2 ">Example Request</h4>
-                    <pre className="text-sm text-gray-800 overflow-x-auto" >
+                    <pre className="text-sm text-gray-800 overflow-x-auto" style={{"wordBreak":"break-all" , "textWrap": "auto"}}>
                       {`curl -X GET "https://api.example.com/v1/users" \\
 -H "Authorization: Bearer YOUR_API_KEY" \\
 -H "Content-Type: application/json"`}
                     </pre>
                   </div>
+               </div>
                 </div>
               )}
 

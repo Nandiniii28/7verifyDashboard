@@ -58,14 +58,14 @@ export default function WalletTopupForm() {
   };
 
   return (
-    <div className="container">
+    <div className="">
       <div className="card custom-card">
-        <div className="header-row">
+        <div className="card-header">
           <FaWallet className="wallet-icon" />
           <h2 className="card-title">Wallet Top-Up</h2>
         </div>
 
-        <form onSubmit={handleTopup} className="topup-form">
+        <form onSubmit={handleTopup} className="topup-form p-4">
           {/* Row 1 - Select User and Amount */}
           <div className="form-row">
             <div className="form-group">
@@ -75,9 +75,9 @@ export default function WalletTopupForm() {
                 <SelectTrigger className="form-input">
                   <SelectValue placeholder="Choose a user" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent >
                   {users.map((user) => (
-                    <SelectItem key={user._id} value={user._id}>
+                    <SelectItem key={user._id} value={user._id} >
                       {user.name} ({user.email})
                     </SelectItem>
                   ))}
@@ -97,10 +97,7 @@ export default function WalletTopupForm() {
                 placeholder="Enter amount e.g. 1000"
               />
             </div>
-          </div>
-
-          {/* Row 2 - Description */}
-          <div className="form-group">
+            <div className="form-group">
             <label className="form-label">Description</label>
             <input
               type="text"
@@ -111,6 +108,10 @@ export default function WalletTopupForm() {
               placeholder="E.g., Recharge, Bonus, Adjustment"
             />
           </div>
+          </div>
+
+          {/* Row 2 - Description */}
+          
 
           {/* Submit Button */}
           <div className="button-container">

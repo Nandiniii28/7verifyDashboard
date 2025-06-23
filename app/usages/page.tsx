@@ -52,25 +52,21 @@ export default function UsagesPage() {
       {/* Header Card */}
       <div
         style={{
-          backgroundColor: '#ffffff',
-          padding: '1rem',
-          borderRadius: '0.5rem',
-          boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
           marginBottom: '1.5rem',
         }}
+        className="card custom-card"
       >
         {/* Header: title + export button */}
         <div
           style={{
-            
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
             marginBottom: '1.5rem',
-            padding: '0.5rem 0',
+
             gap: '1rem',
           }}
-          className="md-flex"
+          className="md:flex card-header"
         >
           {/* Title with icon */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -79,22 +75,22 @@ export default function UsagesPage() {
           </div>
 
           {/* Export button */}
-           <div className="flex justify-center mt-2 md:mt-0">
+          <div className="flex justify-center mt-2 md:mt-0">
             <Button
-            onClick={exportToExcel}
-            style={{
-            padding: '0.5rem 1rem',
-              borderRadius: '0.375rem',
-              display: 'flex',
-              alignItems: 'center',
-              whiteSpace: 'nowrap',
-            }}
-            className="brandorange-bg-light brandorange-text"
-          >
-            <FiDownload size={16} style={{ marginRight: '0.5rem' }} className="brandorange-text"/> Export
-          </Button>
-           </div>
-          
+              onClick={exportToExcel}
+              style={{
+                padding: '0.5rem 1rem',
+                borderRadius: '0.375rem',
+                display: 'flex',
+                alignItems: 'center',
+                whiteSpace: 'nowrap',
+              }}
+              className="brandorange-bg-light brandorange-text"
+            >
+              <FiDownload size={16} style={{ marginRight: '0.5rem' }} className="brandorange-text" /> Export
+            </Button>
+          </div>
+
         </div>
 
         {/* Filters grid */}
@@ -105,6 +101,7 @@ export default function UsagesPage() {
             gap: '1rem',
             alignItems: 'end',
           }}
+          className="p-4"
         >
           {/* Service Name */}
           <div>
@@ -175,8 +172,9 @@ export default function UsagesPage() {
 
 
 
+
       {/* Table */}
-      <div className="bg-white shadow-sm rounded-lg overflow-hidden p-3">
+      <div className="bg-white rounded-lg overflow-hidden ">
         {loading ? (
           <div className="p-6 flex flex-col gap-4">
             {[...Array(5)].map((_, i) => (
@@ -184,70 +182,73 @@ export default function UsagesPage() {
             ))}
           </div>
         ) : (
-          <div className="overflow-x-auto" style={{
-          overflowX: 'auto',
-          WebkitOverflowScrolling: 'touch',
-          borderRadius: '8px',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-          margin: '16px 0'
-        }}>
-            <table className="w-full border-collapse">
-              <thead className="brandorange-bg-light brandorange-text">
-                <tr>
+          <div className="card custom-card">
+            <div className="card-header justify-content-between">
+              <div className="card-title"> Usages Table </div>
+            </div>
+            <div className="card-body">
+              <div className="table-responsive ">
+                <table className="table text-nowrap w-full">
+                  <thead className="brandorange-bg-light"><tr className="text-left">
 
-                </tr>
-                <tr>
-                  {["Service", "Hit Count", "Total Charges", "Last Used"].map(header => (
-                    <th
-                      key={header}
-                      className="p-3 md:p-4 text-left text-xs font-semibold  uppercase"
-                    >
-                      {header}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {usageData.length ? (
-                  usageData.map((entry, idx) => (
-                    <tr
-                      key={idx}
-                      className="transition-colors hover:bg-gray-50 border-t border-gray-100"
-                    >
-                      <td className="p-3 md:p-4 text-sm font-medium">{entry.service}</td>
-                      <td className="p-3 md:p-4 text-sm">{entry.hitCount}</td>
-                      <td className="p-3 md:p-4 text-sm">₹{entry.totalCharge?.toFixed(2)}</td>
-                      <td className="p-3 md:p-4 text-sm text-gray-500">
-                        {new Date(entry.lastUsed || Date.now()).toLocaleString()}
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={4} className="p-8 text-center">
-                      <div className="flex flex-col items-center justify-center gap-2">
-                        <FiBarChart2 size={40} className="text-gray-400" />
-                        <h3 className="text-lg font-semibold">No usage data found</h3>
-                        <p className="text-gray-500">Try adjusting your filters</p>
-                      </div>
-                    </td>
-                  </tr>
+                    {["Service", "Hit Count", "Total Charges", "Last Used"].map(header => (
+                      <th
+                        key={header}
+                        className="p-3 md:p-4 text-left text-xs font-semibold  uppercase"
+                      >
+                        {header}
+                      </th>
+                    ))}
+
+                  </tr> </thead>
+
+                  <tbody className="">
+                    {usageData.length ? (
+                      usageData.map((entry, idx) => (
+                        <tr
+                          key={idx}
+                          className="transition-colors hover:bg-gray-50 border-t border-gray-100"
+                        >
+                          <td className="p-3 md:p-4 text-sm font-medium">{entry.service}</td>
+                          <td className="p-3 md:p-4 text-sm">{entry.hitCount}</td>
+                          <td className="p-3 md:p-4 text-sm">₹{entry.totalCharge?.toFixed(2)}</td>
+                          <td className="p-3 md:p-4 text-sm text-gray-500">
+                            {new Date(entry.lastUsed || Date.now()).toLocaleString()}
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={4} className="p-8 text-center">
+                          <div className="flex flex-col items-center justify-center gap-2">
+                            <FiBarChart2 size={40} className="text-gray-400" />
+                            <h3 className="text-lg font-semibold">No usage data found</h3>
+                            <p className="text-gray-500">Try adjusting your filters</p>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+
+                </table>
+                {!loading && totalPages > 1 && (
+                  <div className="flex flex-col gap-3 mt-6 items-center justify-between">
+                    <div className="text-sm text-gray-500">
+                      Showing page {page} of {totalPages} • {usageData.length} results
+                    </div>
+                    <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+                  </div>
                 )}
-              </tbody>
-            </table>
+              </div> </div>
           </div>
+
+
+
+
+
+
         )}
       </div>
-
-      {/* Pagination */}
-      {!loading && totalPages > 1 && (
-        <div className="flex flex-col gap-3 mt-6 items-center justify-between">
-          <div className="text-sm text-gray-500">
-            Showing page {page} of {totalPages} • {usageData.length} results
-          </div>
-          <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
-        </div>
-      )}
     </div>
 
   );
