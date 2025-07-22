@@ -44,7 +44,6 @@ function Dashboard() {
     const [sortBy, setSortBy] = useState("Date")
     const [selectedPeriod, setSelectedPeriod] = useState("Day")
     const {admin}=useSelector(state=>state?.admin)
-    console.log("dfgfdsdfgfdf",admin);
     
     return (
         <>
